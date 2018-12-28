@@ -1,0 +1,59 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using BusinessLogicLayer.Interfaces;
+using EntitiesLayer.Entities;
+using DataAccessLayer.Repositories;
+using DataAccessLayer;
+
+namespace API.Controllers
+{
+    [Route("api/game")]
+    [ApiController]
+    public class GameController : ControllerBase
+    {
+        private IGameService service { get; set; }
+        public GameController(IGameService service)
+        {
+            this.service = service;
+        }
+
+        // GET: api/Game
+        [HttpGet]
+        public async Task Get()
+        {
+            var user = new User { UserRole = UserRole.PeoplePlayer, Nickname = "ass228" };
+            await service.CreateNewGame(user, 3, 5);
+            await service.DealCards(1);
+            //return new string[] { "value1", "value2" };
+        }
+
+        // GET: api/Game/5
+        [HttpGet("{id}", Name = "Get")]
+        public string Get(int id)
+        {
+            return "value";
+        }
+
+        // POST: api/Game
+        [HttpPost]
+        public void Post([FromBody] string value)
+        {
+        }
+
+        // PUT: api/Game/5
+        [HttpPut("{id}")]
+        public void Put(int id, [FromBody] string value)
+        {
+        }
+
+        // DELETE: api/ApiWithActions/5
+        [HttpDelete("{id}")]
+        public void Delete(int id)
+        {
+        }
+    }
+}
