@@ -8,6 +8,7 @@ using BusinessLogicLayer.Interfaces;
 using EntitiesLayer.Entities;
 using DataAccessLayer.Repositories;
 using DataAccessLayer;
+using ViewModelsLayer.ViewModels.GameViewModels;
 
 namespace API.Controllers
 {
@@ -21,14 +22,29 @@ namespace API.Controllers
             this.service = service;
         }
 
-        // GET: api/Game
-        [HttpGet]
-        public async Task Get()
+        [HttpPost("create")]
+        public async Task<ResponseGameViewModel> CreateNewGame()
         {
             var user = new User { UserRole = UserRole.PeoplePlayer, Nickname = "ass228" };
-            await service.CreateNewGame(user, 3, 5);
-            await service.DealCards(1);
-            //return new string[] { "value1", "value2" };
+            return await service.CreateNewGame(user, 3, 5);
+        }
+
+        [HttpPut("dealcards/{gameId}")]
+        public async Task<ResponseGameViewModel> DealCards(int gameId)
+        {
+            return await service.DealCards(gameId);
+        }
+
+        [HttpPut("dealcardstoplayer/{gameId}")]
+        public async Task<ResponseGameViewModel> DealCardsToPlayer(int gameId)
+        {
+            return await service.DealCardToPlayer(gameId);
+        }
+
+        [HttpPut("dealcardstodealer/{gameId}")]
+        public async Task<ResponseGameViewModel> DealCardsToDealer(int gameId)
+        {
+            return await service.DealCardToDealer(gameId);
         }
 
         // GET: api/Game/5

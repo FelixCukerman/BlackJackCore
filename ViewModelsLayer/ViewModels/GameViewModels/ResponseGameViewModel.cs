@@ -9,9 +9,7 @@ namespace ViewModelsLayer.ViewModels.GameViewModels
     public class ResponseGameViewModel
     {
         public List<ResponseUserViewModel> Users { get; set; }
-        public List<ResponseCardViewModel> Deck { get; set; }
-        public List<ResponseCardViewModel> DiscardPile { get; set; }
         public List<ResponseRoundViewModel> Rounds { get; set; }
-        public bool? IsOver { get; set; }
+        public bool IsOver { get; set; }
     }
 }

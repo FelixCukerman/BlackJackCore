@@ -6,6 +6,6 @@ namespace ViewModelsLayer.ViewModels.RoundViewModels
 {
     public class ResponseRoundViewModel
     {
-        public bool? IsOver { get; set; }
+        public bool IsOver { get; set; }
     }
 }

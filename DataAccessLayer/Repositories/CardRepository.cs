@@ -28,6 +28,10 @@ namespace DataAccessLayer.Repositories
         {
             return data.Set<Card>().AsNoTracking().Where(predicate).ToList();
         }
+        public async Task<IEnumerable<Card>> Get(IEnumerable<Move> moves)
+        {
+            return data.Cards.Where(x => moves.Select(elem => elem.Id).Contains(x.Id));
+        }
         public async Task Create(Card card)
         {
             data.Cards.Add(card);

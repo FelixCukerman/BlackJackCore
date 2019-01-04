@@ -37,6 +37,17 @@ namespace BusinessLogicLayer.Providers
             });
         }
 
+        public void AddRange(List<HandCards> handCards)
+        {
+            for(int i = 0; i < handCards.Count; i++)
+            {
+                cache.Set(handCards[i].User.Nickname, handCards[i], new MemoryCacheEntryOptions
+                {
+                    AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(30)
+                });
+            }
+        }
+
         public void Update(HandCards handCards)
         {
             cache.Set(handCards.User.Nickname, handCards, DateTime.Now.AddMinutes(30));
