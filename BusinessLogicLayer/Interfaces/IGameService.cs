@@ -6,7 +6,7 @@ namespace BusinessLogicLayer.Interfaces
 {
     public interface IGameService
     {
-        Task<ResponseGameViewModel> CreateNewGame(User user, int botQuantity, int roundQuantity);
+        Task<ResponseGameViewModel> CreateNewGame(RequestGameViewModel request);
         Task<Round> CreateNewRound(int gameId);
         Task PlaceABet(int userId, int roundId, int rate);
         Task<ResponseGameViewModel> DealCards(int gameId);

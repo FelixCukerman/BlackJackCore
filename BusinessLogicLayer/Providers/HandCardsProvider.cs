@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Extensions.Caching.Memory;
 using BusinessLogicLayer.DTOs;
 using EntitiesLayer.Entities;
+using System.Linq;
 
 namespace BusinessLogicLayer.Providers
 {
@@ -19,12 +20,12 @@ namespace BusinessLogicLayer.Providers
             return cache.Get(user.Nickname) as HandCards;
         }
 
-        public List<HandCards> Get(List<User> users)
+        public List<HandCards> Get(IEnumerable<User> users)
         {
             var handUsers = new List<HandCards>();
-            for (int i = 0; i < users.Count; i++)
+            for (int i = 0; i < users.Count(); i++)
             {
-                handUsers.Add(cache.Get(users[i].Nickname) as HandCards);
+                handUsers.Add(cache.Get(users.ElementAt(i).Nickname) as HandCards);
             }
             return handUsers;
         }

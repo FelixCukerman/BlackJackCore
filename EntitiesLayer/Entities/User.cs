@@ -12,8 +12,6 @@ namespace EntitiesLayer.Entities
         public string Nickname { get; set; }
         [Required]
         public UserRole UserRole { get; set; }
-        [NotMapped]
-        public List<Card> Cards { get; set; }
         [Required]
         public int Cash { get; set; }
 
@@ -22,7 +20,6 @@ namespace EntitiesLayer.Entities
             DateOfCreation = DateTime.Now;
             Nickname = "default";
             UserRole = UserRole.None;
-            Cards = new List<Card>();
             Cash = 5;
         }
     }

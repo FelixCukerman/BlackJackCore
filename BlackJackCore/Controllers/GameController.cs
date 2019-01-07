@@ -22,11 +22,12 @@ namespace API.Controllers
             this.service = service;
         }
 
-        [HttpPost("create")]
+        [HttpPost]
+        [Route("create")]
         public async Task<ResponseGameViewModel> CreateNewGame()
         {
-            var user = new User { UserRole = UserRole.PeoplePlayer, Nickname = "ass228" };
-            return await service.CreateNewGame(user, 3, 5);
+            RequestGameViewModel request = new RequestGameViewModel { botQuantity = 3, roundQuantity = 5, User = new ViewModelsLayer.ViewModels.UserViewModels.RequestUserViewModel { Nickname = "ass228"} };
+            return await service.CreateNewGame(request);
         }
 
         [HttpPut("dealcards/{gameId}")]
@@ -41,35 +42,17 @@ namespace API.Controllers
             return await service.DealCardToPlayer(gameId);
         }
 
+        [HttpPut("dealcardstobots/{gameId}")]
+        public async Task<ResponseGameViewModel> DealCardsToBots(int gameId)
+        {
+            return await service.DealCardToBots(gameId);
+        }
+
         [HttpPut("dealcardstodealer/{gameId}")]
         public async Task<ResponseGameViewModel> DealCardsToDealer(int gameId)
         {
             return await service.DealCardToDealer(gameId);
         }
 
-        // GET: api/Game/5
-        [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST: api/Game
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT: api/Game/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
     }
 }
