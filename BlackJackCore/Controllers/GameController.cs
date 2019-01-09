@@ -9,6 +9,8 @@ using EntitiesLayer.Entities;
 using DataAccessLayer.Repositories;
 using DataAccessLayer;
 using ViewModelsLayer.ViewModels.GameViewModels;
+using ViewModelsLayer.ViewModels;
+using DataAccessLayer.Repositories.DapperRepositories;
 
 namespace API.Controllers
 {
@@ -22,12 +24,27 @@ namespace API.Controllers
             this.service = service;
         }
 
+        [HttpGet]
+        [Route("test")]
+        public async Task Test()
+        {
+            DapperCardRepository repository = new DapperCardRepository("Data Source = (localdb)\\MSSQLLocalDB; Initial Catalog = GameDB; Integrated Security = True; Connect Timeout = 30; Encrypt = False; TrustServerCertificate = False; ApplicationIntent = ReadWrite; MultiSubnetFailover = False");
+            await repository.CreateRange(new List<Card> { new Card { CardName = CardName.None, CardValue = 666, Suit = Suit.None}, new Card { CardName = CardName.None, CardValue = 13, Suit = Suit.None} });
+        }
+
         [HttpPost]
         [Route("create")]
         public async Task<ResponseGameViewModel> CreateNewGame()
         {
             RequestGameViewModel request = new RequestGameViewModel { botQuantity = 3, roundQuantity = 5, User = new ViewModelsLayer.ViewModels.UserViewModels.RequestUserViewModel { Nickname = "ass228"} };
             return await service.CreateNewGame(request);
+        }
+
+        [HttpPost]
+        [Route("createround/{gameId}")]
+        public async Task<ResponseGameViewModel> CreateNewRound(int gameId)
+        {
+            return await service.CreateNewRound(gameId);
         }
 
         [HttpPut("dealcards/{gameId}")]
@@ -54,5 +71,10 @@ namespace API.Controllers
             return await service.DealCardToDealer(gameId);
         }
 
+        [HttpPut("placeabet")]
+        public async Task PlaceABet([FromBody]RequestRateViewModel requestRate)
+        {
+            await service.PlaceABet(requestRate);
+        }
     }
 }

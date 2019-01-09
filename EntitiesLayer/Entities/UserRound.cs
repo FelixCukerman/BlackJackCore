@@ -13,7 +13,6 @@ namespace EntitiesLayer.Entities
         [ForeignKey("RoundId")]
         public Round Round { get; set; }
         public bool? IsWin { get; set; }
-        public int Rate { get; set; }
 
         public UserRound()
         {

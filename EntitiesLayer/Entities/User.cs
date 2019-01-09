@@ -20,7 +20,7 @@ namespace EntitiesLayer.Entities
             DateOfCreation = DateTime.Now;
             Nickname = "default";
             UserRole = UserRole.None;
-            Cash = 5;
+            Cash = 50;
         }
     }
 

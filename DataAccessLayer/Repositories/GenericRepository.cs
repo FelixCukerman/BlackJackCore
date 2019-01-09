@@ -27,10 +27,6 @@ namespace DataAccessLayer.Repositories
         {
             return await dbSet.FindAsync(id);
         }
-        public async Task<IEnumerable<T>> Get(Func<T, bool> predicate)
-        {
-            return data.Set<T>().AsNoTracking().Where(predicate).ToList();
-        }
         public async Task Create(T t)
         {
             dbSet.Add(t);

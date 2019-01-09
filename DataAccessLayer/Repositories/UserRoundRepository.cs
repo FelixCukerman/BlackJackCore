@@ -24,9 +24,17 @@ namespace DataAccessLayer.Repositories
         {
             return await data.UserRounds.FirstOrDefaultAsync(x => x.Id == id);
         }
-        public async Task<IEnumerable<UserRound>> Get(Func<UserRound, bool> predicate)
+        public async Task<List<UserRound>> Get(Round round)
         {
-            return data.Set<UserRound>().AsNoTracking().Where(predicate).ToList();
+            return await data.UserRounds.Where(x => x.RoundId == round.Id).ToListAsync();
+        }
+        public async Task<List<UserRound>> Get(List<User> users)
+        {
+            return await data.UserRounds.Where(x => users.Select(elem => elem.Id).Contains((int)x.UserId)).ToListAsync();
+        }
+        public async Task<UserRound> Get(int userId, int roundId)
+        {
+            return await data.UserRounds.FirstOrDefaultAsync(x => x.UserId == userId && x.RoundId == roundId);
         }
         public async Task Create(UserRound userRound)
         {

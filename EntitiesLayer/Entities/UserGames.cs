@@ -12,10 +12,12 @@ namespace EntitiesLayer.Entities
         public int? GameId { get; set; }
         [ForeignKey("GameId")]
         public Game Game { get; set; }
+        public int Rate { get; set; }
 
         public UserGames()
         {
             DateOfCreation = DateTime.Now;
+            Rate = 5;
         }
     }
 }

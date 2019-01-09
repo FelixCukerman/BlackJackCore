@@ -24,9 +24,17 @@ namespace DataAccessLayer.Repositories
         {
             return await data.UserGames.FirstOrDefaultAsync(x => x.Id == id);
         }
-        public async Task<IEnumerable<UserGames>> Get(Func<UserGames, bool> predicate)
+        public async Task<List<UserGames>> Get(Round round)
         {
-            return data.Set<UserGames>().AsNoTracking().Where(predicate).ToList();
+            return await data.UserGames.Where(x => x.GameId == round.GameId).ToListAsync();
+        }
+        public async Task<List<UserGames>> Get(Game game)
+        {
+            return await data.UserGames.Where(x => x.GameId == game.Id).ToListAsync();
+        }
+        public async Task<UserGames> Get(int userId, int gameId)
+        {
+            return await data.UserGames.Where(x => x.GameId == gameId && x.UserId == userId).FirstOrDefaultAsync();
         }
         public async Task Create(UserGames userGames)
         {
