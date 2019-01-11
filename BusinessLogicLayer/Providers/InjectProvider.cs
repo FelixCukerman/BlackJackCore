@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using BusinessLogicLayer.Enums;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -25,39 +26,39 @@ namespace Microsoft.Extensions.DependencyInjection
 
             services.AddDbContext<GameContext>(options => options.UseSqlServer("connectionString", b => b.MigrationsAssembly("DataAccessLayer")));
 
-            services.AddTransient<Func<string, IGameRepository>>(serviceProvider => key =>
+            services.AddTransient<Func<RepositoryType, IGameRepository>>(serviceProvider => key =>
             {
-                if (key == "Dapper")
+                if (key == RepositoryType.Dapper)
                 {
                     return serviceProvider.GetService<DapperGameRepository>();
                 }
-                if (key == "EF")
+                if (key == RepositoryType.EF)
                 {
                     return serviceProvider.GetService<GameRepository>();
                 }
                 throw new KeyNotFoundException();
             });
 
-            services.AddTransient<Func<string, ICardRepository>>(serviceProvider => key =>
+            services.AddTransient<Func<RepositoryType, ICardRepository>>(serviceProvider => key =>
             {
-                if (key == "Dapper")
+                if (key == RepositoryType.Dapper)
                 {
                     return serviceProvider.GetService<DapperCardRepository>();
                 }
-                if (key == "EF")
+                if (key == RepositoryType.EF)
                 {
                     return serviceProvider.GetService<CardRepository>();
                 }
                 throw new KeyNotFoundException();
             });
 
-            services.AddTransient<Func<string, IMoveRepository>>(serviceProvider => key =>
+            services.AddTransient<Func<RepositoryType, IMoveRepository>>(serviceProvider => key =>
             {
-                if (key == "Dapper")
+                if (key == RepositoryType.Dapper)
                 {
                     return serviceProvider.GetService<DapperMoveRepository>();
                 }
-                if (key == "EF")
+                if (key == RepositoryType.EF)
                 {
                     return serviceProvider.GetService<MoveRepository>();
                 }

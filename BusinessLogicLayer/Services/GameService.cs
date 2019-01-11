@@ -18,6 +18,7 @@ using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
 using DataAccessLayer.Repositories.DapperRepositories;
 using DataAccessLayer;
+using BusinessLogicLayer.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace BusinessLogicLayer.Services
@@ -39,9 +40,9 @@ namespace BusinessLogicLayer.Services
         #endregion
 
         #region Constructor
-        public GameService(Func<string, IGameRepository> gameRepository, ICardRepository cardRepository, IRoundRepository roundRepository, IMoveRepository moveRepository, IUserGamesRepository userGamesRepository, IUserRepository userRepository, IUserRoundRepository userRoundRepository, IMemoryCache cache, IMapper mapper)
+        public GameService(Func<RepositoryType, IGameRepository> gameRepository, ICardRepository cardRepository, IRoundRepository roundRepository, IMoveRepository moveRepository, IUserGamesRepository userGamesRepository, IUserRepository userRepository, IUserRoundRepository userRoundRepository, IMemoryCache cache, IMapper mapper)
         {
-            this._gameRepository = gameRepository("EF");
+            this._gameRepository = gameRepository(RepositoryType.EF);
             this._cardRepository = cardRepository;
             this._roundRepository = roundRepository;
             this._moveRepository = moveRepository;
