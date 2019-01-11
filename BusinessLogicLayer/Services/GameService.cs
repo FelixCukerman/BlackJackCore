@@ -182,8 +182,8 @@ namespace BusinessLogicLayer.Services
 
             return new ResponseGameViewModel
             {
-                Rounds = mapper.Map<List<ResponseRoundViewModel>>(rounds),
-                Users = mapper.Map<List<ResponseUserViewModel>>(users), 
+                Rounds = _mapper.Map<List<ResponseRoundViewModel>>(rounds),
+                Users = _mapper.Map<List<ResponseUserViewModel>>(users), 
                 IsOver = false
             };
         }
@@ -197,7 +197,7 @@ namespace BusinessLogicLayer.Services
 
             for(int i = 0; i < users.Count(); i++)
             {
-                var currentCards = mapper.Map<List<ResponseCardViewModel>>(handCards.FirstOrDefault(x => x.User.Nickname == users.ElementAt(i).Nickname).Cards);
+                var currentCards = _mapper.Map<List<ResponseCardViewModel>>(handCards.FirstOrDefault(x => x.User.Nickname == users.ElementAt(i).Nickname).Cards);
                 result.Add(new ResponseUserViewModel
                 {
                     Cards = currentCards,
@@ -326,7 +326,7 @@ namespace BusinessLogicLayer.Services
                 {
                     cardToUser = deckFromCache.Cards.Skip(deckFromCache.Cards.Count - 2).ToList();
                     handCardsToCache.Add(new HandCards { Cards = cardToUser, User = users.ElementAt(i) });
-                    result.Users.FirstOrDefault(x => x.Nickname == users.ElementAt(i).Nickname).Cards = mapper.Map<List<ResponseCardViewModel>>(cardToUser);
+                    result.Users.FirstOrDefault(x => x.Nickname == users.ElementAt(i).Nickname).Cards = _mapper.Map<List<ResponseCardViewModel>>(cardToUser);
                     deckFromCache.Cards.RemoveRange(deckFromCache.Cards.Count - 2, 2);
                     move = new Move { RoundId = rounds.Last().Id, UserId = users.ElementAt(i).Id, CardId = cardToUser[0].Id };
                     moves.Add(move);
@@ -343,7 +343,7 @@ namespace BusinessLogicLayer.Services
             moves.RemoveRange(0, moves.Count);
             cardToUser = deckFromCache.Cards.Skip(deckFromCache.Cards.Count - 2).ToList();
             handCardsToCache.Add(new HandCards { Cards = cardToUser, User = dealer });
-            result.Users.FirstOrDefault(x => x.UserRole == UserRole.Dealer).Cards = mapper.Map<List<ResponseCardViewModel>>(cardToUser);
+            result.Users.FirstOrDefault(x => x.UserRole == UserRole.Dealer).Cards = _mapper.Map<List<ResponseCardViewModel>>(cardToUser);
             deckFromCache.Cards.RemoveRange(deckFromCache.Cards.Count - 2, 2);
             move = new Move { RoundId = rounds.Last().Id, UserId = users.FirstOrDefault(x => x.UserRole == UserRole.Dealer).Id, CardId = cardToUser[0].Id };
             await _moveRepository.Create(move);
