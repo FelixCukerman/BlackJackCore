@@ -15,6 +15,10 @@ using ViewModelsLayer.ViewModels;
 using ViewModelsLayer.ViewModels.RoundViewModels;
 using ViewModelsLayer.ViewModels.UserViewModels;
 using AutoMapper;
+using Microsoft.Extensions.DependencyInjection;
+using DataAccessLayer.Repositories.DapperRepositories;
+using DataAccessLayer;
+using Microsoft.EntityFrameworkCore;
 
 namespace BusinessLogicLayer.Services
 {
@@ -28,22 +32,23 @@ namespace BusinessLogicLayer.Services
         private IUserGamesRepository _userGamesRepository;
         private IUserRepository _userRepository;
         private IUserRoundRepository _userRoundRepository;
-        private IMapper mapper;
+        private IMapper _mapper;
         private DeckProvider _deckProvider;
         private HandCardsProvider _handCardsProvider;
+        private string connectionString = "Data Source = (localdb)\\MSSQLLocalDB; Initial Catalog = GameDB; Integrated Security = True; Connect Timeout = 30; Encrypt = False; TrustServerCertificate = False; ApplicationIntent = ReadWrite; MultiSubnetFailover = False";
         #endregion
 
         #region Constructor
-        public GameService(IGameRepository gameRepository, ICardRepository cardRepository, IRoundRepository roundRepository, IMoveRepository moveRepository, IUserGamesRepository userGamesRepository, IUserRepository userRepository, IUserRoundRepository userRoundRepository, IMemoryCache cache, IMapper mapper)
+        public GameService(Func<string, IGameRepository> gameRepository, ICardRepository cardRepository, IRoundRepository roundRepository, IMoveRepository moveRepository, IUserGamesRepository userGamesRepository, IUserRepository userRepository, IUserRoundRepository userRoundRepository, IMemoryCache cache, IMapper mapper)
         {
-            this._gameRepository = gameRepository;
+            this._gameRepository = gameRepository("EF");
             this._cardRepository = cardRepository;
             this._roundRepository = roundRepository;
             this._moveRepository = moveRepository;
             this._userGamesRepository = userGamesRepository;
             this._userRepository = userRepository;
             this._userRoundRepository = userRoundRepository;
-            this.mapper = mapper;
+            this._mapper = mapper;
             _deckProvider = new DeckProvider(cache);
             _handCardsProvider = new HandCardsProvider(cache);
         }

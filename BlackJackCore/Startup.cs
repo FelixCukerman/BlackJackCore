@@ -13,9 +13,11 @@ using BusinessLogicLayer.Interfaces;
 using BusinessLogicLayer.Services;
 using DataAccessLayer.Interfaces;
 using DataAccessLayer.Repositories;
+using DataAccessLayer.Repositories.DapperRepositories;
 using BusinessLogicLayer.Providers;
 using DataAccessLayer;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 
 namespace BlackJackCore
 {
@@ -43,14 +45,15 @@ namespace BlackJackCore
             services.AddAutoMapper();
             services.AddMemoryCache();
             services.AddScoped<IGameService, GameService>();
-            services.AddScoped<IGameRepository, GameRepository>();
-            services.AddScoped<ICardRepository, CardRepository>();
-            services.AddScoped<IMoveRepository, MoveRepository>();
-            services.AddScoped<IRoundRepository, RoundRepository>();
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IUserGamesRepository, UserGamesRepository>();
-            services.AddScoped<IUserRoundRepository, UserRoundRepository>();
-            services.AddScoped<GameContext>();
+            services.AddRepositories();
+            //services.AddScoped<IGameRepository, GameRepository>();
+            //services.AddScoped<ICardRepository, CardRepository>();
+            //services.AddScoped<IMoveRepository, MoveRepository>();
+            //services.AddScoped<IRoundRepository, RoundRepository>();
+            //services.AddScoped<IUserRepository, UserRepository>();
+            //services.AddScoped<IUserGamesRepository, UserGamesRepository>();
+            //services.AddScoped<IUserRoundRepository, UserRoundRepository>();
+            //services.AddDbContext<GameContext>(options => options.UseSqlServer(connectionString, b => b.MigrationsAssembly("DataAccessLayer")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

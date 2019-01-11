@@ -15,4 +15,8 @@
     <ProjectReference Include="..\ViewModelsLayer\ViewModelsLayer.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Enums\" />
+  </ItemGroup>
+
 </Project>
