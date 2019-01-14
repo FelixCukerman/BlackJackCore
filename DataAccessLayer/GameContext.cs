@@ -5,14 +5,9 @@ namespace DataAccessLayer
 {
     public class GameContext : DbContext
     {
-        public GameContext()
+        public GameContext(DbContextOptions<GameContext> options) : base(options)
         {
             Database.EnsureCreated();
-        }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer("Data Source = (localdb)\\MSSQLLocalDB; Initial Catalog = GameDB; Integrated Security = True; Connect Timeout = 30; Encrypt = False; TrustServerCertificate = False; ApplicationIntent = ReadWrite; MultiSubnetFailover = False");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

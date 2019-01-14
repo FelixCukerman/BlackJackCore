@@ -44,8 +44,8 @@ namespace BlackJackCore
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddAutoMapper();
             services.AddMemoryCache();
+            services.AddRepositories(Configuration);
             services.AddScoped<IGameService, GameService>();
-            services.AddRepositories();
             //services.AddScoped<IGameRepository, GameRepository>();
             //services.AddScoped<ICardRepository, CardRepository>();
             //services.AddScoped<IMoveRepository, MoveRepository>();
