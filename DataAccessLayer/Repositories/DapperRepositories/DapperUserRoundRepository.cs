@@ -122,7 +122,7 @@ namespace DataAccessLayer.Repositories.DapperRepositories
         {
             using (IDbConnection db = new SqlConnection(connectionString))
             {
-                StringBuilder sqlQuery = new StringBuilder("SELECT * FROM UserRounds WHERE UserId IN(@userIds)");
+                StringBuilder sqlQuery = new StringBuilder("SELECT * FROM UserRounds WHERE UserId IN @userIds");
                 List<int> userIds = users.Select(m => m.Id).ToList();
                 var userRounds = await db.QueryAsync<UserRound>(sqlQuery.ToString(), new { userIds });
                 return userRounds.ToList();

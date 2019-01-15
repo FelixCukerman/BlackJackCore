@@ -116,7 +116,7 @@ namespace DataAccessLayer.Repositories.DapperRepositories
         {
             using (IDbConnection db = new SqlConnection(connectionString))
             {
-                StringBuilder sqlQuery = new StringBuilder("SELECT * FROM Cards WHERE Id IN (@cardIds)");
+                StringBuilder sqlQuery = new StringBuilder("SELECT * FROM Cards WHERE Id IN @cardIds");
                 List<int> cardIds = moves.Select(m => m.CardId).ToList();
                 var cards = await db.QueryAsync<Card>(sqlQuery.ToString(), new { cardIds });
                 return cards.ToList();
