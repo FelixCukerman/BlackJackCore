@@ -45,15 +45,7 @@ namespace BlackJackCore
             services.AddAutoMapper();
             services.AddMemoryCache();
             services.AddRepositories(Configuration);
-            services.AddScoped<IGameService, GameService>();
-            //services.AddScoped<IGameRepository, GameRepository>();
-            //services.AddScoped<ICardRepository, CardRepository>();
-            //services.AddScoped<IMoveRepository, MoveRepository>();
-            //services.AddScoped<IRoundRepository, RoundRepository>();
-            //services.AddScoped<IUserRepository, UserRepository>();
-            //services.AddScoped<IUserGamesRepository, UserGamesRepository>();
-            //services.AddScoped<IUserRoundRepository, UserRoundRepository>();
-            //services.AddDbContext<GameContext>(options => options.UseSqlServer(connectionString, b => b.MigrationsAssembly("DataAccessLayer")));
+            services.AddTransient<IGameService, GameService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

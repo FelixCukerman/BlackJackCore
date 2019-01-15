@@ -36,19 +36,18 @@ namespace BusinessLogicLayer.Services
         private IMapper _mapper;
         private DeckProvider _deckProvider;
         private HandCardsProvider _handCardsProvider;
-        //private string connectionString = "Data Source = (localdb)\\MSSQLLocalDB; Initial Catalog = GameDB; Integrated Security = True; Connect Timeout = 30; Encrypt = False; TrustServerCertificate = False; ApplicationIntent = ReadWrite; MultiSubnetFailover = False";
         #endregion
 
         #region Constructor
-        public GameService(Func<RepositoryType, IGameRepository> gameRepository, Func<RepositoryType, ICardRepository> cardRepository, Func<RepositoryType, IRoundRepository> roundRepository, Func<RepositoryType, IMoveRepository> moveRepository, Func<RepositoryType, IUserGamesRepository> userGamesRepository, Func<RepositoryType, IUserRepository> userRepository, Func<RepositoryType, IUserRoundRepository> userRoundRepository, IMemoryCache cache, IMapper mapper)
+        public GameService(IGameRepository gameRepository, ICardRepository cardRepository, IRoundRepository roundRepository, IMoveRepository moveRepository, IUserGamesRepository userGamesRepository, IUserRepository userRepository, IUserRoundRepository userRoundRepository, IMemoryCache cache, IMapper mapper)
         {
-            this._gameRepository = gameRepository(RepositoryType.EF);
-            this._cardRepository = cardRepository(RepositoryType.EF);
-            this._roundRepository = roundRepository(RepositoryType.EF);
-            this._moveRepository = moveRepository(RepositoryType.EF);
-            this._userGamesRepository = userGamesRepository(RepositoryType.EF);
-            this._userRepository = userRepository(RepositoryType.EF);
-            this._userRoundRepository = userRoundRepository(RepositoryType.EF);
+            this._gameRepository = gameRepository;
+            this._cardRepository = cardRepository;
+            this._roundRepository = roundRepository;
+            this._moveRepository = moveRepository;
+            this._userGamesRepository = userGamesRepository;
+            this._userRepository = userRepository;
+            this._userRoundRepository = userRoundRepository;
             this._mapper = mapper;
             _deckProvider = new DeckProvider(cache);
             _handCardsProvider = new HandCardsProvider(cache);
@@ -183,7 +182,7 @@ namespace BusinessLogicLayer.Services
             return new ResponseGameViewModel
             {
                 Rounds = _mapper.Map<List<ResponseRoundViewModel>>(rounds),
-                Users = _mapper.Map<List<ResponseUserViewModel>>(users), 
+                Users = _mapper.Map<List<ResponseUserViewModel>>(users),
                 IsOver = false
             };
         }

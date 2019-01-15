@@ -25,14 +25,6 @@ namespace API.Controllers
             this.service = service;
         }
 
-        [HttpGet]
-        [Route("test")]
-        public async Task Test()
-        {
-            DapperCardRepository repository = new DapperCardRepository("Data Source = (localdb)\\MSSQLLocalDB; Initial Catalog = GameDB; Integrated Security = True; Connect Timeout = 30; Encrypt = False; TrustServerCertificate = False; ApplicationIntent = ReadWrite; MultiSubnetFailover = False");
-            await repository.CreateRange(new List<Card> { new Card { CardName = CardName.None, CardValue = 666, Suit = Suit.None}, new Card { CardName = CardName.None, CardValue = 13, Suit = Suit.None} });
-        }
-
         [HttpPost]
         [Route("create")]
         public async Task<ResponseGameViewModel> CreateNewGame()
