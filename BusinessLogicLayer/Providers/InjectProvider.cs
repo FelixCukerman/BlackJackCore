@@ -13,23 +13,22 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static class InjectProvider
     {
-        //fix this shit
-        private static string _connectionString = "Data Source = (localdb)\\MSSQLLocalDB; Initial Catalog = GameDB; Integrated Security = True; Connect Timeout = 30; Encrypt = False; TrustServerCertificate = False; ApplicationIntent = ReadWrite; MultiSubnetFailover = False";
         public static void AddRepositories(this IServiceCollection services, IConfiguration configuration)
         {
+            string connectionString = configuration.GetConnectionString("DefaultConnection");
             var repositoryType = configuration.GetSection("Dapper");
             RepositoryType key = (RepositoryType)Enum.Parse(typeof(RepositoryType), repositoryType.Key);
-            services.AddDbContext<GameContext>(options => options.UseSqlServer(_connectionString, b => b.MigrationsAssembly("DataAccessLayer")));
+            services.AddDbContext<GameContext>(options => options.UseSqlServer(connectionString, b => b.MigrationsAssembly("DataAccessLayer")));
 
             if (key == RepositoryType.Dapper)
             {
-                services.AddTransient<IGameRepository>(provider => new DapperGameRepository(_connectionString));
-                services.AddTransient<ICardRepository>(provider => new DapperCardRepository(_connectionString));
-                services.AddTransient<IMoveRepository>(provider => new DapperMoveRepository(_connectionString));
-                services.AddTransient<IRoundRepository>(provider => new DapperRoundRepository(_connectionString));
-                services.AddTransient<IUserRepository>(provider => new DapperUserRepository(_connectionString));
-                services.AddTransient<IUserGamesRepository>(provider => new DapperUserGamesRepository(_connectionString));
-                services.AddTransient<IUserRoundRepository>(provider => new DapperUserRoundRepository(_connectionString));
+                services.AddTransient<IGameRepository>(provider => new DapperGameRepository(connectionString));
+                services.AddTransient<ICardRepository>(provider => new DapperCardRepository(connectionString));
+                services.AddTransient<IMoveRepository>(provider => new DapperMoveRepository(connectionString));
+                services.AddTransient<IRoundRepository>(provider => new DapperRoundRepository(connectionString));
+                services.AddTransient<IUserRepository>(provider => new DapperUserRepository(connectionString));
+                services.AddTransient<IUserGamesRepository>(provider => new DapperUserGamesRepository(connectionString));
+                services.AddTransient<IUserRoundRepository>(provider => new DapperUserRoundRepository(connectionString));
             }
             if (key == RepositoryType.EF)
             {
