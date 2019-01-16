@@ -231,42 +231,43 @@ namespace BusinessLogicLayer.Services
             var cards = await _cardRepository.Get();
             cards = this.Reshuffle(cards.ToList());
             var userGames = new List<UserGames>();
-            var users = new List<User>();
+            var bots = new List<User>();
             var peoplePlayer = await _userRepository.Get(request.User.Nickname);
+            var dealer = await _userRepository.Get("Dealer");
             game.RoundQuantity = request.roundQuantity;
             await _gameRepository.Create(game);
 
             if (request.botQuantity >= 0 && request.botQuantity <= 5)
             {
-                var dealer = new User { Nickname = "Dealer", UserRole = UserRole.Dealer };
-                users.Add(dealer);
-                _handCardsProvider.Add(new HandCards { Cards = new List<Card>(), User = dealer });
                 for (int i = 0; i < request.botQuantity; i++)
                 {
                     var bot = new User { Nickname = "Bot#" + (i + 1), UserRole = UserRole.BotPlayer };
-                    users.Add(bot);
+                    bots.Add(bot);
                     _handCardsProvider.Add(new HandCards { Cards = new List<Card>(), User = bot });
                 }
             }
 
-            if (request.User != null && peoplePlayer != null)
+            if (dealer != null && peoplePlayer != null)
             {
-                users.Add(peoplePlayer);
                 _handCardsProvider.Add(new HandCards { Cards = new List<Card>(), User = peoplePlayer });
+                _handCardsProvider.Add(new HandCards { Cards = new List<Card>(), User = dealer });
             }
-            if (request.User != null && peoplePlayer == null)
+            if (dealer == null && peoplePlayer == null)
             {
                 peoplePlayer = new User { Nickname = request.User.Nickname, UserRole = UserRole.PeoplePlayer };
-                users.Add(peoplePlayer);
+                dealer = new User { Nickname = "Dealer", UserRole = UserRole.Dealer };
+                await _userRepository.CreateRange(new List<User> { peoplePlayer, dealer });
                 _handCardsProvider.Add(new HandCards { Cards = new List<Card>(), User = peoplePlayer });
             }
 
-            await _userRepository.CreateRange(users);
+            await _userRepository.CreateRange(bots);
 
-            for(int i = 0; i < users.Count; i++)
+            for(int i = 0; i < bots.Count; i++)
             {
-                userGames.Add(new UserGames { GameId = game.Id, UserId = users[i].Id });
+                userGames.Add(new UserGames { GameId = game.Id, UserId = bots[i].Id });
             }
+            userGames.Add(new UserGames { GameId = game.Id, UserId = peoplePlayer.Id });
+            userGames.Add(new UserGames { GameId = game.Id, UserId = dealer.Id });
 
             await _userGamesRepository.CreateRange(userGames);
             _deckProvider.Add(new Deck { Cards = cards.ToList(), DiscardPile = new List<Card>() });

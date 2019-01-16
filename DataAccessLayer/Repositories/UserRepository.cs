@@ -30,7 +30,7 @@ namespace DataAccessLayer.Repositories
         }
         public async Task<User> Get(string nickname)
         {
-            return await data.Users.FirstOrDefaultAsync(x => x.Nickname == nickname && x.UserRole == UserRole.PeoplePlayer);
+            return await data.Users.FirstOrDefaultAsync(x => x.Nickname == nickname && (x.UserRole == UserRole.PeoplePlayer || x.UserRole == UserRole.Dealer));
         }
         public async Task Create(User user)
         {
