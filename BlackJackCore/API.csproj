@@ -20,7 +20,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Angular\" />
+    <Folder Include="Angular\blackjackapp\src\app\services\GameService\" />
+    <Folder Include="Angular\blackjackapp\src\app\services\HistoryService\" />
   </ItemGroup>
 
 </Project>
