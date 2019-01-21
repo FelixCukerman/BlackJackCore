@@ -6,6 +6,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Angular\blackjackapp\src\app\shared\enums\card-name.ts" />
+    <None Remove="Angular\blackjackapp\src\app\shared\enums\suit.ts" />
+    <None Remove="Angular\blackjackapp\src\app\shared\enums\user-role.ts" />
+    <None Remove="Angular\blackjackapp\src\app\viewmodels\CardViewModels\response-card-view-model.ts" />
+    <None Remove="Angular\blackjackapp\src\app\viewmodels\GameViewModels\request-game-view-model.ts" />
+    <None Remove="Angular\blackjackapp\src\app\viewmodels\GameViewModels\response-game-view-model.ts" />
+    <None Remove="Angular\blackjackapp\src\app\viewmodels\MoveViewModels\response-move-view-model.ts" />
+    <None Remove="Angular\blackjackapp\src\app\viewmodels\RoundViewModels\response-round-view-model.ts" />
+    <None Remove="Angular\blackjackapp\src\app\viewmodels\UserViewModels\request-user-view-model.ts" />
+    <None Remove="Angular\blackjackapp\src\app\viewmodels\UserViewModels\response-user-view-model.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="8.0.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
@@ -22,6 +35,19 @@
   <ItemGroup>
     <Folder Include="Angular\blackjackapp\src\app\services\GameService\" />
     <Folder Include="Angular\blackjackapp\src\app\services\HistoryService\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="Angular\blackjackapp\src\app\shared\enums\card-name.ts" />
+    <TypeScriptCompile Include="Angular\blackjackapp\src\app\shared\enums\suit.ts" />
+    <TypeScriptCompile Include="Angular\blackjackapp\src\app\shared\enums\user-role.ts" />
+    <TypeScriptCompile Include="Angular\blackjackapp\src\app\viewmodels\CardViewModels\response-card-view-model.ts" />
+    <TypeScriptCompile Include="Angular\blackjackapp\src\app\viewmodels\GameViewModels\request-game-view-model.ts" />
+    <TypeScriptCompile Include="Angular\blackjackapp\src\app\viewmodels\GameViewModels\response-game-view-model.ts" />
+    <TypeScriptCompile Include="Angular\blackjackapp\src\app\viewmodels\MoveViewModels\response-move-view-model.ts" />
+    <TypeScriptCompile Include="Angular\blackjackapp\src\app\viewmodels\RoundViewModels\response-round-view-model.ts" />
+    <TypeScriptCompile Include="Angular\blackjackapp\src\app\viewmodels\UserViewModels\request-user-view-model.ts" />
+    <TypeScriptCompile Include="Angular\blackjackapp\src\app\viewmodels\UserViewModels\response-user-view-model.ts" />
   </ItemGroup>
 
 </Project>
