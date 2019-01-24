@@ -5,5 +5,5 @@ export class RequestUserViewModel
     this.Nickname = Nickname;
   }
 
-  public Nickname: string;
+  public Nickname?: string;
 }

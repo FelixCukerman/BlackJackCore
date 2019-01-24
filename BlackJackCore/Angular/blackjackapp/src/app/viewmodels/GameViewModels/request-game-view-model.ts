@@ -9,7 +9,7 @@ export default class RequestGameViewModel
     this.roundQuantity = roundQuantity;
   }
 
-  public User: RequestUserViewModel;
+  public User?: RequestUserViewModel;
   public botQuantity: number;
   public roundQuantity: number;
 }

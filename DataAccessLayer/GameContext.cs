@@ -7,6 +7,7 @@ namespace DataAccessLayer
     {
         public GameContext(DbContextOptions<GameContext> options) : base(options)
         {
+
             Database.EnsureCreated();
         }
 

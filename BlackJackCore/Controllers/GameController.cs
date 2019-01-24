@@ -27,9 +27,8 @@ namespace API.Controllers
 
         [HttpPost]
         [Route("create")]
-        public async Task<ResponseGameViewModel> CreateNewGame()
+        public async Task<ResponseGameViewModel> CreateNewGame(RequestGameViewModel request)
         {
-            RequestGameViewModel request = new RequestGameViewModel { botQuantity = 3, roundQuantity = 5, User = new ViewModelsLayer.ViewModels.UserViewModels.RequestUserViewModel { Nickname = "ass228"} };
             return await service.CreateNewGame(request);
         }
 

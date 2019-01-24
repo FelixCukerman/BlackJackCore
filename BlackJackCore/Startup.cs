@@ -18,6 +18,7 @@ using BusinessLogicLayer.Providers;
 using DataAccessLayer;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.SpaServices.AngularCli;
 
 namespace BlackJackCore
 {
@@ -71,6 +72,7 @@ namespace BlackJackCore
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
         }
     }
 }

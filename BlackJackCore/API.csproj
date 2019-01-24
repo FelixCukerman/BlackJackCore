@@ -33,6 +33,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Angular\blackjackapp\src\app\components\" />
+    <Folder Include="Angular\blackjackapp\src\app\modules\" />
     <Folder Include="Angular\blackjackapp\src\app\services\GameService\" />
     <Folder Include="Angular\blackjackapp\src\app\services\HistoryService\" />
   </ItemGroup>

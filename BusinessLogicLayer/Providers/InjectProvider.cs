@@ -16,7 +16,7 @@ namespace Microsoft.Extensions.DependencyInjection
         public static void AddRepositories(this IServiceCollection services, IConfiguration configuration)
         {
             string connectionString = configuration.GetConnectionString("DefaultConnection");
-            var repositoryType = configuration.GetSection("Dapper");
+            var repositoryType = configuration.GetSection("EF");
             RepositoryType key = (RepositoryType)Enum.Parse(typeof(RepositoryType), repositoryType.Key);
             services.AddDbContext<GameContext>(options => options.UseSqlServer(connectionString, b => b.MigrationsAssembly("DataAccessLayer")));
 
