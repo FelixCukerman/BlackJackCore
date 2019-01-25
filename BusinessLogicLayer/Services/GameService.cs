@@ -252,11 +252,16 @@ namespace BusinessLogicLayer.Services
                 _handCardsProvider.Add(new HandCards { Cards = new List<Card>(), User = peoplePlayer });
                 _handCardsProvider.Add(new HandCards { Cards = new List<Card>(), User = dealer });
             }
-            if (dealer == null && peoplePlayer == null)
+            if (dealer == null)
+            {
+                dealer = new User { Nickname = "Dealer", UserRole = UserRole.Dealer };
+                await _userRepository.Create(dealer);
+                _handCardsProvider.Add(new HandCards { Cards = new List<Card>(), User = dealer });
+            }
+            if (peoplePlayer == null)
             {
                 peoplePlayer = new User { Nickname = request.User.Nickname, UserRole = UserRole.PeoplePlayer };
-                dealer = new User { Nickname = "Dealer", UserRole = UserRole.Dealer };
-                await _userRepository.CreateRange(new List<User> { peoplePlayer, dealer });
+                await _userRepository.Create(peoplePlayer);
                 _handCardsProvider.Add(new HandCards { Cards = new List<Card>(), User = peoplePlayer });
             }
 

@@ -1,0 +1,24 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+body, html {
+  height: 100%;
+  margin: 0;
+}
+
+.line{
+  margin-top: 10px;
+}
+
+.bg {
+  /* The image used */
+  background-image: url(../../../../../../wwwroot/images/background/mainbackground.jpg);
+  /* Full height */
+  min-height: 939px;
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
