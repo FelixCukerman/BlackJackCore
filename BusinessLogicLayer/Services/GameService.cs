@@ -271,7 +271,7 @@ namespace BusinessLogicLayer.Services
             {
                 userGames.Add(new UserGames { GameId = game.Id, UserId = bots[i].Id });
             }
-            userGames.Add(new UserGames { GameId = game.Id, UserId = peoplePlayer.Id });
+            userGames.Add(new UserGames { GameId = game.Id, UserId = peoplePlayer.Id, Rate = request.userRate });
             userGames.Add(new UserGames { GameId = game.Id, UserId = dealer.Id });
 
             await _userGamesRepository.CreateRange(userGames);
@@ -303,15 +303,6 @@ namespace BusinessLogicLayer.Services
 
             await _userRoundRepository.CreateRange(userRounds);
             return await GameResponse(gameId);
-        }
-        #endregion
-
-        #region PlaceABet
-        public async Task PlaceABet(RequestRateViewModel request)
-        {
-            var userGames = await _userGamesRepository.Get(request.UserId, request.GameId);
-            userGames.Rate = request.Rate;
-            await _userGamesRepository.Update(userGames);
         }
         #endregion
 

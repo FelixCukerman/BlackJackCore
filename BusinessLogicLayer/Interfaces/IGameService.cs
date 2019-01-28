@@ -9,7 +9,6 @@ namespace BusinessLogicLayer.Interfaces
     {
         Task<ResponseGameViewModel> CreateNewGame(RequestGameViewModel request);
         Task<ResponseGameViewModel> CreateNewRound(int gameId);
-        Task PlaceABet(RequestRateViewModel request);
         Task<ResponseGameViewModel> DealCards(int gameId);
         Task<ResponseGameViewModel> DealCardToPlayer(int gameId);
         Task<ResponseGameViewModel> DealCardToDealer(int gameId);

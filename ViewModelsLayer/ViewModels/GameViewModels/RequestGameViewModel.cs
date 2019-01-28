@@ -10,5 +10,6 @@ namespace ViewModelsLayer.ViewModels.GameViewModels
         public RequestUserViewModel User { get; set; }
         public int botQuantity { get; set; }
         public int roundQuantity { get; set; }
+        public int userRate { get; set; }
     }
 }

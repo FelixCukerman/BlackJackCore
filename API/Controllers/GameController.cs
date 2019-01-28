@@ -58,11 +58,5 @@ namespace API.Controllers
         {
             return await service.DealCardToDealer(gameId);
         }
-
-        [HttpPut("placeabet")]
-        public async Task PlaceABet([FromBody]RequestRateViewModel requestRate)
-        {
-            await service.PlaceABet(requestRate);
-        }
     }
 }
