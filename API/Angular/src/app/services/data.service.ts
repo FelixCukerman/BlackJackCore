@@ -15,7 +15,6 @@ export class DataService
 
   changeMessage(message: ResponseGameViewModel)
   {
-    console.log(message);
     this.messageSource.next(message);
   }
 }

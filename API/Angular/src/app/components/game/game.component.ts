@@ -17,6 +17,7 @@ export class GameComponent implements OnInit
   ngOnInit()
   {
     this.data.currentMessage.subscribe(message => this.message = message);
+    console.log(this.message);
   }
 
 }
