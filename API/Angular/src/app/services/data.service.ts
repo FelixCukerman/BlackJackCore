@@ -7,7 +7,7 @@ import ResponseGameViewModel from '../viewmodels/GameViewModels/response-game-vi
 })
 export class DataService
 {
-  private messageSource = new BehaviorSubject<ResponseGameViewModel>(new ResponseGameViewModel(null, null, true));
+  private messageSource = new BehaviorSubject<ResponseGameViewModel>(new ResponseGameViewModel(null, null, false));
   currentMessage = this.messageSource.asObservable();
   constructor()
   {
@@ -15,7 +15,7 @@ export class DataService
 
   changeMessage(message: ResponseGameViewModel)
   {
+    console.log(message);
     this.messageSource.next(message);
-    console.log(this.messageSource.getValue());
   }
 }
