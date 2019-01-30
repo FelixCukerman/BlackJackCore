@@ -8,8 +8,8 @@ namespace ViewModelsLayer.ViewModels.GameViewModels
     public class RequestGameViewModel
     {
         public RequestUserViewModel User { get; set; }
-        public int botQuantity { get; set; }
-        public int roundQuantity { get; set; }
-        public int userRate { get; set; }
+        public int BotQuantity { get; set; }
+        public int RoundQuantity { get; set; }
+        public int UserRate { get; set; }
     }
 }

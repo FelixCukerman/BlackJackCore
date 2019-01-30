@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using EntitiesLayer.Abstraction;
+using EntitiesLayer.Enums;
 
 namespace EntitiesLayer.Entities
 {
@@ -22,13 +23,5 @@ namespace EntitiesLayer.Entities
             UserRole = UserRole.None;
             Cash = 50;
         }
-    }
-
-    public enum UserRole
-    {
-        None = 0,
-        BotPlayer = 1,
-        PeoplePlayer = 2,
-        Dealer = 3
     }
 }

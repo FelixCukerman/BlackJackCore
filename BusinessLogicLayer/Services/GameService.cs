@@ -20,6 +20,7 @@ using DataAccessLayer.Repositories.DapperRepositories;
 using DataAccessLayer;
 using BusinessLogicLayer.Enums;
 using Microsoft.EntityFrameworkCore;
+using EntitiesLayer.Enums;
 
 namespace BusinessLogicLayer.Services
 {
@@ -41,14 +42,14 @@ namespace BusinessLogicLayer.Services
         #region Constructor
         public GameService(IGameRepository gameRepository, ICardRepository cardRepository, IRoundRepository roundRepository, IMoveRepository moveRepository, IUserGamesRepository userGamesRepository, IUserRepository userRepository, IUserRoundRepository userRoundRepository, IMemoryCache cache, IMapper mapper)
         {
-            this._gameRepository = gameRepository;
-            this._cardRepository = cardRepository;
-            this._roundRepository = roundRepository;
-            this._moveRepository = moveRepository;
-            this._userGamesRepository = userGamesRepository;
-            this._userRepository = userRepository;
-            this._userRoundRepository = userRoundRepository;
-            this._mapper = mapper;
+            _gameRepository = gameRepository;
+            _cardRepository = cardRepository;
+            _roundRepository = roundRepository;
+            _moveRepository = moveRepository;
+            _userGamesRepository = userGamesRepository;
+            _userRepository = userRepository;
+            _userRoundRepository = userRoundRepository;
+            _mapper = mapper;
             _deckProvider = new DeckProvider(cache);
             _handCardsProvider = new HandCardsProvider(cache);
         }
@@ -235,12 +236,12 @@ namespace BusinessLogicLayer.Services
             var bots = new List<User>();
             var peoplePlayer = await _userRepository.Get(request.User.Nickname);
             var dealer = await _userRepository.Get("Dealer");
-            game.RoundQuantity = request.roundQuantity;
+            game.RoundQuantity = request.RoundQuantity;
             await _gameRepository.Create(game);
 
-            if (request.botQuantity >= 0 && request.botQuantity <= 5)
+            if (request.BotQuantity >= 0 && request.BotQuantity <= 5)
             {
-                for (int i = 0; i < request.botQuantity; i++)
+                for (int i = 0; i < request.BotQuantity; i++)
                 {
                     var bot = new User { Nickname = "Bot#" + (i + 1), UserRole = UserRole.BotPlayer };
                     bots.Add(bot);
@@ -272,7 +273,7 @@ namespace BusinessLogicLayer.Services
             {
                 userGames.Add(new UserGames { GameId = game.Id, UserId = bots[i].Id });
             }
-            userGames.Add(new UserGames { GameId = game.Id, UserId = peoplePlayer.Id, Rate = request.userRate });
+            userGames.Add(new UserGames { GameId = game.Id, UserId = peoplePlayer.Id, Rate = request.UserRate });
             userGames.Add(new UserGames { GameId = game.Id, UserId = dealer.Id });
 
             await _userGamesRepository.CreateRange(userGames);
@@ -311,17 +312,17 @@ namespace BusinessLogicLayer.Services
         public async Task<ResponseGameViewModel> DealCards(int gameId)
         {
             var result = await GameResponse(gameId);
-            var deckFromCache = _deckProvider.Get();
+            Deck deckFromCache = _deckProvider.Get();
             var handCardsToCache = new List<HandCards>();
             var cardToUser = new List<Card>();
             var move = new Move();
             var moves = new List<Move>();
-            var game = await _gameRepository.Get(gameId);
-            var userGames = await _userGamesRepository.Get(game);
-            var users = await _userRepository.Get(userGames);
+            Game game = await _gameRepository.Get(gameId);
+            List<UserGames> userGames = await _userGamesRepository.Get(game);
+            List<User> users = await _userRepository.Get(userGames);
             var dealer = users.FirstOrDefault(x => x.UserRole == UserRole.Dealer);
-            var rounds = await _roundRepository.Get(game);
-            var userRounds = await _userRoundRepository.Get(users);
+            List<Round> rounds = await _roundRepository.Get(game);
+            List<UserRound> userRounds = await _userRoundRepository.Get(users);
 
             for (int i = 0; i < users.Count(); i++)
             {

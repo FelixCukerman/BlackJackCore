@@ -7,12 +7,13 @@ using DataAccessLayer.Interfaces;
 using EntitiesLayer.Abstraction;
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
+using DataAccessLayer;
 
 namespace DataAccessLayer.Repositories
 {
     public class GenericRepository<T> : IRepository<T> where T : BaseEntity
     {
-        private GameContext data;
+        protected GameContext data;
         private DbSet<T> dbSet;
         public GenericRepository(GameContext data)
         {
