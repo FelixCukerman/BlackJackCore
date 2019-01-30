@@ -6,7 +6,7 @@ import { Routes, RouterModule, Router } from '@angular/router';
 const routes: Routes =
   [
     {
-      path: 'new',
+      path: ':id',
       component: GameComponent
     }
   ];

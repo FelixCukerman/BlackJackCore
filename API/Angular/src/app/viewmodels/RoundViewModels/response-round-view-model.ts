@@ -1,9 +1,9 @@
 export class ResponseRoundViewModel
 {
-  constructor(IsOver)
+  constructor(isOver)
   {
-    this.IsOver = IsOver;
+    this.isOver = isOver;
   }
 
-  public IsOver: boolean;
+  public isOver: boolean;
 }

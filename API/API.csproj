@@ -20,6 +20,7 @@
   <ItemGroup>
     <Folder Include="Angular\src\app\components\" />
     <Folder Include="Angular\src\app\modules\" />
+    <Folder Include="Angular\src\app\services\GameService\" />
     <Folder Include="Angular\src\app\services\StartService\" />
     <Folder Include="wwwroot\css\" />
   </ItemGroup>

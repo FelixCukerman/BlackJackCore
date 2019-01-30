@@ -10,9 +10,9 @@ export class StartService
   private url = "/api/game";
   constructor(private http: HttpClient) { }
 
-  public CreateNewGame(request: RequestGameViewModel) {
+  public CreateNewGame(request: RequestGameViewModel)
+  {
     let result = this.http.post(this.url + "/create", request);
-    console.log("create new game");
     return result;
   }
 }

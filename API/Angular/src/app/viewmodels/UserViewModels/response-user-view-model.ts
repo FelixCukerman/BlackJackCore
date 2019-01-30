@@ -3,14 +3,14 @@ import { ResponseCardViewModel } from '../CardViewModels/response-card-view-mode
 
 export class ResponseUserViewModel
 {
-  constructor(Nickname, UserRole, Cards)
+  constructor(nickname, userRole, cards)
   {
-    this.Nickname = Nickname;
-    this.UserRole = UserRole;
-    this.Cards = Cards;
+    this.nickname = nickname;
+    this.userRole = userRole;
+    this.cards = cards;
   }
 
-  public Nickname: string;
-  public UserRole: UserRole;
-  public Cards: Array<ResponseCardViewModel>;
+  public nickname: string;
+  public userRole: UserRole;
+  public cards: Array<ResponseCardViewModel>;
 }

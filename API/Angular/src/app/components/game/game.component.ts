@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { DataService } from 'src/app/services/data.service';
 import ResponseGameViewModel from 'src/app/viewmodels/GameViewModels/response-game-view-model';
+import { GameService } from 'src/app/services/GameService/game.service';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-game',
@@ -9,15 +10,18 @@ import ResponseGameViewModel from 'src/app/viewmodels/GameViewModels/response-ga
 })
 export class GameComponent implements OnInit
 {
-  message: ResponseGameViewModel;
-  constructor(private data: DataService)
+  public response: ResponseGameViewModel;
+
+  constructor(private service: GameService, private router: Router, private currentRoute: ActivatedRoute)
   {
   }
 
   ngOnInit()
   {
-    this.data.currentMessage.subscribe(message => this.message = message);
-    console.log(this.message);
+    this.service.GameById(this.currentRoute.snapshot.params['id']).subscribe((data: ResponseGameViewModel) =>
+    {
+      this.response = data;
+      console.log(data);
+    });
   }
-
 }

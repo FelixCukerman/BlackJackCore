@@ -170,24 +170,6 @@ namespace BusinessLogicLayer.Services
         }
         #endregion
 
-        #region GameResponse
-        private async Task<ResponseGameViewModel> GameResponse(int gameId)
-        {
-            var deckFromCache = _deckProvider.Get();
-            var game = await _gameRepository.Get(gameId);
-            var userGames = await _userGamesRepository.Get(game);
-            var users = await _userRepository.Get(userGames);
-            var rounds = await _roundRepository.Get(game);
-
-            return new ResponseGameViewModel
-            {
-                Rounds = _mapper.Map<List<ResponseRoundViewModel>>(rounds),
-                Users = _mapper.Map<List<ResponseUserViewModel>>(users),
-                IsOver = false
-            };
-        }
-        #endregion
-
         #region UserResponse
         private List<ResponseUserViewModel> UserResponse(IEnumerable<User> users)
         {
@@ -222,6 +204,25 @@ namespace BusinessLogicLayer.Services
             await _userRoundRepository.UpdateRange(userRounds);
         }
         #endregion
+        #endregion
+
+        #region GameResponse
+        public async Task<ResponseGameViewModel> GameResponse(int gameId)
+        {
+            var deckFromCache = _deckProvider.Get();
+            var game = await _gameRepository.Get(gameId);
+            var userGames = await _userGamesRepository.Get(game);
+            var users = await _userRepository.Get(userGames);
+            var rounds = await _roundRepository.Get(game);
+
+            return new ResponseGameViewModel
+            {
+                Id = gameId,
+                Rounds = _mapper.Map<List<ResponseRoundViewModel>>(rounds),
+                Users = _mapper.Map<List<ResponseUserViewModel>>(users),
+                IsOver = false
+            };
+        }
         #endregion
 
         #region CreateNewGame

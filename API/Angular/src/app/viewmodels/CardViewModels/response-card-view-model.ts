@@ -3,14 +3,14 @@ import { CardName } from 'src/app/shared/enums/card-name';
 
 export class ResponseCardViewModel
 {
-  constructor(Suit, CardValue, CardName)
+  constructor(suit, cardValue, cardName)
   {
-    this.Suit = Suit;
-    this.CardValue = CardValue;
-    this.CardName = CardName;
+    this.suit = suit;
+    this.cardValue = cardValue;
+    this.cardName = cardName;
   }
 
-  public Suit: Suit;
-  public CardValue: number;
-  public CardName: CardName;
+  public suit: Suit;
+  public cardValue: number;
+  public cardName: CardName;
 }

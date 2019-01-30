@@ -21,6 +21,13 @@ namespace API.Controllers
             this.service = service;
         }
 
+        [HttpGet]
+        [Route("gamebyid/{gameId}")]
+        public async Task<ResponseGameViewModel> GameById(int gameId)
+        {
+            return await service.GameResponse(gameId);
+        }
+
         [HttpPost]
         [Route("create")]
         public async Task<ResponseGameViewModel> CreateNewGame(RequestGameViewModel request)

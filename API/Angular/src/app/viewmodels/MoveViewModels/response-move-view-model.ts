@@ -2,11 +2,11 @@ import { ResponseUserViewModel } from '../UserViewModels/response-user-view-mode
 import { ResponseCardViewModel } from '../CardViewModels/response-card-view-model';
 
 export default class ResponseMoveViewModel {
-  constructor(User, Card) {
-    this.Card = Card;
-    this.User = User;
+  constructor(user, card) {
+    this.card = card;
+    this.user = user;
   }
 
-  public User: ResponseUserViewModel;
-  public Card: ResponseCardViewModel;
+  public user: ResponseUserViewModel;
+  public card: ResponseCardViewModel;
 }

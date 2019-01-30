@@ -3,14 +3,16 @@ import { ResponseUserViewModel } from '../UserViewModels/response-user-view-mode
 
 export default class ResponseGameViewModel
 {
-  constructor(Users, Rounds, IsOver)
+  constructor(id, users, rounds, isOver)
   {
-    this.Users = Users;
-    this.Rounds = Rounds;
-    this.IsOver = IsOver;
+    this.id = id;
+    this.users = users;
+    this.rounds = rounds;
+    this.isOver = isOver;
   }
 
-  public Users: Array<ResponseUserViewModel>;
-  public Rounds: Array<ResponseRoundViewModel>;
-  public IsOver: boolean;
+  public id: number;
+  public users: Array<ResponseUserViewModel>;
+  public rounds: Array<ResponseRoundViewModel>;
+  public isOver: boolean;
 }
