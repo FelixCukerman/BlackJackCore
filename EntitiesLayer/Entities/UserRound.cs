@@ -2,6 +2,7 @@
 using EntitiesLayer.Abstraction;
 using System.ComponentModel.DataAnnotations.Schema;
 using Dapper.Contrib.Extensions;
+using EntitiesLayer.Enums;
 
 namespace EntitiesLayer.Entities
 {
@@ -17,7 +18,8 @@ namespace EntitiesLayer.Entities
         [Write(false)]
         [Computed]
         public Round Round { get; set; }
-        public bool? IsWin { get; set; }
+        public RoundStatus RoundStatus { get; set; }
+        public int Points { get; set; }
 
         public UserRound()
         {

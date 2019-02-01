@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using EntitiesLayer.Entities;
+using EntitiesLayer.Enums;
 
 namespace DataAccessLayer
 {
     public class DatabaseInitializer
     {
-        private static int key = 0;
+        private static int _key = 0;
         private static int GenerateKey()
         {
-            key++;
-            return key;
+            _key++;
+            return _key;
         }
         public static List<Card> GetCards()
         {

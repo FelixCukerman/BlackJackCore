@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using Dapper.Contrib.Extensions;
 using EntitiesLayer.Abstraction;
+using EntitiesLayer.Constants;
 
 namespace EntitiesLayer.Entities
 {
@@ -23,7 +24,7 @@ namespace EntitiesLayer.Entities
         public UserGames()
         {
             DateOfCreation = DateTime.Now;
-            Rate = 5;
+            Rate = EntitiesConstant._DefaultRate;
         }
     }
 }

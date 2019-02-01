@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using EntitiesLayer.Abstraction;
+using EntitiesLayer.Constants;
 using EntitiesLayer.Enums;
 
 namespace EntitiesLayer.Entities
@@ -19,9 +20,9 @@ namespace EntitiesLayer.Entities
         public User()
         {
             DateOfCreation = DateTime.Now;
-            Nickname = "default";
+            Nickname = EntitiesConstant._DefaultNickname;
             UserRole = UserRole.None;
-            Cash = 50;
+            Cash = EntitiesConstant._DefaultCash;
         }
     }
 }

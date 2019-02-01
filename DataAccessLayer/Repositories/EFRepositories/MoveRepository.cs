@@ -18,15 +18,15 @@ namespace DataAccessLayer.Repositories
 
         public async Task<List<Move>> Get(IEnumerable<User> users)
         {
-            return await data.Moves.Where(x => users.Select(elem => elem.Id).Contains((int)x.UserId)).ToListAsync();
+            return await _data.Moves.Where(x => users.Select(elem => elem.Id).Contains((int)x.UserId)).ToListAsync();
         }
         public async Task<List<Move>> Get(int userId, int roundId)
         {
-            return await data.Moves.Where(x => x.UserId == userId && x.RoundId == roundId).ToListAsync();
+            return await _data.Moves.Where(x => x.UserId == userId && x.RoundId == roundId).ToListAsync();
         }
         public async Task<List<Move>> Get(Round round)
         {
-            return await data.Moves.Where(x => x.RoundId == round.Id).ToListAsync();
+            return await _data.Moves.Where(x => x.RoundId == round.Id).ToListAsync();
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using EntitiesLayer.Entities;
+using EntitiesLayer.Enums;
 
 namespace BusinessLogicLayer.DTOs
 {

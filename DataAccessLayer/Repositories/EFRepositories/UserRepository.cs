@@ -18,11 +18,11 @@ namespace DataAccessLayer.Repositories
         }
         public async Task<List<User>> Get(List<UserGames> userGames)
         {
-            return await data.Users.Where(x => userGames.Select(elem => elem.UserId).Contains(x.Id)).ToListAsync();
+            return await _data.Users.Where(x => userGames.Select(elem => elem.UserId).Contains(x.Id)).ToListAsync();
         }
         public async Task<User> Get(string nickname)
         {
-            return await data.Users.FirstOrDefaultAsync(x => x.Nickname == nickname && (x.UserRole == UserRole.PeoplePlayer || x.UserRole == UserRole.Dealer));
+            return await _data.Users.FirstOrDefaultAsync(x => x.Nickname == nickname && (x.UserRole == UserRole.PeoplePlayer || x.UserRole == UserRole.Dealer));
         }
     }
 }

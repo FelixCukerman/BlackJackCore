@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Text;
 using BusinessLogicLayer.Enums;
 using Microsoft.Extensions.Configuration;
+using BusinessLogicLayer.Constants;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -15,7 +16,7 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static void AddRepositories(this IServiceCollection services, IConfiguration configuration)
         {
-            string connectionString = configuration.GetConnectionString("DefaultConnection");
+            string connectionString = configuration.GetConnectionString(ConfigureConstant._nameConnection);
             var repositoryType = configuration.GetSection("EF");
             RepositoryType key = (RepositoryType)Enum.Parse(typeof(RepositoryType), repositoryType.Key);
             services.AddDbContext<GameContext>(options => options.UseSqlServer(connectionString, b => b.MigrationsAssembly("DataAccessLayer")));

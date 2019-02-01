@@ -3,25 +3,26 @@ using System.Collections.Generic;
 using Microsoft.Extensions.Caching.Memory;
 using BusinessLogicLayer.DTOs;
 using System.Linq;
+using BusinessLogicLayer.Constants;
 
 namespace BusinessLogicLayer.Providers
 {
     public class DeckProvider
     {
-        private IMemoryCache cache;
+        private IMemoryCache _cache;
         public DeckProvider(IMemoryCache cache)
         {
-            this.cache = cache;
+            _cache = cache;
         }
 
         public Deck Get()
         {
-            return cache.Get("key") as Deck;
+            return _cache.Get(ConfigureConstant._keyForDeck) as Deck;
         }
 
         public void Add(Deck deck)
         {
-            cache.Set("key", deck, new MemoryCacheEntryOptions
+            _cache.Set(ConfigureConstant._keyForDeck, deck, new MemoryCacheEntryOptions
             {
                 AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(30)
             });
@@ -29,12 +30,12 @@ namespace BusinessLogicLayer.Providers
 
         public void Update(Deck deck)
         {
-            cache.Set("key", deck, DateTime.Now.AddMinutes(30));
+            _cache.Set(ConfigureConstant._keyForDeck, deck, DateTime.Now.AddMinutes(30));
         }
 
         public void Delete()
         {
-            cache.Remove("key");
+            _cache.Remove(ConfigureConstant._keyForDeck);
         }
     }
 }

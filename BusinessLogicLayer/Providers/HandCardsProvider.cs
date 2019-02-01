@@ -9,15 +9,15 @@ namespace BusinessLogicLayer.Providers
 {
     public class HandCardsProvider
     {
-        private IMemoryCache cache;
+        private IMemoryCache _cache;
         public HandCardsProvider(IMemoryCache cache)
         {
-            this.cache = cache;
+            _cache = cache;
         }
 
         public HandCards Get(User user)
         {
-            return cache.Get(user.Nickname) as HandCards;
+            return _cache.Get(user.Nickname) as HandCards;
         }
 
         public List<HandCards> Get(IEnumerable<User> users)
@@ -25,14 +25,14 @@ namespace BusinessLogicLayer.Providers
             var handUsers = new List<HandCards>();
             for (int i = 0; i < users.Count(); i++)
             {
-                handUsers.Add(cache.Get(users.ElementAt(i).Nickname) as HandCards);
+                handUsers.Add(_cache.Get(users.ElementAt(i).Nickname) as HandCards);
             }
             return handUsers;
         }
 
         public void Add(HandCards handCards)
         {
-            cache.Set(handCards.User.Nickname, handCards, new MemoryCacheEntryOptions
+            _cache.Set(handCards.User.Nickname, handCards, new MemoryCacheEntryOptions
             {
                 AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(30)
             });
@@ -42,7 +42,7 @@ namespace BusinessLogicLayer.Providers
         {
             for(int i = 0; i < handCards.Count; i++)
             {
-                cache.Set(handCards[i].User.Nickname, handCards[i], new MemoryCacheEntryOptions
+                _cache.Set(handCards[i].User.Nickname, handCards[i], new MemoryCacheEntryOptions
                 {
                     AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(30)
                 });
@@ -51,12 +51,12 @@ namespace BusinessLogicLayer.Providers
 
         public void Update(HandCards handCards)
         {
-            cache.Set(handCards.User.Nickname, handCards, DateTime.Now.AddMinutes(30));
+            _cache.Set(handCards.User.Nickname, handCards, DateTime.Now.AddMinutes(30));
         }
 
         public void Delete(User user)
         {
-            cache.Remove(user.Nickname);
+            _cache.Remove(user.Nickname);
         }
     }
 }

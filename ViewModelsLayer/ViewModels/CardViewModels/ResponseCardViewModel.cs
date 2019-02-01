@@ -1,4 +1,5 @@
 ﻿using EntitiesLayer.Entities;
+using EntitiesLayer.Enums;
 
 namespace ViewModelsLayer.ViewModels.CardViewModels
 {
