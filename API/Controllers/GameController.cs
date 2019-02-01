@@ -42,25 +42,25 @@ namespace API.Controllers
             return await service.CreateNewRound(gameId);
         }
 
-        [HttpPut("dealcards/{gameId}")]
+        [HttpPost("dealcards/{gameId}")]
         public async Task<ResponseGameViewModel> DealCards(int gameId)
         {
             return await service.DealCards(gameId);
         }
 
-        [HttpPut("dealcardstoplayer/{gameId}")]
+        [HttpPost("dealcardstoplayer/{gameId}")]
         public async Task<ResponseGameViewModel> DealCardsToPlayer(int gameId)
         {
             return await service.DealCardToPlayer(gameId);
         }
 
-        [HttpPut("dealcardstobots/{gameId}")]
+        [HttpPost("dealcardstobots/{gameId}")]
         public async Task<ResponseGameViewModel> DealCardsToBots(int gameId)
         {
             return await service.DealCardToBots(gameId);
         }
 
-        [HttpPut("dealcardstodealer/{gameId}")]
+        [HttpPost("dealcardstodealer/{gameId}")]
         public async Task<ResponseGameViewModel> DealCardsToDealer(int gameId)
         {
             return await service.DealCardToDealer(gameId);
