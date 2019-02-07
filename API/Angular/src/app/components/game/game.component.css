@@ -1,0 +1,51 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+body, html {
+  height: 100%;
+  margin: 0;
+}
+
+.line {
+  margin-top: 10px;
+}
+
+.bg {
+  /* The image used */
+  background-image: url(../../../../../wwwroot/images/background/mainbackground.jpg);
+  /* Full height */
+  min-height: 938px;
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.dealerarea {
+  width: 100%;
+  min-height: 350px;
+  background-color: aliceblue;
+}
+
+.gamearea
+{
+  min-height: 238px; 
+  background-color:aqua;
+}
+
+.usersarea
+{
+  max-width: 100%;
+  padding: 0;
+  min-height: 350px;
+  background-color:blueviolet;
+}
+
+.card {
+  margin-top: 13px;
+  height: 186px;
+  max-height: 186px;
+  max-width: 133px;
+}

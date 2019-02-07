@@ -11,7 +11,11 @@ export class GameService
 
   public GameById(id: number)
   {
-    console.log("game by id " + id);
     return this.http.get(this.url + "/gamebyid/" + id);
+  }
+
+  public DealCards(id: number)
+  {
+    return this.http.post(this.url + "/dealcards/" + id, id);
   }
 }

@@ -15,6 +15,7 @@ using ViewModelsLayer.ViewModels.UserViewModels;
 using AutoMapper;
 using EntitiesLayer.Enums;
 using BusinessLogicLayer.Constants;
+using ViewModelsLayer.ViewModels.UserRoundViewModels;
 
 namespace BusinessLogicLayer.Services
 {
@@ -50,7 +51,6 @@ namespace BusinessLogicLayer.Services
         #endregion
 
         #region Private Method
-        #region Reshuffle
         //Fisher–Yates shuffle
         private List<Card> Reshuffle(List<Card> Deck)
         {
@@ -64,9 +64,7 @@ namespace BusinessLogicLayer.Services
             }
             return Deck;
         }
-        #endregion
 
-        #region CheckDeck
         private Deck CheckDeck(Deck deck)
         {
             if (deck.Cards.Count < BusinessLogicConstant._MinDeckSize)
@@ -77,9 +75,7 @@ namespace BusinessLogicLayer.Services
             }
             return deck;
         }
-        #endregion
 
-        #region IsBlackJack
         private async Task<bool> IsBlackJack(IEnumerable<Move> moves)
         {
             var cards = await _cardRepository.Get(moves);
@@ -90,9 +86,7 @@ namespace BusinessLogicLayer.Services
             }
             return false;
         }
-        #endregion
 
-        #region IsBust
         private async Task<bool> IsBust(IEnumerable<Move> moves)
         {
             var cards = await _cardRepository.Get(moves);
@@ -103,9 +97,7 @@ namespace BusinessLogicLayer.Services
             }
             return false;
         }
-        #endregion
 
-        #region IsMoreThan17Points
         private async Task<bool> IsMoreThan17Points(User user, int roundId)
         {
             var moves = await _moveRepository.Get(user.Id, roundId);
@@ -116,9 +108,7 @@ namespace BusinessLogicLayer.Services
             }
             return false;
         }
-        #endregion
 
-        #region IsGoldenPoint
         private async Task<bool> IsGoldenPoint(IEnumerable<Move> moves)
         {
             var cards = await _cardRepository.Get(moves);
@@ -132,9 +122,7 @@ namespace BusinessLogicLayer.Services
             }
             return flag;
         }
-        #endregion
 
-        #region CheckSpecialPoint
         private async Task<UserRound> CheckSpecialPoint(IEnumerable<Move> moves, UserRound userRound)
         {
             if (await IsBlackJack(moves))
@@ -147,9 +135,7 @@ namespace BusinessLogicLayer.Services
             }
             return userRound;
         }
-        #endregion
 
-        #region CompareUsercards
         private async Task CompareUsercards(Round round)
         {
             var moves = await _moveRepository.Get(round);
@@ -198,9 +184,7 @@ namespace BusinessLogicLayer.Services
                 await _userRoundRepository.UpdateRange(userRoundsToUpdate);
             }
         }
-        #endregion
 
-        #region CalculatePoints
         private async Task CalculatePoints(Round round)
         {
             var userRounds = await _userRoundRepository.Get(round);
@@ -225,9 +209,7 @@ namespace BusinessLogicLayer.Services
                 userRoundsToUpdate.Add(currentUserRound);
             }
         }
-        #endregion
 
-        #region GameIsOver
         public async Task<bool> GameIsOver(Game game)
         {
             var rounds = await _roundRepository.Get(game);
@@ -237,9 +219,7 @@ namespace BusinessLogicLayer.Services
             }
             return false;
         }
-        #endregion
 
-        #region UserResponse
         private List<ResponseUserViewModel> UserResponse(IEnumerable<User> users)
         {
             var handCards = _handCardsProvider.Get(users);
@@ -257,29 +237,51 @@ namespace BusinessLogicLayer.Services
             }
             return result;
         }
-        #endregion
-        #endregion
 
-        #region GameResponse
-        public async Task<ResponseGameViewModel> GameResponse(int gameId)
+        private async Task<ResponseGameViewModel> GameResponse(int gameId)
         {
-            var deckFromCache = _deckProvider.Get();
             var game = await _gameRepository.Get(gameId);
+            if(game == null)
+            {
+                throw new NullReferenceException();
+            }
+            var deckFromCache = _deckProvider.Get();
             var userGames = await _userGamesRepository.Get(game);
             var users = await _userRepository.Get(userGames);
             var rounds = await _roundRepository.Get(game);
 
-            return new ResponseGameViewModel
+            var result = new ResponseGameViewModel
             {
                 Id = gameId,
                 Rounds = _mapper.Map<List<ResponseRoundViewModel>>(rounds),
                 Users = _mapper.Map<List<ResponseUserViewModel>>(users),
                 IsOver = false
             };
+            result.Rounds = await ResponseRounds(result.Rounds, rounds);
+
+            return result;
+        }
+
+        private async Task<List<ResponseRoundViewModel>> ResponseRounds(List<ResponseRoundViewModel> responseRounds, List<Round> rounds)
+        {
+            var userRounds = await _userRoundRepository.Get(rounds);
+            for(int i = 0; i < responseRounds.Count; i++)
+            {
+                var round = rounds.FirstOrDefault(x => x.Id == responseRounds[i].RoundId);
+                var currentUserRounds = userRounds.Where(x => x.RoundId == round.Id);
+                responseRounds[i].UserRound = _mapper.Map<List<ResponseUserRoundViewModel>>(currentUserRounds);
+            }
+            return responseRounds;
         }
         #endregion
 
-        #region CreateNewGame
+        #region Public Method
+        public async Task<ResponseGameViewModel> GetGameById(int gameId)
+        {
+            ResponseGameViewModel result = await GameResponse(gameId);
+            return result;
+        }
+
         public async Task<ResponseGameViewModel> CreateNewGame(RequestGameViewModel request)
         {
             var game = new Game();
@@ -336,9 +338,7 @@ namespace BusinessLogicLayer.Services
             ResponseGameViewModel result = await GameResponse(game.Id);
             return result;
         }
-        #endregion 
 
-        #region CreateNewRound
         public async Task<ResponseGameViewModel> CreateNewRound(int gameId)
         {
             var deckFromCache = _deckProvider.Get();
@@ -359,10 +359,7 @@ namespace BusinessLogicLayer.Services
             await _userRoundRepository.CreateRange(userRounds);
             return await GameResponse(gameId);
         }
-        #endregion
-
-        //self review
-        #region DealCards
+        //to self review
         public async Task<ResponseGameViewModel> DealCards(int gameId)
         {
             //fields
@@ -421,10 +418,7 @@ namespace BusinessLogicLayer.Services
 
             return result;
         }
-        #endregion
-
-        //self review
-        #region DealCardToPlayer
+        //to self review
         public async Task<ResponseGameViewModel> DealCardToPlayer(int gameId)
         {
             var deckFromCache = _deckProvider.Get();
@@ -466,10 +460,7 @@ namespace BusinessLogicLayer.Services
 
             return result;
         }
-        #endregion
-
-        //self review
-        #region DealCardToDealer
+        //to self review
         public async Task<ResponseGameViewModel> DealCardToDealer(int gameId)
         {
             var game = await _gameRepository.Get(gameId);
@@ -511,10 +502,7 @@ namespace BusinessLogicLayer.Services
             result.IsOver = await GameIsOver(game);
             return result;
         }
-        #endregion
-
-        //self review 
-        #region DealCardToBots
+        //to self review
         public async Task<ResponseGameViewModel> DealCardToBots(int gameId)
         {
             var deckFromCache = _deckProvider.Get();

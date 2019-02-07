@@ -27,7 +27,6 @@ export class StartComponent implements OnInit
     this.service.CreateNewGame(this.request).subscribe((data: ResponseGameViewModel) =>
     {
       this.response = data;
-      console.log(data);
       this.router.navigate(['game/' + data.id]);
     });
   }

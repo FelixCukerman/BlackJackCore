@@ -7,6 +7,7 @@ namespace DataAccessLayer.Interfaces
     public interface IUserRoundRepository : IRepository<UserRound>
     {
         Task<List<UserRound>> Get(Round round);
+        Task<List<UserRound>> Get(List<Round> rounds);
         Task<List<UserRound>> Get(List<User> users);
         Task<UserRound> Get(int userId, int roundId);
     }

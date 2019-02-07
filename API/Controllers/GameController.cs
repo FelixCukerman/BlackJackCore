@@ -8,6 +8,9 @@ using BusinessLogicLayer.Interfaces;
 using EntitiesLayer.Entities;
 using ViewModelsLayer.ViewModels.GameViewModels;
 using ViewModelsLayer.ViewModels;
+using System.Net.Http;
+using System.Net;
+using ViewModelsLayer.ViewModels.UserViewModels;
 
 namespace API.Controllers
 {
@@ -23,9 +26,17 @@ namespace API.Controllers
 
         [HttpGet]
         [Route("gamebyid/{gameId}")]
-        public async Task<ResponseGameViewModel> GameById(int gameId)
+        public async Task<ObjectResult> GameById(int gameId)
         {
-            return await service.GameResponse(gameId);
+            try
+            {
+                var result = await service.GetGameById(gameId);
+                return new ObjectResult(result);
+            }
+            catch(NullReferenceException ex)
+            {
+                return new ObjectResult(StatusCode((int)HttpStatusCode.NotFound));
+            }
         }
 
         [HttpPost]
