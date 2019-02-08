@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ViewModelsLayer", "ViewMode
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessLogicLayer", "BusinessLogicLayer\BusinessLogicLayer.csproj", "{E0D89882-F103-4B1B-A4E0-5D1DC59281D5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API", "API\API.csproj", "{E451BE97-9EF4-4EE0-B17C-C0CA1AC1C83E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API", "API\API.csproj", "{4233F9CA-BB3F-45D6-BFBC-96215A487896}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +35,10 @@ Global
 		{E0D89882-F103-4B1B-A4E0-5D1DC59281D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E0D89882-F103-4B1B-A4E0-5D1DC59281D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E0D89882-F103-4B1B-A4E0-5D1DC59281D5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E451BE97-9EF4-4EE0-B17C-C0CA1AC1C83E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E451BE97-9EF4-4EE0-B17C-C0CA1AC1C83E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E451BE97-9EF4-4EE0-B17C-C0CA1AC1C83E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E451BE97-9EF4-4EE0-B17C-C0CA1AC1C83E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4233F9CA-BB3F-45D6-BFBC-96215A487896}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4233F9CA-BB3F-45D6-BFBC-96215A487896}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4233F9CA-BB3F-45D6-BFBC-96215A487896}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4233F9CA-BB3F-45D6-BFBC-96215A487896}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
