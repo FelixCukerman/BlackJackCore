@@ -12,6 +12,9 @@ namespace API.Controllers
     {
         public IActionResult Index()
         {
+            //string contentUrl = Url.Content("~/оы");
+            //string actionUrl = Url.Action("Index", "Home");
+            //return Content(actionUrl);
             return View();
         }
 

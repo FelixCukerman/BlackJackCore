@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { StartModule } from './modules/start.module';
+import { GameModule } from './modules/game.module';
 
 const routes: Routes =
   [
@@ -10,11 +12,11 @@ const routes: Routes =
     },
     {
       path: 'game',
-      loadChildren: './modules/start.module#StartModule'
+      loadChildren: () => StartModule
     },
     {
       path: 'game',
-      loadChildren: './modules/game.module#GameModule'
+      loadChildren: () => GameModule
     }
   ];
 

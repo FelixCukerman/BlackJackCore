@@ -57,6 +57,9 @@ namespace API
 
             app.UseMvc(routes =>
             {
+                routes.MapRoute("start", "game/start", new { controller = "Home", action = "Index" });
+                routes.MapRoute("game", "game/{id}", new { controller = "Home", action = "Index" });
+
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");

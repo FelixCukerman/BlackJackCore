@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "../Scripts/dist",
+            "outputPath": "../wwwroot/js/dist/Angular",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -22,7 +22,7 @@
               "src/favicon.ico",
               "src/assets"
             ],
-            "styles": [ 
+            "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               {
                 "input": "./node_modules/bootstrap/dist/css/bootstrap.css"

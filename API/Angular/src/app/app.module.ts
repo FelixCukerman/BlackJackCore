@@ -4,7 +4,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { APP_BASE_HREF } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -16,7 +15,7 @@ import { APP_BASE_HREF } from '@angular/common';
     AppRoutingModule,
     NgbModule.forRoot()
   ],
-  providers: [AppComponent, HttpClientModule ],
+  providers: [AppComponent, HttpClientModule],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
