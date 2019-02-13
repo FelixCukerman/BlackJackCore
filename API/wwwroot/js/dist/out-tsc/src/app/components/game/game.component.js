@@ -25,6 +25,7 @@ var GameComponent = /** @class */ (function () {
                 _this.response = newdata;
                 _this.InitializeUsers();
                 _this.isLoad = true;
+                console.log(_this.response);
             });
         });
     };

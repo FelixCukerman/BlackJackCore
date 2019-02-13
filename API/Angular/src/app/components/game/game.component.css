@@ -13,39 +13,75 @@ body, html {
 }
 
 .bg {
-  /* The image used */
   background-image: url(~/images/background/mainbackground.jpg);
-  /* Full height */
   min-height: 938px;
-  /* Center and scale the image nicely */
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
 }
 
-.dealerarea {
+.gamearea {
   width: 100%;
-  min-height: 350px;
-  background-color: aliceblue;
+  background-color: aquamarine;
+  height: 250px;
 }
 
-.gamearea
-{
-  min-height: 238px; 
-  background-color:aqua;
+.cards {
+  float: left;
+  background-color: mediumpurple;
+  height: 250px;
+  display: flex;
+  width: 20%;
+  max-width: 20%;
 }
 
-.usersarea
-{
-  max-width: 100%;
-  padding: 0;
-  min-height: 350px;
-  background-color:blueviolet;
-}
+  .cards .card:hover {
+    z-index: 10;
+  }
 
 .card {
-  margin-top: 13px;
+  width: 133px;
   height: 186px;
-  max-height: 186px;
-  max-width: 133px;
+  background-size: cover;
+  margin-left: -105px;
+  background-color: transparent;
+  border-style: none;
 }
+
+  .card:hover {
+    z-index: 10;
+    background-color: transparent;
+  }
+
+  .card:nth-child(1) {
+    z-index: 1;
+    margin-left: 0;
+  }
+
+  .card:nth-child(2) {
+    z-index: 2;
+  }
+
+  .card:nth-child(3) {
+    z-index: 3;
+  }
+
+  .card:nth-child(4) {
+    z-index: 4;
+  }
+
+  .card:nth-child(5) {
+    z-index: 5;
+  }
+
+  .card:nth-child(6) {
+    z-index: 6;
+  }
+
+  .card:nth-child(7) {
+    z-index: 7;
+  }
+
+  .card:nth-child(8) {
+    z-index: 8;
+  }

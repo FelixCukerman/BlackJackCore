@@ -41,6 +41,7 @@ export class GameComponent implements OnInit
         this.response = newdata;
         this.InitializeUsers();
         this.isLoad = true;
+        console.log(this.response);
       });
     });
   }
