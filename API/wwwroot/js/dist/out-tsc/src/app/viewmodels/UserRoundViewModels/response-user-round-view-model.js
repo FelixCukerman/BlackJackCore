@@ -1,5 +1,6 @@
 var ResponseUserRoundViewModel = /** @class */ (function () {
-    function ResponseUserRoundViewModel(roundStatus, points) {
+    function ResponseUserRoundViewModel(roundStatus, points, userId) {
+        this.userId = userId;
         this.points = points;
         this.roundStatus = roundStatus;
     }

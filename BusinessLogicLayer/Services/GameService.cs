@@ -365,6 +365,7 @@ namespace BusinessLogicLayer.Services
             //fields
             var result = await GameResponse(gameId);
             Deck deckFromCache = _deckProvider.Get();
+            deckFromCache = CheckDeck(deckFromCache);
             var handCardsToCache = new List<HandCards>();
             var cardToUser = new List<Card>();
             var move = new Move();
@@ -385,6 +386,7 @@ namespace BusinessLogicLayer.Services
                     cardToUser = deckFromCache.Cards.Skip(deckFromCache.Cards.Count - 2).ToList();
                     handCardsToCache.Add(new HandCards { Cards = cardToUser, User = users.ElementAt(i) });
                     result.Users.FirstOrDefault(x => x.Nickname == users.ElementAt(i).Nickname).Cards = _mapper.Map<List<ResponseCardViewModel>>(cardToUser);
+                    deckFromCache.DiscardPile.AddRange(cardToUser);
                     deckFromCache.Cards.RemoveRange(deckFromCache.Cards.Count - 2, 2);
                     //save new moves
                     move = new Move { RoundId = rounds.Last().Id, UserId = users.ElementAt(i).Id, CardId = cardToUser[0].Id };
@@ -448,6 +450,7 @@ namespace BusinessLogicLayer.Services
                 //get response and save move
                 result.Users = UserResponse(users);
                 await _moveRepository.Create(move);
+                deckFromCache.DiscardPile.Add(deckFromCache.Cards.Last());
                 deckFromCache.Cards.Remove(deckFromCache.Cards.Last());
             }
             //check blackjack point
@@ -491,6 +494,7 @@ namespace BusinessLogicLayer.Services
             handCardsFromCache.Cards.Add(deckFromCache.Cards.Last());
             _handCardsProvider.Update(handCardsFromCache);
             result.Users = UserResponse(users);
+            deckFromCache.DiscardPile.Add(deckFromCache.Cards.Last());
             deckFromCache.Cards.Remove(deckFromCache.Cards.Last());
             _deckProvider.Update(new Deck { Cards = deckFromCache.Cards, DiscardPile = deckFromCache.DiscardPile });
             await _gameRepository.Update(game);
@@ -534,6 +538,7 @@ namespace BusinessLogicLayer.Services
                 movesToCreate.Add(move);
                 handCardsFromCache[i].Cards.Add(deckFromCache.Cards.Last());
                 _handCardsProvider.Update(handCardsFromCache[i]);
+                deckFromCache.DiscardPile.Add(deckFromCache.Cards.Last());
                 deckFromCache.Cards.Remove(deckFromCache.Cards.Last());
                 //check blackjackpoint
                 if (await IsBlackJack(moves.Where(x => x.UserId == item.Id)))

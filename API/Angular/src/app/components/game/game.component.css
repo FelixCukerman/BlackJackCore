@@ -14,22 +14,64 @@ body, html {
 
 .bg {
   background-image: url(~/images/background/mainbackground.jpg);
-  min-height: 938px;
+  min-height: 937px;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
 }
 
+.nickname
+{
+  height: 50px;
+  max-height: 50px;
+  width: 20%;
+  float: left;
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 18pt;
+  color: whitesmoke;
+  text-align: center;
+}
+
+.dealernickname {
+  height: 50px;
+  max-height: 50px;
+  width: 100%;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 18pt;
+  color: whitesmoke;
+  text-align: center;
+}
+
+.dealerarea {
+  width: 100%;
+  min-height: 190px;
+  padding-left: 40%;
+}
+
 .gamearea {
   width: 100%;
-  background-color: aquamarine;
-  height: 250px;
+  height: 450px;
+  background-color: rgba(189,189,189, 0.05);
+}
+
+.playerpoints {
+  width: 30%;
+  height: 450px;
+  background: unset;
+  background-color: rgba(238,238,238, 0.02);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 18pt;
+  color: white;
+}
+
+.playerarea {
+  width: 100%;
+  min-height: 190px;
 }
 
 .cards {
   float: left;
-  background-color: mediumpurple;
-  height: 250px;
+  height: 190px;
   display: flex;
   width: 20%;
   max-width: 20%;

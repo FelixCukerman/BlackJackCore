@@ -6,6 +6,7 @@ import { ResponseUserViewModel } from 'src/app/viewmodels/UserViewModels/respons
 import { UserRole } from 'src/app/shared/enums/user-role';
 import { ResponseCardViewModel } from 'src/app/viewmodels/CardViewModels/response-card-view-model';
 import { __await } from 'tslib';
+import { ResponseUserRoundViewModel } from 'src/app/viewmodels/UserRoundViewModels/response-user-round-view-model';
 
 @Component({
   selector: 'app-game',
@@ -17,6 +18,7 @@ export class GameComponent implements OnInit
   public response: ResponseGameViewModel;
   public users: Array<ResponseUserViewModel>;
   public dealer: ResponseUserViewModel;
+  public userRounds: Array<ResponseUserRoundViewModel>;
   public isLoad: boolean;
 
   constructor(private service: GameService, private router: Router, private currentRoute: ActivatedRoute)
@@ -26,6 +28,7 @@ export class GameComponent implements OnInit
   {
     this.users = this.response.users.filter(user => user.userRole != UserRole.Dealer);
     this.dealer = this.response.users.filter(user => user.userRole == UserRole.Dealer).shift();
+    this.userRounds = this.response.rounds[this.response.rounds.length - 1].userRound;
   }
 
   Show() {

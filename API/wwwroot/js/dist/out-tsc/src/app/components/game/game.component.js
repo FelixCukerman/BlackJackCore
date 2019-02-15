@@ -12,6 +12,7 @@ var GameComponent = /** @class */ (function () {
     GameComponent.prototype.InitializeUsers = function () {
         this.users = this.response.users.filter(function (user) { return user.userRole != UserRole.Dealer; });
         this.dealer = this.response.users.filter(function (user) { return user.userRole == UserRole.Dealer; }).shift();
+        this.userRounds = this.response.rounds[this.response.rounds.length - 1].userRound;
     };
     GameComponent.prototype.Show = function () {
         console.log(this.dealer.cards);

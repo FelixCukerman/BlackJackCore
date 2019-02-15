@@ -11,6 +11,9 @@ using ViewModelsLayer.ViewModels;
 using System.Net.Http;
 using System.Net;
 using ViewModelsLayer.ViewModels.UserViewModels;
+using Microsoft.Extensions.Logging;
+using API.Logger;
+using System.IO;
 
 namespace API.Controllers
 {
@@ -18,10 +21,13 @@ namespace API.Controllers
     [ApiController]
     public class GameController : ControllerBase
     {
-        private IGameService service { get; set; }
-        public GameController(IGameService service)
+        private IGameService _service { get; set; }
+        private ILoggerFactory _loggerFactory { get; set; }
+
+        public GameController(IGameService service, ILoggerFactory loggerFactory)
         {
-            this.service = service;
+            this._service = service;
+            this._loggerFactory = loggerFactory;
         }
 
         [HttpGet]
@@ -30,11 +36,12 @@ namespace API.Controllers
         {
             try
             {
-                var result = await service.GetGameById(gameId);
+                var result = await _service.GetGameById(gameId);
                 return new ObjectResult(result);
             }
             catch(NullReferenceException ex)
             {
+                FileLogger.LogError(ex);
                 return new ObjectResult(StatusCode((int)HttpStatusCode.NotFound));
             }
         }
@@ -43,38 +50,47 @@ namespace API.Controllers
         [Route("create")]
         public async Task<ResponseGameViewModel> CreateNewGame(RequestGameViewModel request)
         {
-            return await service.CreateNewGame(request);
+            return await _service.CreateNewGame(request);
         }
 
         [HttpPost]
         [Route("createround/{gameId}")]
         public async Task<ResponseGameViewModel> CreateNewRound(int gameId)
         {
-            return await service.CreateNewRound(gameId);
+            return await _service.CreateNewRound(gameId);
         }
 
         [HttpPost("dealcards/{gameId}")]
-        public async Task<ResponseGameViewModel> DealCards(int gameId)
+        public async Task<ObjectResult> DealCards(int gameId)
         {
-            return await service.DealCards(gameId);
+            try
+            {
+                var result = await _service.DealCards(gameId);
+                return new ObjectResult(result);
+            }
+            catch(Exception ex)
+            {
+                FileLogger.LogError(ex);
+                return new ObjectResult(ex.Message);
+            }
         }
 
         [HttpPost("dealcardstoplayer/{gameId}")]
         public async Task<ResponseGameViewModel> DealCardsToPlayer(int gameId)
         {
-            return await service.DealCardToPlayer(gameId);
+            return await _service.DealCardToPlayer(gameId);
         }
 
         [HttpPost("dealcardstobots/{gameId}")]
         public async Task<ResponseGameViewModel> DealCardsToBots(int gameId)
         {
-            return await service.DealCardToBots(gameId);
+            return await _service.DealCardToBots(gameId);
         }
 
         [HttpPost("dealcardstodealer/{gameId}")]
         public async Task<ResponseGameViewModel> DealCardsToDealer(int gameId)
         {
-            return await service.DealCardToDealer(gameId);
+            return await _service.DealCardToDealer(gameId);
         }
     }
 }

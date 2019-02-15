@@ -1,5 +1,6 @@
 var ResponseUserViewModel = /** @class */ (function () {
-    function ResponseUserViewModel(nickname, userRole, cards) {
+    function ResponseUserViewModel(id, nickname, userRole, cards) {
+        this.id = id;
         this.nickname = nickname;
         this.userRole = userRole;
         this.cards = cards;

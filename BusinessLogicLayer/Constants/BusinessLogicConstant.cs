@@ -6,7 +6,7 @@ namespace BusinessLogicLayer.Constants
 {
     public static class BusinessLogicConstant
     {
-        public const int _MinDeckSize = 15;
+        public const int _MinDeckSize = 25;
         public const int _BlackjackCombination = 21;
         public const int _MaxDealerPoints = 17;
         public const string _DealerNickname = "Dealer";
