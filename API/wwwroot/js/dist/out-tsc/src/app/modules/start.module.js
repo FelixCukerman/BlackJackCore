@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { StartComponent } from '../components/start/start.component';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '../../../node_modules/@angular/forms';
+import { StorageServiceModule } from 'angular-webstorage-service';
 var routes = [
     {
         path: 'start',
@@ -20,6 +21,7 @@ var StartModule = /** @class */ (function () {
             ],
             imports: [
                 CommonModule,
+                StorageServiceModule,
                 FormsModule,
                 RouterModule.forChild(routes)
             ]

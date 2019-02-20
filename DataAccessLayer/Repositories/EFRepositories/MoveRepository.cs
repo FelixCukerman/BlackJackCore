@@ -20,6 +20,10 @@ namespace DataAccessLayer.Repositories
         {
             return await _data.Moves.Where(x => users.Select(elem => elem.Id).Contains((int)x.UserId)).ToListAsync();
         }
+        public async Task<List<Move>> Get(IEnumerable<User> users, int roundId)
+        {
+            return await _data.Moves.Where(x => users.Select(elem => elem.Id).Contains((int)x.UserId) && x.RoundId == roundId).ToListAsync();
+        }
         public async Task<List<Move>> Get(int userId, int roundId)
         {
             return await _data.Moves.Where(x => x.UserId == userId && x.RoundId == roundId).ToListAsync();

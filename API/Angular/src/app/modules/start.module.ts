@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { StartComponent } from '../components/start/start.component';
 import { Routes, RouterModule } from '@angular/router';
 import { FormsModule } from '../../../node_modules/@angular/forms';
+import { StorageServiceModule } from 'angular-webstorage-service';
 
 const routes: Routes =
   [
@@ -18,7 +19,7 @@ const routes: Routes =
   ],
   imports: [
     CommonModule,
-
+    StorageServiceModule,
     FormsModule,
     RouterModule.forChild(routes)
   ]

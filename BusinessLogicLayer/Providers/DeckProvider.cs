@@ -15,27 +15,27 @@ namespace BusinessLogicLayer.Providers
             _cache = cache;
         }
 
-        public Deck Get()
+        public Deck Get(int gameId)
         {
-            return _cache.Get(ConfigureConstant._keyForDeck) as Deck;
+            return _cache.Get(gameId) as Deck;
         }
 
-        public void Add(Deck deck)
+        public void Add(Deck deck, int gameId)
         {
-            _cache.Set(ConfigureConstant._keyForDeck, deck, new MemoryCacheEntryOptions
+            _cache.Set(gameId, deck, new MemoryCacheEntryOptions
             {
                 AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(30)
             });
         }
 
-        public void Update(Deck deck)
+        public void Update(Deck deck, int gameId)
         {
-            _cache.Set(ConfigureConstant._keyForDeck, deck, DateTime.Now.AddMinutes(30));
+            _cache.Set(gameId, deck, DateTime.Now.AddMinutes(30));
         }
 
-        public void Delete()
+        public void Delete(int gameId)
         {
-            _cache.Remove(ConfigureConstant._keyForDeck);
+            _cache.Remove(gameId);
         }
     }
 }

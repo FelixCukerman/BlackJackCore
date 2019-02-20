@@ -12,6 +12,21 @@ var GameService = /** @class */ (function () {
     GameService.prototype.DealCards = function (id) {
         return this.http.post(this.url + "/dealcards/" + id, id);
     };
+    GameService.prototype.DealCardToPlayer = function (id) {
+        return this.http.post(this.url + "/dealcardstoplayer/" + id, id);
+    };
+    GameService.prototype.ReplenishCash = function (request) {
+        var result = this.http.post(this.url + "/replenishcash", request);
+        return result;
+    };
+    GameService.prototype.DealCardsToBots = function (request) {
+        var result = this.http.post(this.url + "/dealcardstobot", request);
+        return result;
+    };
+    GameService.prototype.DealCardsToDealer = function (id) {
+        var result = this.http.post(this.url + "/dealcardstodealer/" + id, id);
+        return result;
+    };
     GameService = tslib_1.__decorate([
         Injectable({
             providedIn: 'root'

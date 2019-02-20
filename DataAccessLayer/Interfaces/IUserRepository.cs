@@ -8,5 +8,6 @@ namespace DataAccessLayer.Interfaces
     {
         Task<List<User>> Get(List<UserGames> userGames);
         Task<User> Get(string nickname);
+        Task<List<User>> Get(List<int> userIds);
     }
 }

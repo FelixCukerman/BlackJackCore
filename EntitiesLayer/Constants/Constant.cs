@@ -8,7 +8,7 @@ namespace EntitiesLayer.Constants
     {
         public const int _DefaultRoundQuantity = 3;
         public const string _DefaultNickname = "Jack";
-        public const int _DefaultCash = 50;
-        public const int _DefaultRate = 5;
+        public const int _DefaultCash = 500000;
+        public const int _DefaultRate = 100;
     }
 }

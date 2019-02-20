@@ -1,11 +1,14 @@
 import * as tslib_1 from "tslib";
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import RequestGameViewModel from 'src/app/viewmodels/GameViewModels/request-game-view-model';
 import { RequestUserViewModel } from 'src/app/viewmodels/UserViewModels/request-user-view-model';
 import { StartService } from 'src/app/services/StartService/start.service';
 import { Router } from '@angular/router';
+import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
+import { GameState } from 'src/app/shared/enums/game-state';
 var StartComponent = /** @class */ (function () {
-    function StartComponent(service, router) {
+    function StartComponent(storage, service, router) {
+        this.storage = storage;
         this.service = service;
         this.router = router;
     }
@@ -15,6 +18,8 @@ var StartComponent = /** @class */ (function () {
         this.service.CreateNewGame(this.request).subscribe(function (data) {
             _this.response = data;
             _this.router.navigate(['game/' + data.id]);
+            _this.gameState = GameState.StartRound;
+            _this.storage.set('key', _this.gameState);
         });
     };
     StartComponent.prototype.ngOnInit = function () {
@@ -27,7 +32,8 @@ var StartComponent = /** @class */ (function () {
             templateUrl: './start.component.html',
             styleUrls: ['./start.component.css']
         }),
-        tslib_1.__metadata("design:paramtypes", [StartService, Router])
+        tslib_1.__param(0, Inject(LOCAL_STORAGE)),
+        tslib_1.__metadata("design:paramtypes", [WebStorageService, StartService, Router])
     ], StartComponent);
     return StartComponent;
 }());

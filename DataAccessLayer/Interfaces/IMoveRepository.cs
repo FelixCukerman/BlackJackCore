@@ -9,5 +9,6 @@ namespace DataAccessLayer.Interfaces
         Task<List<Move>> Get(int userId, int roundId);
         Task<List<Move>> Get(Round round);
         Task<List<Move>> Get(IEnumerable<User> users);
+        Task<List<Move>> Get(IEnumerable<User> users, int roundId);
     }
 }

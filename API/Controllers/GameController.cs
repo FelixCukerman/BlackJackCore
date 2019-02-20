@@ -10,7 +10,8 @@ using ViewModelsLayer.ViewModels.GameViewModels;
 using ViewModelsLayer.ViewModels;
 using System.Net.Http;
 using System.Net;
-using ViewModelsLayer.ViewModels.UserViewModels;
+using ViewModelsLayer.ViewModels.DealCardsToBotViewModel;
+using ViewModelsLayer.ViewModels.ReplenishCashViewModel;
 using Microsoft.Extensions.Logging;
 using API.Logger;
 using System.IO;
@@ -47,6 +48,13 @@ namespace API.Controllers
         }
 
         [HttpPost]
+        [Route("replenishcash")]
+        public async Task<int> ReplenishCash([FromBody]RequestReplenishCashViewModel request)
+        {
+            return await _service.ReplenishCash(request);
+        }
+
+        [HttpPost]
         [Route("create")]
         public async Task<ResponseGameViewModel> CreateNewGame(RequestGameViewModel request)
         {
@@ -68,7 +76,7 @@ namespace API.Controllers
                 var result = await _service.DealCards(gameId);
                 return new ObjectResult(result);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 FileLogger.LogError(ex);
                 return new ObjectResult(ex.Message);
@@ -81,10 +89,10 @@ namespace API.Controllers
             return await _service.DealCardToPlayer(gameId);
         }
 
-        [HttpPost("dealcardstobots/{gameId}")]
-        public async Task<ResponseGameViewModel> DealCardsToBots(int gameId)
+        [HttpPost("dealcardstobot")]
+        public async Task<ResponseGameViewModel> DealCardsToBots(RequestDealCardsToBotViewModel request)
         {
-            return await _service.DealCardToBots(gameId);
+            return await _service.DealCardsToBot(request);
         }
 
         [HttpPost("dealcardstodealer/{gameId}")]

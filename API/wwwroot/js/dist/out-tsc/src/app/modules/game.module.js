@@ -3,6 +3,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GameComponent } from '../components/game/game.component';
 import { RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { StorageServiceModule } from 'angular-webstorage-service';
 var routes = [
     {
         path: ':id',
@@ -17,6 +19,8 @@ var GameModule = /** @class */ (function () {
             declarations: [GameComponent],
             imports: [
                 CommonModule,
+                FormsModule,
+                StorageServiceModule,
                 RouterModule.forChild(routes)
             ]
         })

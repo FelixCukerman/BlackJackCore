@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import RequestGameViewModel from 'src/app/viewmodels/GameViewModels/request-game-view-model';
 import { RequestUserViewModel } from 'src/app/viewmodels/UserViewModels/request-user-view-model';
 import { StartService } from 'src/app/services/StartService/start.service';
 import { Router, Data } from '@angular/router';
 import ResponseGameViewModel from 'src/app/viewmodels/GameViewModels/response-game-view-model';
-
+import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
+import { GameState } from 'src/app/shared/enums/game-state';
 
 @Component({
   selector: 'app-start',
@@ -16,8 +17,9 @@ export class StartComponent implements OnInit
   public response: ResponseGameViewModel;
   public request: RequestGameViewModel;
   public user: RequestUserViewModel;
+  private gameState: GameState;
 
-  constructor(private service: StartService, private router: Router)
+  constructor(@Inject(LOCAL_STORAGE) private storage: WebStorageService, private service: StartService, private router: Router)
   {
   }
 
@@ -28,6 +30,8 @@ export class StartComponent implements OnInit
     {
       this.response = data;
       this.router.navigate(['game/' + data.id]);
+      this.gameState = GameState.StartRound;
+      this.storage.set('key', this.gameState);
     });
   }
 

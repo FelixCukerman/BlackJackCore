@@ -7,26 +7,72 @@
   <title>Hello, world!</title>
 </head>
 <body>
-  <div class="bg" *ngIf="isLoad">
-    <div class="dealerarea">
-      <div class="cards">
-        <div class="card" *ngFor="let usercard of dealer.cards"><img src="images/cards/{{usercard.suit}}-{{usercard.cardName}}.png"></div>
-      </div>
+  <div class="bg">
+    <div class="startround" *ngIf="this.gameState == 1">
+      <button type="button" class="btn btn-primary btn-lg" style="width: 25%; height: 100px; font-size: 24pt" (click)="DealCards()">Start new round</button>
     </div>
-    <div class="dealernickname">Dealer</div>
-    <div class="gamearea">
-      <div class="playerpoints"><p style="text-align: center">Players point:</p>
-        <ul>
-          <li *ngFor="let userRound of userRounds">{{userRound.points}}</li>
-        </ul>
+
+    <div *ngIf="(this.gameState == 2 || this.gameState == 3 || this.gameState == 4) && isLoad">
+      <div class="dealerarea">
+        <div class="cards">
+          <div class="card" *ngFor="let usercard of dealer.cards"><img src="images/cards/{{usercard.suit}}-{{usercard.cardName}}.png"></div>
+        </div>
       </div>
-    </div>
-    <div class="playerarea">
-      <div class="cards" *ngFor="let user of users">
-        <div class="card" *ngFor="let usercard of user.cards"><img src="images/cards/{{usercard.suit}}-{{usercard.cardName}}.png"></div>
+      <div class="dealernickname">Dealer</div>
+      <div class="gamearea">
+        <div class="playerpoints">
+          <p style="text-align: center">Players point:</p>
+          <br />
+          <br />
+          <div style="font-size:14pt; margin-left: 10%" *ngFor="let userRound of userRounds">{{userRound.nickname}}: {{userRound.points}}</div>
+        </div>
+        <div class="gameprocess-block">
+          <div class="roundstate">Round#{{this.response.rounds.length}}</div>
+          <div class="gameprocess">
+            <div class="gameprocess-animation">{{this.gameProcess}}</div>
+          </div>
+        </div>
+        <div class="peopleplayer-block">
+          <div class="total-cash">Total cash: {{this.peopleplayer.cash}}$</div>
+          <div class="action-block">
+            <div *ngIf="this.gameState == 2">
+              <button type="button" class="btn btn-success btn-lg btn-block" (click)="DealCardToPlayer()">Take a card</button>
+              <button type="button" class="btn btn-danger btn-lg btn-block" (click)="SkipCard()">Skip a card</button>
+              <button type="button" class="btn btn-info btn-lg btn-block" data-toggle="modal" data-target="#exampleModal">Replenish a cash</button>
+            </div>
+            <div *ngIf="this.gameState == 3 || this.gameState == 4">
+              <button type="button" class="btn btn-success btn-lg btn-block disabled" aria-disabled="true">Take a card</button>
+              <button type="button" class="btn btn-danger btn-lg btn-block disabled" aria-disabled="true">Skip a card</button>
+              <button type="button" class="btn btn-info btn-lg btn-block" data-toggle="modal" data-target="#exampleModal">Replenish a cash</button>
+            </div>
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Replenish a cash</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <input type="number" class="form-control" placeholder="cash" aria-label="Username" aria-describedby="basic-addon1" [(ngModel)]="requestReplenishCash.cash">
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="ReplenishCash()">Send</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
+      <div class="playerarea">
+        <div class="cards" *ngFor="let user of users">
+          <div class="card" *ngFor="let usercard of user.cards"><img src="images/cards/{{usercard.suit}}-{{usercard.cardName}}.png"></div>
+        </div>
+      </div>
+      <div class="playerinfo" *ngFor="let user of users">{{user.nickname}}</div>
     </div>
-    <div class="nickname" *ngFor="let user of users">{{user.nickname}}</div>
   </div>
 </body>
 </html>

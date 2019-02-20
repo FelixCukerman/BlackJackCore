@@ -6,6 +6,23 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Angular\src\app\services\NewFolder1\**" />
+    <Compile Remove="Angular\src\app\services\NewFolder\**" />
+    <Content Remove="Angular\src\app\services\NewFolder1\**" />
+    <Content Remove="Angular\src\app\services\NewFolder\**" />
+    <EmbeddedResource Remove="Angular\src\app\services\NewFolder1\**" />
+    <EmbeddedResource Remove="Angular\src\app\services\NewFolder\**" />
+    <None Remove="Angular\src\app\services\NewFolder1\**" />
+    <None Remove="Angular\src\app\services\NewFolder\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Angular\src\app\shared\enums\game-state.ts" />
+    <None Remove="Angular\src\app\viewmodels\DealCardsToBotViewModel\request-deal-cards-to-bot-view-model.ts" />
+    <None Remove="Angular\src\app\viewmodels\ReplenishCashViewModels\request-replenish-cash-view-model.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
   </ItemGroup>
@@ -18,6 +35,12 @@
 
   <ItemGroup>
     <Folder Include="Scripts\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="Angular\src\app\shared\enums\game-state.ts" />
+    <TypeScriptCompile Include="Angular\src\app\viewmodels\DealCardsToBotViewModel\request-deal-cards-to-bot-view-model.ts" />
+    <TypeScriptCompile Include="Angular\src\app\viewmodels\ReplenishCashViewModels\request-replenish-cash-view-model.ts" />
   </ItemGroup>
 
 </Project>

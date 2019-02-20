@@ -26,7 +26,8 @@ namespace BusinessLogicLayer.Providers
             .ForMember(x => x.Id, x => x.MapFrom(m => m.Id))
             .ForMember(x => x.Nickname, x => x.MapFrom(m => m.Nickname))
             .ForMember(x => x.UserRole, x => x.MapFrom(m => m.UserRole))
-            .ForMember(x => x.Cards, x => x.Ignore());
+            .ForMember(x => x.Cards, x => x.Ignore())
+            .ForMember(x => x.Cash, x => x.MapFrom(m => m.Cash));
 
             CreateMap<Round, ResponseRoundViewModel>()
             .ForMember(x => x.RoundId, x => x.MapFrom(m => m.Id))
@@ -36,7 +37,8 @@ namespace BusinessLogicLayer.Providers
             CreateMap<UserRound, ResponseUserRoundViewModel>()
             .ForMember(x => x.Points, x => x.MapFrom(m => m.Points))
             .ForMember(x => x.RoundStatus, x => x.MapFrom(m => m.RoundStatus))
-            .ForMember(x => x.UserId, x => x.MapFrom(m => m.UserId));
+            .ForMember(x => x.UserId, x => x.MapFrom(m => m.UserId))
+            .ForMember(x => x.Nickname, x => x.Ignore());
         }
     }
 }

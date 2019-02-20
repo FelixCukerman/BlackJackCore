@@ -127,5 +127,15 @@ namespace DataAccessLayer.Repositories.DapperRepositories
                 return user;
             }
         }
+
+        public async Task<List<User>> Get(List<int> userIds)
+        {
+            using (IDbConnection db = new SqlConnection(connectionString))
+            {
+                string sqlQuery = "SELECT * FROM Users WHERE Id IN @userIds";
+                var users = await db.QueryAsync<User>(sqlQuery, new { userIds });
+                return users.ToList();
+            }
+        }
     }
 }
