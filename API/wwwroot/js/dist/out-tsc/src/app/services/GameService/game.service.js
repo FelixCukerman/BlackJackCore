@@ -27,6 +27,10 @@ var GameService = /** @class */ (function () {
         var result = this.http.post(this.url + "/dealcardstodealer/" + id, id);
         return result;
     };
+    GameService.prototype.CreateNewRound = function (id) {
+        var result = this.http.post(this.url + "/createround/" + id, id);
+        return result;
+    };
     GameService = tslib_1.__decorate([
         Injectable({
             providedIn: 'root'

@@ -15,11 +15,11 @@
           <div class="line"></div>
           <input type="text" class="form-control" [(ngModel)]="user.Nickname" placeholder="Nickname" />
           <div class="line"></div>
-          <input type="number" class="form-control" [(ngModel)]="request.userRate" />
+          <input type="number" value="" min="1" placeholder="Rate" class="form-control" [(ngModel)]="request.userRate" />
           <div class="line"></div>
-          <input type="number" class="form-control" [(ngModel)]="request.botQuantity" />
+          <input type="number" value="" min="1" placeholder="Bot quantity" class="form-control" [(ngModel)]="request.botQuantity" />
           <div class="line"></div>
-          <input type="number" class="form-control" [(ngModel)]="request.roundQuantity" />
+          <input type="number" value="" min="1" placeholder="Round quantity" class="form-control" [(ngModel)]="request.roundQuantity" />
           <div class="line"></div>
           <button class="btn btn-primary" (click)="CreateNewGame()" style="width: 100%">Create new game</button>
         </div>

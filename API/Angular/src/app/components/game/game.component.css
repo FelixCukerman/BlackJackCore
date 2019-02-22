@@ -64,19 +64,36 @@ body, html {
 
 .playerpoints {
   width: 20%;
-  height: 100%;
   background: unset;
   background-color: rgba(238,238,238, 0.02);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-size: 18pt;
   color: white;
   float: left;
-  display: flex;
-  flex-direction: column;
+  display:inline-flex;
+}
+
+.nicknames {
+  padding-left: 20px;
+  padding-top: 24%;
+  width: 70%;
+  height: 400px;
+}
+
+.separator {
+  background-color: rgba(0, 0, 0, 0.48);
+  width: 10%;
+  height: 400px;
+}
+
+.points {
+  width: 20%;
+  padding-top: 24%;
+  height: 400px;
 }
 
 .gameprocess-block {
-  width: 60%;
+  width: 58%;
   height: 400px;
   float: left;
 }

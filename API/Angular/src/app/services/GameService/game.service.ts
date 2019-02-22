@@ -37,9 +37,15 @@ export class GameService
     let result = this.http.post(this.url + "/dealcardstobot", request);
     return result;
   }
+
   public DealCardsToDealer(id: number)
   {
     let result = this.http.post(this.url + "/dealcardstodealer/" + id, id);
+    return result;
+  }
+
+  public CreateNewRound(id: number) {
+    let result = this.http.post(this.url + "/createround/" + id, id);
     return result;
   }
 }

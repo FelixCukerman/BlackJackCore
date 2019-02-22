@@ -2,16 +2,16 @@ import { RoundStatus } from 'src/app/shared/enums/round-status';
 
 export class ResponseUserRoundViewModel
 {
-  constructor(roundStatus, points, userId, nickname)
+  constructor(roundStatus, userId, nickname, points)
   {
     this.userId = userId;
-    this.points = points;
     this.roundStatus = roundStatus;
     this.nickname = nickname;
+    this.points = points;
   }
 
   public userId: number;
   public roundStatus: RoundStatus;
-  public points: number;
   public nickname: string;
+  public points: number;
 }

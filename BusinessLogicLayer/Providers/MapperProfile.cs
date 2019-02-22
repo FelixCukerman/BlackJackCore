@@ -4,6 +4,7 @@ using ViewModelsLayer.ViewModels.CardViewModels;
 using ViewModelsLayer.ViewModels.GameViewModels;
 using ViewModelsLayer.ViewModels.MoveViewModels;
 using ViewModelsLayer.ViewModels.RoundViewModels;
+using ViewModelsLayer.ViewModels.UserGameViewModels;
 using ViewModelsLayer.ViewModels.UserRoundViewModels;
 using ViewModelsLayer.ViewModels.UserViewModels;
 
@@ -35,10 +36,15 @@ namespace BusinessLogicLayer.Providers
             .ForMember(x => x.UserRound, x => x.Ignore());
 
             CreateMap<UserRound, ResponseUserRoundViewModel>()
-            .ForMember(x => x.Points, x => x.MapFrom(m => m.Points))
             .ForMember(x => x.RoundStatus, x => x.MapFrom(m => m.RoundStatus))
             .ForMember(x => x.UserId, x => x.MapFrom(m => m.UserId))
-            .ForMember(x => x.Nickname, x => x.Ignore());
+            .ForMember(x => x.Nickname, x => x.Ignore())
+            .ForMember(x => x.Points, x => x.MapFrom(m => m.Points));
+
+            CreateMap<UserGames, ResponseUserGameViewModel>()
+            .ForMember(x => x.UserId, x => x.MapFrom(m => m.UserId))
+            .ForMember(x => x.GameId, x => x.MapFrom(m => m.GameId))
+            .ForMember(x => x.Rate, x => x.MapFrom(m => m.Rate));
         }
     }
 }

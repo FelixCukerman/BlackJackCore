@@ -18,7 +18,14 @@ var GameComponent = /** @class */ (function () {
         this.users = this.response.users.filter(function (user) { return user.userRole != UserRole.Dealer; });
         this.dealer = this.response.users.filter(function (user) { return user.userRole == UserRole.Dealer; }).shift();
         this.userRounds = this.response.rounds[this.response.rounds.length - 1].userRound;
+        this.userGames = this.response.userGames;
         this.peopleplayer = this.users.filter(function (user) { return user.userRole == UserRole.PeoplePlayer; }).shift();
+    };
+    GameComponent.prototype.CreateNewRound = function () {
+        var _this = this;
+        this.service.CreateNewRound(this.currentRoute.snapshot.params['id']).subscribe(function (data) {
+            _this.DealCards();
+        });
     };
     GameComponent.prototype.ReplenishCash = function () {
         var _this = this;
@@ -33,7 +40,6 @@ var GameComponent = /** @class */ (function () {
         this.service.DealCardToPlayer(this.currentRoute.snapshot.params['id']).subscribe(function (data) {
             _this.response = data;
             _this.InitializeUsers();
-            console.log(data);
             _this.isLoad = true;
         });
     };
@@ -71,7 +77,7 @@ var GameComponent = /** @class */ (function () {
     GameComponent.prototype.SkipCard = function () {
         var _this = this;
         setTimeout(function () { _this.DealCardsToBots(); }, 4000);
-        setTimeout(function () { _this.DealCardsToDealer(); }, 4000);
+        setTimeout(function () { _this.DealCardsToDealer(); }, 8000);
     };
     GameComponent.prototype.DealCards = function () {
         var _this = this;
@@ -94,8 +100,8 @@ var GameComponent = /** @class */ (function () {
         this.isLoad = false;
         this.service.GameById(this.currentRoute.snapshot.params['id']).subscribe(function (data) {
             _this.response = data;
-            console.log(data);
             _this.InitializeUsers();
+            console.log(_this.response);
             _this.isLoad = true;
         });
     };

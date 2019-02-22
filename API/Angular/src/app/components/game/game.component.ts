@@ -11,6 +11,7 @@ import { RequestReplenishCashViewModel } from 'src/app/viewmodels/ReplenishCashV
 import { GameState } from 'src/app/shared/enums/game-state';
 import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
 import { RequestDealCardsToBotViewModel } from 'src/app/viewmodels/DealCardsToBotViewModel/request-deal-cards-to-bot-view-model';
+import { ResponseUserGameViewModel } from 'src/app/viewmodels/UserGameViewModels/response-user-game-view-models';
 
 @Component({
   selector: 'app-game',
@@ -26,6 +27,7 @@ export class GameComponent implements OnInit
   public peopleplayer: ResponseUserViewModel;
   public dealer: ResponseUserViewModel;
   public userRounds: Array<ResponseUserRoundViewModel>;
+  public userGames: Array<ResponseUserGameViewModel>;
   public isLoad: boolean;
   public gameState: GameState;
   public gameProcess: string;
@@ -39,7 +41,15 @@ export class GameComponent implements OnInit
     this.users = this.response.users.filter(user => user.userRole != UserRole.Dealer);
     this.dealer = this.response.users.filter(user => user.userRole == UserRole.Dealer).shift();
     this.userRounds = this.response.rounds[this.response.rounds.length - 1].userRound;
+    this.userGames = this.response.userGames;
     this.peopleplayer = this.users.filter(user => user.userRole == UserRole.PeoplePlayer).shift();
+  }
+
+  CreateNewRound() {
+    this.service.CreateNewRound(this.currentRoute.snapshot.params['id']).subscribe((data: ResponseGameViewModel) =>
+    {
+      this.DealCards();
+    });
   }
 
   ReplenishCash() {
@@ -54,7 +64,6 @@ export class GameComponent implements OnInit
     this.service.DealCardToPlayer(this.currentRoute.snapshot.params['id']).subscribe((data: ResponseGameViewModel) => {
       this.response = data;
       this.InitializeUsers();
-      console.log(data);
       this.isLoad = true;
     });
   }
@@ -119,8 +128,8 @@ export class GameComponent implements OnInit
     this.isLoad = false;
     this.service.GameById(this.currentRoute.snapshot.params['id']).subscribe((data: ResponseGameViewModel) => {
       this.response = data;
-      console.log(data);
       this.InitializeUsers();
+      console.log(this.response);
       this.isLoad = true;
     });
   }
