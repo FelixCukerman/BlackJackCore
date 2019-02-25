@@ -12,9 +12,8 @@ namespace BusinessLogicLayer.Constants
         public const int _MaxBotsPoints = 15;
         public const string _DealerNickname = "Dealer";
         //POINTS
-        public const int _OrdinaryPoint = 10;
-        public const int _BlackjackPoint = 20;
-        public const int _BlackJackPointAtTheStart = 30;
-        public const int _GoldenPoint = 40;
+        public const int _BlackjackPoint = 100;
+        public const int _BlackJackPointAtTheStart = 110;
+        public const int _GoldenPoint = 120;
     }
 }

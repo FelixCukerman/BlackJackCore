@@ -4,6 +4,5 @@ export enum GameState {
   PeopleMove = 2,
   BotsMove = 3,
   DealerMove = 4,
-  NewRound = 5,
-  NewGame = 6
+  GameIsOver = 5
 };

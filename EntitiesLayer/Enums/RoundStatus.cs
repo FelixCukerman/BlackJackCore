@@ -8,6 +8,7 @@ namespace EntitiesLayer.Enums
     {
         None = 0,
         Winner = 1,
-        Looser = 2
+        Looser = 2,
+        Standoff = 3
     }
 }

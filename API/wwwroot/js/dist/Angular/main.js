@@ -195,7 +195,7 @@ module.exports = "* {\r\n  padding: 0;\r\n  margin: 0;\r\n}\r\n\r\nbody, html {\
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!doctype html>\r\n<html lang=\"en\">\r\n<head>\r\n  <meta charset=\"utf-8\">\r\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\">\r\n  <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css\" integrity=\"sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm\" crossorigin=\"anonymous\">\r\n  <title>Hello, world!</title>\r\n</head>\r\n<body>\r\n  <div class=\"bg\">\r\n    <div class=\"startround\" *ngIf=\"this.gameState == 1\">\r\n      <button type=\"button\" class=\"btn btn-primary btn-lg\" style=\"width: 25%; height: 100px; font-size: 24pt\" (click)=\"DealCards()\">Start new round</button>\r\n    </div>\r\n\r\n    <div *ngIf=\"(this.gameState == 2 || this.gameState == 3 || this.gameState == 4) && isLoad\">\r\n      <div class=\"dealerarea\">\r\n        <div class=\"cards\">\r\n          <div class=\"card\" *ngFor=\"let usercard of dealer.cards\"><img src=\"images/cards/{{usercard.suit}}-{{usercard.cardName}}.png\"></div>\r\n        </div>\r\n      </div>\r\n      <div class=\"dealernickname\">Dealer</div>\r\n      <div class=\"gamearea\">\r\n        <div class=\"playerpoints\">\r\n          <div class=\"nicknames\">\r\n            <div *ngFor=\"let userRound of userRounds\">{{userRound.nickname}}</div>\r\n          </div>\r\n          <div class=\"points\">\r\n            <div *ngFor=\"let userRound of userRounds\">{{userRound.points}}</div>\r\n          </div>\r\n          <div class=\"separator\"></div>\r\n        </div>\r\n        <div class=\"gameprocess-block\">\r\n          <div class=\"roundstate\">Round#{{this.response.rounds.length}}</div>\r\n          <div class=\"gameprocess\">\r\n            <div class=\"gameprocess-animation\">\r\n              {{this.gameProcess}}\r\n              <div class=\"spinner-grow\" style=\"width: 4rem; height: 4rem; margin-left: 3%; margin-top: 2%\" role=\"status\">\r\n                <span class=\"sr-only\">Loading...</span>\r\n              </div>\r\n            </div>\r\n          </div>\r\n        </div>\r\n        <div class=\"separator\" style=\"width: 2%; background-color: rgba(0, 0, 0, 0.38)\"></div>\r\n        <div class=\"peopleplayer-block\">\r\n          <div class=\"total-cash\">Total cash: {{this.peopleplayer.cash}}$</div>\r\n          <div class=\"action-block\">\r\n            <div *ngIf=\"this.gameState == 2\">\r\n              <button type=\"button\" class=\"btn btn-success btn-lg btn-block\" (click)=\"DealCardToPlayer()\">Take a card</button>\r\n              <button type=\"button\" class=\"btn btn-danger btn-lg btn-block\" (click)=\"SkipCard()\">Skip a card</button>\r\n              <button type=\"button\" class=\"btn btn-info btn-lg btn-block\" data-toggle=\"modal\" data-target=\"#exampleModal\">Replenish a cash</button>\r\n            </div>\r\n            <div *ngIf=\"this.gameState == 3 || this.gameState == 4\">\r\n              <button type=\"button\" class=\"btn btn-success btn-lg btn-block disabled\" aria-disabled=\"true\">Take a card</button>\r\n              <button type=\"button\" class=\"btn btn-danger btn-lg btn-block disabled\" aria-disabled=\"true\">Skip a card</button>\r\n              <button type=\"button\" class=\"btn btn-info btn-lg btn-block\" data-toggle=\"modal\" data-target=\"#exampleModal\">Replenish a cash</button>\r\n            </div>\r\n            <div *ngIf=\"this.gameState == 4\">\r\n              <button type=\"button\" class=\"btn btn-info btn-lg btn-block\" (click)=\"CreateNewRound()\" style=\"margin-top: 3%\">New Round</button>\r\n            </div>\r\n            <div class=\"modal fade\" id=\"exampleModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">\r\n              <div class=\"modal-dialog\" role=\"document\">\r\n                <div class=\"modal-content\">\r\n                  <div class=\"modal-header\">\r\n                    <h5 class=\"modal-title\" id=\"exampleModalLabel\">Replenish a cash</h5>\r\n                    <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n                      <span aria-hidden=\"true\">&times;</span>\r\n                    </button>\r\n                  </div>\r\n                  <div class=\"modal-body\">\r\n                    <input type=\"number\" min=\"1\" class=\"form-control\" placeholder=\"cash\" aria-label=\"Username\" aria-describedby=\"basic-addon1\" [(ngModel)]=\"requestReplenishCash.cash\">\r\n                  </div>\r\n                  <div class=\"modal-footer\">\r\n                    <button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\" (click)=\"ReplenishCash()\">Send</button>\r\n                  </div>\r\n                </div>\r\n              </div>\r\n            </div>\r\n          </div>\r\n        </div>\r\n      </div>\r\n      <div class=\"playerarea\">\r\n        <div class=\"cards\" *ngFor=\"let user of users\">\r\n          <div class=\"card\" *ngFor=\"let usercard of user.cards\"><img src=\"images/cards/{{usercard.suit}}-{{usercard.cardName}}.png\"></div>\r\n        </div>\r\n      </div>\r\n      <div class=\"playerinfo\" *ngFor=\"let user of users\">{{user.nickname}}</div>\r\n    </div>\r\n  </div>\r\n</body>\r\n</html>\r\n"
+module.exports = "<!doctype html>\r\n<html lang=\"en\">\r\n<head>\r\n  <meta charset=\"utf-8\">\r\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\">\r\n  <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css\" integrity=\"sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm\" crossorigin=\"anonymous\">\r\n  <title>Hello, world!</title>\r\n</head>\r\n<body>\r\n  <div class=\"bg\">\r\n    <div class=\"startround\" *ngIf=\"this.gameState == 1\">\r\n      <button type=\"button\" class=\"btn btn-primary btn-lg\" style=\"width: 25%; height: 100px; font-size: 24pt\" (click)=\"DealCards()\">Start new round</button>\r\n    </div>\r\n\r\n    <div *ngIf=\"(this.gameState == 2 || this.gameState == 3 || this.gameState == 4) && this.response\">\r\n      <div class=\"dealerarea\">\r\n        <div class=\"cards\">\r\n          <div class=\"card\" *ngFor=\"let usercard of dealer.cards\"><img src=\"images/cards/{{usercard.suit}}-{{usercard.cardName}}.png\"></div>\r\n        </div>\r\n      </div>\r\n      <div class=\"dealernickname\">Dealer</div>\r\n      <div class=\"gamearea\">\r\n        <div class=\"playerpoints\">\r\n          <div class=\"nicknames\">\r\n            <div *ngFor=\"let userRound of userRounds\">{{userRound.nickname}}</div>\r\n          </div>\r\n          <div class=\"points\">\r\n            <div *ngFor=\"let userRound of userRounds\">{{userRound.points}}</div>\r\n          </div>\r\n          <div class=\"separator\"></div>\r\n        </div>\r\n        <div class=\"gameprocess-block\">\r\n          <div class=\"roundstate\">Round#{{this.response.rounds.length}}</div>\r\n          <div class=\"gameprocess\">\r\n            <div class=\"gameprocess-animation\">\r\n              {{this.gameProcess}}\r\n              <div class=\"spinner-grow\" style=\"width: 4rem; height: 4rem; margin-left: 3%; margin-top: 2%\" role=\"status\">\r\n                <span class=\"sr-only\">Loading...</span>\r\n              </div>\r\n            </div>\r\n          </div>\r\n        </div>\r\n        <div class=\"separator\" style=\"width: 2%; background-color: rgba(0, 0, 0, 0.38)\"></div>\r\n        <div class=\"peopleplayer-block\">\r\n          <div class=\"total-cash\">Total cash: {{this.peopleplayer.cash}}$</div>\r\n          <div class=\"action-block\">\r\n            <div *ngIf=\"this.gameState == 2\">\r\n              <button type=\"button\" class=\"btn btn-success btn-lg btn-block\" (click)=\"DealCardToPlayer()\">Take a card</button>\r\n              <button type=\"button\" class=\"btn btn-danger btn-lg btn-block\" (click)=\"SkipCard()\">Skip a card</button>\r\n              <button type=\"button\" class=\"btn btn-info btn-lg btn-block\" data-toggle=\"modal\" data-target=\"#exampleModal\">Replenish a cash</button>\r\n            </div>\r\n            <div *ngIf=\"this.gameState == 3 || this.gameState == 4\">\r\n              <button type=\"button\" class=\"btn btn-success btn-lg btn-block disabled\" aria-disabled=\"true\">Take a card</button>\r\n              <button type=\"button\" class=\"btn btn-danger btn-lg btn-block disabled\" aria-disabled=\"true\">Skip a card</button>\r\n              <button type=\"button\" class=\"btn btn-info btn-lg btn-block\" data-toggle=\"modal\" data-target=\"#exampleModal\">Replenish a cash</button>\r\n            </div>\r\n            <div *ngIf=\"this.gameState == 4\">\r\n              <button type=\"button\" class=\"btn btn-info btn-lg btn-block\" (click)=\"CreateNewRound()\" style=\"margin-top: 3%\">New Round</button>\r\n            </div>\r\n            <div class=\"modal fade\" id=\"exampleModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">\r\n              <div class=\"modal-dialog\" role=\"document\">\r\n                <div class=\"modal-content\">\r\n                  <div class=\"modal-header\">\r\n                    <h5 class=\"modal-title\" id=\"exampleModalLabel\">Replenish a cash</h5>\r\n                    <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n                      <span aria-hidden=\"true\">&times;</span>\r\n                    </button>\r\n                  </div>\r\n                  <div class=\"modal-body\">\r\n                    <input type=\"number\" min=\"1\" class=\"form-control\" placeholder=\"cash\" aria-label=\"Username\" aria-describedby=\"basic-addon1\" [(ngModel)]=\"requestReplenishCash.cash\">\r\n                  </div>\r\n                  <div class=\"modal-footer\">\r\n                    <button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\" (click)=\"ReplenishCash()\">Send</button>\r\n                  </div>\r\n                </div>\r\n              </div>\r\n            </div>\r\n          </div>\r\n        </div>\r\n      </div>\r\n      <div class=\"playerarea\">\r\n        <div class=\"cards\" *ngFor=\"let user of users\">\r\n          <div class=\"card\" *ngFor=\"let usercard of user.cards\"><img src=\"images/cards/{{usercard.suit}}-{{usercard.cardName}}.png\"></div>\r\n        </div>\r\n      </div>\r\n      <div class=\"playerinfo\" *ngFor=\"let user of users\">{{user.nickname}}</div>\r\n    </div>\r\n    <div *ngIf=\"this.gameState == 5\">\r\n      {{this.gameProcess}}\r\n    </div>\r\n  </div>\r\n</body>\r\n</html>\r\n"
 
 /***/ }),
 
@@ -256,11 +256,9 @@ var GameComponent = /** @class */ (function () {
         var _this = this;
         this.gameProcess = "Your turn";
         this.storage.set('gameProcess', this.gameProcess);
-        this.isLoad = false;
         this.service.DealCardToPlayer(this.currentRoute.snapshot.params['id']).subscribe(function (data) {
             _this.response = data;
             _this.InitializeUsers();
-            _this.isLoad = true;
         });
     };
     GameComponent.prototype.DealCardsToBots = function () {
@@ -271,13 +269,11 @@ var GameComponent = /** @class */ (function () {
         this.storage.set('gameProcess', this.gameProcess);
         var bots = this.response.users.filter(function (user) { return user.userRole == src_app_shared_enums_user_role__WEBPACK_IMPORTED_MODULE_4__["UserRole"].BotPlayer; });
         for (var i = 0; i < bots.length; i++) {
-            this.isLoad = false;
             this.requestDealCardsToBot.gameId = this.currentRoute.snapshot.params['id'];
             this.requestDealCardsToBot.userId = bots[i].id;
             this.service.DealCardsToBots(this.requestDealCardsToBot).subscribe(function (data) {
                 _this.response = data;
                 _this.InitializeUsers();
-                _this.isLoad = true;
             });
         }
     };
@@ -287,11 +283,18 @@ var GameComponent = /** @class */ (function () {
         this.storage.set('key', this.gameState);
         this.gameProcess = "Dealer draw cards";
         this.storage.set('gameProcess', this.gameProcess);
-        this.isLoad = false;
         this.service.DealCardsToDealer(this.currentRoute.snapshot.params['id']).subscribe(function (data) {
             _this.response = data;
             _this.InitializeUsers();
-            _this.isLoad = true;
+            _this.gameIsOver = _this.response.isOver;
+            if (_this.gameIsOver) {
+                setTimeout(function () {
+                    _this.gameState = src_app_shared_enums_game_state__WEBPACK_IMPORTED_MODULE_6__["GameState"].GameIsOver;
+                    _this.storage.set('key', _this.gameState);
+                    _this.gameProcess = "Game is over";
+                    _this.storage.set('gameProcess', _this.gameProcess);
+                }, 2000);
+            }
         });
     };
     GameComponent.prototype.SkipCard = function () {
@@ -308,7 +311,6 @@ var GameComponent = /** @class */ (function () {
         this.service.DealCards(this.currentRoute.snapshot.params['id']).subscribe(function (data) {
             _this.response = data;
             _this.InitializeUsers();
-            _this.isLoad = true;
         });
     };
     GameComponent.prototype.ngOnInit = function () {
@@ -317,12 +319,10 @@ var GameComponent = /** @class */ (function () {
         this.requestReplenishCash = new src_app_viewmodels_ReplenishCashViewModels_request_replenish_cash_view_model__WEBPACK_IMPORTED_MODULE_5__["RequestReplenishCashViewModel"](0, 0);
         this.requestDealCardsToBot = new src_app_viewmodels_DealCardsToBotViewModel_request_deal_cards_to_bot_view_model__WEBPACK_IMPORTED_MODULE_8__["RequestDealCardsToBotViewModel"](0, 0);
         this.gameState = this.storage.get('key');
-        this.isLoad = false;
         this.service.GameById(this.currentRoute.snapshot.params['id']).subscribe(function (data) {
             _this.response = data;
             _this.InitializeUsers();
             console.log(_this.response);
-            _this.isLoad = true;
         });
     };
     GameComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
@@ -643,8 +643,7 @@ var GameState;
     GameState[GameState["PeopleMove"] = 2] = "PeopleMove";
     GameState[GameState["BotsMove"] = 3] = "BotsMove";
     GameState[GameState["DealerMove"] = 4] = "DealerMove";
-    GameState[GameState["NewRound"] = 5] = "NewRound";
-    GameState[GameState["NewGame"] = 6] = "NewGame";
+    GameState[GameState["GameIsOver"] = 5] = "GameIsOver";
 })(GameState || (GameState = {}));
 ;
 

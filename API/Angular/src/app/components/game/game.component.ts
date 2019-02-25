@@ -28,8 +28,8 @@ export class GameComponent implements OnInit
   public dealer: ResponseUserViewModel;
   public userRounds: Array<ResponseUserRoundViewModel>;
   public userGames: Array<ResponseUserGameViewModel>;
-  public isLoad: boolean;
   public gameState: GameState;
+  public gameIsOver: boolean;
   public gameProcess: string;
 
   constructor(@Inject(LOCAL_STORAGE) private storage: WebStorageService, private service: GameService, private router: Router, private currentRoute: ActivatedRoute)
@@ -60,11 +60,9 @@ export class GameComponent implements OnInit
   DealCardToPlayer() {
     this.gameProcess = "Your turn";
     this.storage.set('gameProcess', this.gameProcess);
-    this.isLoad = false;
     this.service.DealCardToPlayer(this.currentRoute.snapshot.params['id']).subscribe((data: ResponseGameViewModel) => {
       this.response = data;
       this.InitializeUsers();
-      this.isLoad = true;
     });
   }
 
@@ -76,14 +74,12 @@ export class GameComponent implements OnInit
     let bots = this.response.users.filter(user => user.userRole == UserRole.BotPlayer);
 
     for (let i = 0; i < bots.length; i++) {
-      this.isLoad = false;
       this.requestDealCardsToBot.gameId = this.currentRoute.snapshot.params['id'];
       this.requestDealCardsToBot.userId = bots[i].id;
       this.service.DealCardsToBots(this.requestDealCardsToBot).subscribe((data: ResponseGameViewModel) =>
       {
         this.response = data;
         this.InitializeUsers();
-        this.isLoad = true;
       });
     }
   }
@@ -93,12 +89,20 @@ export class GameComponent implements OnInit
     this.storage.set('key', this.gameState);
     this.gameProcess = "Dealer draw cards";
     this.storage.set('gameProcess', this.gameProcess);
-    this.isLoad = false;
     this.service.DealCardsToDealer(this.currentRoute.snapshot.params['id']).subscribe((data: ResponseGameViewModel) =>
     {
       this.response = data;
       this.InitializeUsers();
-      this.isLoad = true;
+      this.gameIsOver = this.response.isOver;
+      if (this.gameIsOver) {
+        setTimeout(() =>
+        {
+          this.gameState = GameState.GameIsOver;
+          this.storage.set('key', this.gameState);
+          this.gameProcess = "Game is over";
+          this.storage.set('gameProcess', this.gameProcess);
+        }, 2000);
+      }
     });
   }
 
@@ -115,7 +119,6 @@ export class GameComponent implements OnInit
     this.service.DealCards(this.currentRoute.snapshot.params['id']).subscribe((data: ResponseGameViewModel) => {
       this.response = data;
       this.InitializeUsers();
-      this.isLoad = true;
     });
   }
 
@@ -125,12 +128,10 @@ export class GameComponent implements OnInit
     this.requestReplenishCash = new RequestReplenishCashViewModel(0, 0);
     this.requestDealCardsToBot = new RequestDealCardsToBotViewModel(0, 0);
     this.gameState = this.storage.get('key');
-    this.isLoad = false;
     this.service.GameById(this.currentRoute.snapshot.params['id']).subscribe((data: ResponseGameViewModel) => {
       this.response = data;
       this.InitializeUsers();
       console.log(this.response);
-      this.isLoad = true;
     });
   }
 }

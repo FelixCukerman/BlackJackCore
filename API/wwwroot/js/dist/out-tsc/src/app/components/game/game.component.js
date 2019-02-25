@@ -36,11 +36,9 @@ var GameComponent = /** @class */ (function () {
         var _this = this;
         this.gameProcess = "Your turn";
         this.storage.set('gameProcess', this.gameProcess);
-        this.isLoad = false;
         this.service.DealCardToPlayer(this.currentRoute.snapshot.params['id']).subscribe(function (data) {
             _this.response = data;
             _this.InitializeUsers();
-            _this.isLoad = true;
         });
     };
     GameComponent.prototype.DealCardsToBots = function () {
@@ -51,13 +49,11 @@ var GameComponent = /** @class */ (function () {
         this.storage.set('gameProcess', this.gameProcess);
         var bots = this.response.users.filter(function (user) { return user.userRole == UserRole.BotPlayer; });
         for (var i = 0; i < bots.length; i++) {
-            this.isLoad = false;
             this.requestDealCardsToBot.gameId = this.currentRoute.snapshot.params['id'];
             this.requestDealCardsToBot.userId = bots[i].id;
             this.service.DealCardsToBots(this.requestDealCardsToBot).subscribe(function (data) {
                 _this.response = data;
                 _this.InitializeUsers();
-                _this.isLoad = true;
             });
         }
     };
@@ -67,11 +63,18 @@ var GameComponent = /** @class */ (function () {
         this.storage.set('key', this.gameState);
         this.gameProcess = "Dealer draw cards";
         this.storage.set('gameProcess', this.gameProcess);
-        this.isLoad = false;
         this.service.DealCardsToDealer(this.currentRoute.snapshot.params['id']).subscribe(function (data) {
             _this.response = data;
             _this.InitializeUsers();
-            _this.isLoad = true;
+            _this.gameIsOver = _this.response.isOver;
+            if (_this.gameIsOver) {
+                setTimeout(function () {
+                    _this.gameState = GameState.GameIsOver;
+                    _this.storage.set('key', _this.gameState);
+                    _this.gameProcess = "Game is over";
+                    _this.storage.set('gameProcess', _this.gameProcess);
+                }, 2000);
+            }
         });
     };
     GameComponent.prototype.SkipCard = function () {
@@ -88,7 +91,6 @@ var GameComponent = /** @class */ (function () {
         this.service.DealCards(this.currentRoute.snapshot.params['id']).subscribe(function (data) {
             _this.response = data;
             _this.InitializeUsers();
-            _this.isLoad = true;
         });
     };
     GameComponent.prototype.ngOnInit = function () {
@@ -97,12 +99,10 @@ var GameComponent = /** @class */ (function () {
         this.requestReplenishCash = new RequestReplenishCashViewModel(0, 0);
         this.requestDealCardsToBot = new RequestDealCardsToBotViewModel(0, 0);
         this.gameState = this.storage.get('key');
-        this.isLoad = false;
         this.service.GameById(this.currentRoute.snapshot.params['id']).subscribe(function (data) {
             _this.response = data;
             _this.InitializeUsers();
             console.log(_this.response);
-            _this.isLoad = true;
         });
     };
     GameComponent = tslib_1.__decorate([

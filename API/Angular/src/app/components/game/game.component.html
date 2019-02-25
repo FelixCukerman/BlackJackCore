@@ -12,7 +12,7 @@
       <button type="button" class="btn btn-primary btn-lg" style="width: 25%; height: 100px; font-size: 24pt" (click)="DealCards()">Start new round</button>
     </div>
 
-    <div *ngIf="(this.gameState == 2 || this.gameState == 3 || this.gameState == 4) && isLoad">
+    <div *ngIf="(this.gameState == 2 || this.gameState == 3 || this.gameState == 4) && this.response">
       <div class="dealerarea">
         <div class="cards">
           <div class="card" *ngFor="let usercard of dealer.cards"><img src="images/cards/{{usercard.suit}}-{{usercard.cardName}}.png"></div>
@@ -84,6 +84,9 @@
         </div>
       </div>
       <div class="playerinfo" *ngFor="let user of users">{{user.nickname}}</div>
+    </div>
+    <div *ngIf="this.gameState == 5">
+      {{this.gameProcess}}
     </div>
   </div>
 </body>
