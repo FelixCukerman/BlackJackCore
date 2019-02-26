@@ -178,6 +178,7 @@ namespace BusinessLogicLayer.Services
             return result;
         }
 
+        //doesn't work
         private async Task DistributeMoney(int gameId)
         {
             int cashbox = 0;
@@ -187,12 +188,12 @@ namespace BusinessLogicLayer.Services
             List<int> userIds = userStatistic.Select(x => x.UserId).ToList();
             var users = await _userRepository.Get(userIds);
             ResponseGameOverViewModel firstWinner = userStatistic.OrderByDescending(x => x.WinsQuantity).FirstOrDefault();
-            IEnumerable<ResponseGameOverViewModel> winners = userStatistic.Where(x => x.WinsQuantity == firstWinner.WinsQuantity);
-            IEnumerable<ResponseGameOverViewModel> loosers = userStatistic.Except(winners);
+            List<ResponseGameOverViewModel> winners = userStatistic.Where(x => x.WinsQuantity == firstWinner.WinsQuantity).ToList();
+            List<ResponseGameOverViewModel> loosers = userStatistic.Except(winners).ToList();
             List<User> usersToUpdate = new List<User>();
 
             for (int i = 0; i < userGames.Count; i++)
-            {
+            { 
                 var currentUserGame = userGames[i];
                 if(loosers.Select(x => x.UserId).Contains((int)currentUserGame.UserId))
                 {
@@ -211,7 +212,7 @@ namespace BusinessLogicLayer.Services
                 usersToUpdate.Add(winner);
             }
 
-            await _userRepository.UpdateRange(usersToUpdate);
+            await _userRepository.UpdateRange(usersToUpdate); 
         }
 
         private async Task SetRoundStatus(Round round)
