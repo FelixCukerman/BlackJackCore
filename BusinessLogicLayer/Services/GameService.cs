@@ -181,7 +181,6 @@ namespace BusinessLogicLayer.Services
         //doesn't work
         private async Task DistributeMoney(int gameId)
         {
-            int cashbox = 0;
             var game = await _gameRepository.Get(gameId);
             var userGames = await _userGamesRepository.Get(game);
             List<ResponseGameOverViewModel> userStatistic = await GameOverResponse(gameId);
@@ -192,23 +191,19 @@ namespace BusinessLogicLayer.Services
             List<ResponseGameOverViewModel> loosers = userStatistic.Except(winners).ToList();
             List<User> usersToUpdate = new List<User>();
 
-            for (int i = 0; i < userGames.Count; i++)
-            { 
-                var currentUserGame = userGames[i];
-                if(loosers.Select(x => x.UserId).Contains((int)currentUserGame.UserId))
-                {
-                    var looser = users.FirstOrDefault(x => x.Id == currentUserGame.UserId);
-                    looser.Cash -= currentUserGame.Rate;
-                    usersToUpdate.Add(looser);
-                }
-                cashbox += userGames[i].Rate;
+            for (int i = 0; i < loosers.Count; i++)
+            {
+                var looser = users.FirstOrDefault(x => x.Id == loosers.ElementAt(i).UserId);
+                var looserUserGame = userGames.FirstOrDefault(x => x.UserId == looser.Id);
+                looser.Cash -= looserUserGame.Rate;
+                usersToUpdate.Add(looser);
             }
-            cashbox = cashbox / winners.Count();
 
             for (int i = 0; i < winners.Count(); i++)
             {
                 var winner = users.FirstOrDefault(x => x.Id == winners.ElementAt(i).UserId);
-                winner.Cash += cashbox;
+                var winnerUserGame = userGames.FirstOrDefault(x => x.UserId == winner.Id);
+                winner.Cash += winnerUserGame.Rate;
                 usersToUpdate.Add(winner);
             }
 
