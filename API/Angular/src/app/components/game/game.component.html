@@ -86,7 +86,22 @@
       <div class="playerinfo" *ngFor="let user of users">{{user.nickname}}</div>
     </div>
     <div *ngIf="this.gameState == 5">
-      {{this.gameProcess}}
+      <div class="row" style="color:aliceblue; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 22pt; text-align:center; width: 100%">
+        <div class="col-sm" *ngFor="let user of this.responseGameOver" style="border-right: #ddd dashed 1px;border-left: #ddd dashed 1px;">
+          <div>{{user.username}}</div>
+          <div>{{user.winsQuantity}} wins</div>
+        </div>
+      </div>
+      <div class="dotted-line-top"></div>
+      <div style="font-size: 24pt; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align:center; color:aliceblue; margin-top: 20px;">Winners: </div>
+      <div class="winners-area">
+        <div *ngIf="this.winners">
+          <div class="winner" *ngFor="let user of winners">{{user.username}}</div>
+        </div>
+        <div *ngIf="!this.winners">
+          <div class="winner">All players lose</div>
+        </div>
+      </div>
     </div>
   </div>
 </body>

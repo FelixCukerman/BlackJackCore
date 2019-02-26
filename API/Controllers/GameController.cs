@@ -47,6 +47,22 @@ namespace API.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("gameover/{gameId}")]
+        public async Task<ObjectResult> GameOver(int gameId)
+        {
+            try
+            {
+                var result = await _service.GameOver(gameId);
+                return new ObjectResult(result);
+            }
+            catch (NullReferenceException ex)
+            {
+                FileLogger.LogError(ex);
+                return new ObjectResult(StatusCode((int)HttpStatusCode.NotFound));
+            }
+        }
+
         [HttpPost]
         [Route("replenishcash")]
         public async Task<int> ReplenishCash([FromBody]RequestReplenishCashViewModel request)

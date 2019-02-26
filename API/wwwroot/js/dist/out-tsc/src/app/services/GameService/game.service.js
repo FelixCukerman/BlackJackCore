@@ -31,6 +31,10 @@ var GameService = /** @class */ (function () {
         var result = this.http.post(this.url + "/createround/" + id, id);
         return result;
     };
+    GameService.prototype.GameOver = function (id) {
+        var result = this.http.get(this.url + "/gameover/" + id);
+        return result;
+    };
     GameService = tslib_1.__decorate([
         Injectable({
             providedIn: 'root'

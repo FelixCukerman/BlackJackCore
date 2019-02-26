@@ -48,4 +48,9 @@ export class GameService
     let result = this.http.post(this.url + "/createround/" + id, id);
     return result;
   }
+
+  public GameOver(id: number) {
+    let result = this.http.get(this.url + "/gameover/" + id);
+    return result;
+  }
 }

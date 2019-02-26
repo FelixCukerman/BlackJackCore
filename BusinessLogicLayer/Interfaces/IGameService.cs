@@ -6,6 +6,7 @@ using ViewModelsLayer.ViewModels.UserViewModels;
 using System.Collections.Generic;
 using ViewModelsLayer.ViewModels.ReplenishCashViewModel;
 using ViewModelsLayer.ViewModels.DealCardsToBotViewModel;
+using ViewModelsLayer.ViewModels.GameOverViewModel;
 
 namespace BusinessLogicLayer.Interfaces
 {
@@ -13,6 +14,7 @@ namespace BusinessLogicLayer.Interfaces
     {
         Task<int> ReplenishCash(RequestReplenishCashViewModel request);
         Task<ResponseGameViewModel> GetGameById(int gameId);
+        Task<List<ResponseGameOverViewModel>> GameOver(int gameId);
         Task<ResponseGameViewModel> CreateNewGame(RequestGameViewModel request);
         Task<ResponseGameViewModel> CreateNewRound(int gameId);
         Task<ResponseGameViewModel> DealCards(int gameId);

@@ -57,6 +57,24 @@ var GameComponent = /** @class */ (function () {
             });
         }
     };
+    GameComponent.prototype.GameOver = function () {
+        var _this = this;
+        this.gameState = GameState.GameIsOver;
+        this.storage.set('key', this.gameState);
+        this.gameProcess = "Game is over";
+        this.storage.set('gameProcess', this.gameProcess);
+        this.service.GameOver(this.currentRoute.snapshot.params['id']).subscribe(function (data) {
+            _this.responseGameOver = data;
+            _this.InitializeWinners();
+            console.log(_this.responseGameOver);
+        });
+    };
+    GameComponent.prototype.InitializeWinners = function () {
+        var firstWinner = this.responseGameOver.sort(function (item1, item2) { return item2.winsQuantity - item1.winsQuantity; })[0];
+        if (firstWinner.winsQuantity != 0) {
+            this.winners = this.responseGameOver.filter(function (user) { return user.winsQuantity == firstWinner.winsQuantity; });
+        }
+    };
     GameComponent.prototype.DealCardsToDealer = function () {
         var _this = this;
         this.gameState = GameState.DealerMove;
@@ -69,11 +87,8 @@ var GameComponent = /** @class */ (function () {
             _this.gameIsOver = _this.response.isOver;
             if (_this.gameIsOver) {
                 setTimeout(function () {
-                    _this.gameState = GameState.GameIsOver;
-                    _this.storage.set('key', _this.gameState);
-                    _this.gameProcess = "Game is over";
-                    _this.storage.set('gameProcess', _this.gameProcess);
-                }, 2000);
+                    _this.GameOver();
+                }, 3000);
             }
         });
     };
@@ -102,6 +117,9 @@ var GameComponent = /** @class */ (function () {
         this.service.GameById(this.currentRoute.snapshot.params['id']).subscribe(function (data) {
             _this.response = data;
             _this.InitializeUsers();
+            if (_this.response.isOver && _this.gameState == GameState.GameIsOver) {
+                _this.GameOver();
+            }
             console.log(_this.response);
         });
     };

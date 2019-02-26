@@ -12,6 +12,7 @@ import { GameState } from 'src/app/shared/enums/game-state';
 import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
 import { RequestDealCardsToBotViewModel } from 'src/app/viewmodels/DealCardsToBotViewModel/request-deal-cards-to-bot-view-model';
 import { ResponseUserGameViewModel } from 'src/app/viewmodels/UserGameViewModels/response-user-game-view-models';
+import { ResponseGameOverViewModel } from 'src/app/viewmodels/GameOverViewModels/response-game-over-view-model';
 
 @Component({
   selector: 'app-game',
@@ -28,6 +29,8 @@ export class GameComponent implements OnInit
   public dealer: ResponseUserViewModel;
   public userRounds: Array<ResponseUserRoundViewModel>;
   public userGames: Array<ResponseUserGameViewModel>;
+  public responseGameOver: Array<ResponseGameOverViewModel>;
+  public winners: Array<ResponseGameOverViewModel>;
   public gameState: GameState;
   public gameIsOver: boolean;
   public gameProcess: string;
@@ -47,6 +50,7 @@ export class GameComponent implements OnInit
 
   CreateNewRound() {
     this.service.CreateNewRound(this.currentRoute.snapshot.params['id']).subscribe((data: ResponseGameViewModel) =>
+
     {
       this.DealCards();
     });
@@ -84,6 +88,27 @@ export class GameComponent implements OnInit
     }
   }
 
+  GameOver() {
+    this.gameState = GameState.GameIsOver;
+    this.storage.set('key', this.gameState);
+    this.gameProcess = "Game is over";
+    this.storage.set('gameProcess', this.gameProcess);
+
+    this.service.GameOver(this.currentRoute.snapshot.params['id']).subscribe((data: Array<ResponseGameOverViewModel>) =>
+    {
+      this.responseGameOver = data;
+      this.InitializeWinners();
+      console.log(this.responseGameOver);
+    });
+  }
+
+  InitializeWinners() {
+    let firstWinner = this.responseGameOver.sort((item1, item2) => item2.winsQuantity - item1.winsQuantity)[0];
+    if (firstWinner.winsQuantity != 0) {
+      this.winners = this.responseGameOver.filter(user => user.winsQuantity == firstWinner.winsQuantity);
+    }
+  }
+
   DealCardsToDealer() {
     this.gameState = GameState.DealerMove;
     this.storage.set('key', this.gameState);
@@ -97,11 +122,8 @@ export class GameComponent implements OnInit
       if (this.gameIsOver) {
         setTimeout(() =>
         {
-          this.gameState = GameState.GameIsOver;
-          this.storage.set('key', this.gameState);
-          this.gameProcess = "Game is over";
-          this.storage.set('gameProcess', this.gameProcess);
-        }, 2000);
+          this.GameOver();
+        }, 3000);
       }
     });
   }
@@ -131,6 +153,9 @@ export class GameComponent implements OnInit
     this.service.GameById(this.currentRoute.snapshot.params['id']).subscribe((data: ResponseGameViewModel) => {
       this.response = data;
       this.InitializeUsers();
+      if (this.response.isOver && this.gameState == GameState.GameIsOver) {
+        this.GameOver();
+      }
       console.log(this.response);
     });
   }
