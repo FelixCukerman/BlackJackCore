@@ -6,7 +6,6 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using Dapper;
-using System.Text;
 
 namespace DataAccessLayer.Repositories.DapperRepositories
 {
@@ -22,9 +21,9 @@ namespace DataAccessLayer.Repositories.DapperRepositories
         {
             using (IDbConnection db = new SqlConnection(connectionString))
             {
-                StringBuilder sqlQuery = new StringBuilder("SELECT * FROM Cards WHERE Id IN @cardIds");
-                List<int> cardIds = moves.Select(m => m.CardId).ToList();
-                var cards = await db.QueryAsync<Card>(sqlQuery.ToString(), new { cardIds });
+                string sqlQuery = "SELECT * FROM Cards WHERE Id IN @cardIds";
+                List<int> cardIds = moves.Select(move => move.CardId).ToList();
+                var cards = await db.QueryAsync<Card>(sqlQuery, new { cardIds });
                 return cards.ToList();
             }
         }

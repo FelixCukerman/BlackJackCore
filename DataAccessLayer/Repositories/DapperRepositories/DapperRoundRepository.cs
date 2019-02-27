@@ -2,7 +2,6 @@
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Dapper;
 using DataAccessLayer.Interfaces;
@@ -22,9 +21,9 @@ namespace DataAccessLayer.Repositories.DapperRepositories
         {
             using (IDbConnection db = new SqlConnection(connectionString))
             {
-                StringBuilder sqlQuery = new StringBuilder("SELECT * FROM Rounds WHERE GameId = @gameId");
+                string sqlQuery = "SELECT * FROM Rounds WHERE GameId = @gameId";
                 var gameId = game.Id;
-                var rounds = await db.QueryAsync<Round>(sqlQuery.ToString(), new { gameId });
+                var rounds = await db.QueryAsync<Round>(sqlQuery, new { gameId });
                 return rounds.ToList();
             }
         }

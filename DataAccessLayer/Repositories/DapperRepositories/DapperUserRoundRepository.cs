@@ -22,9 +22,9 @@ namespace DataAccessLayer.Repositories.DapperRepositories
         {
             using (IDbConnection db = new SqlConnection(connectionString))
             {
-                StringBuilder sqlQuery = new StringBuilder("SELECT * FROM UserRounds WHERE RoundId = @roundId");
+                string sqlQuery = "SELECT * FROM UserRounds WHERE RoundId = @roundId";
                 var roundId = round.Id;
-                var userRounds = await db.QueryAsync<UserRound>(sqlQuery.ToString(), new { roundId });
+                var userRounds = await db.QueryAsync<UserRound>(sqlQuery, new { roundId });
                 return userRounds.ToList();
             }
         }
@@ -33,9 +33,9 @@ namespace DataAccessLayer.Repositories.DapperRepositories
         {
             using (IDbConnection db = new SqlConnection(connectionString))
             {
-                StringBuilder sqlQuery = new StringBuilder("SELECT * FROM UserRounds WHERE RoundId IN @roundIds");
-                List<int> roundIds = rounds.Select(m => m.Id).ToList();
-                var userRounds = await db.QueryAsync<UserRound>(sqlQuery.ToString(), new { roundIds });
+                string sqlQuery = "SELECT * FROM UserRounds WHERE RoundId IN @roundIds";
+                List<int> roundIds = rounds.Select(round => round.Id).ToList();
+                var userRounds = await db.QueryAsync<UserRound>(sqlQuery, new { roundIds });
                 return userRounds.ToList();
             }
         }
@@ -44,9 +44,9 @@ namespace DataAccessLayer.Repositories.DapperRepositories
         {
             using (IDbConnection db = new SqlConnection(connectionString))
             {
-                StringBuilder sqlQuery = new StringBuilder("SELECT * FROM UserRounds WHERE UserId IN @userIds");
-                List<int> userIds = users.Select(m => m.Id).ToList();
-                var userRounds = await db.QueryAsync<UserRound>(sqlQuery.ToString(), new { userIds });
+                string sqlQuery = "SELECT * FROM UserRounds WHERE UserId IN @userIds";
+                List<int> userIds = users.Select(user => user.Id).ToList();
+                var userRounds = await db.QueryAsync<UserRound>(sqlQuery, new { userIds });
                 return userRounds.ToList();
             }
         }
@@ -55,8 +55,8 @@ namespace DataAccessLayer.Repositories.DapperRepositories
         {
             using (IDbConnection db = new SqlConnection(connectionString))
             {
-                StringBuilder sqlQuery = new StringBuilder("SELECT * FROM UserRounds WHERE UserId = @userId AND RoundId = @roundId");
-                var userRounds = await db.QueryFirstOrDefaultAsync<UserRound>(sqlQuery.ToString(), new { userId, roundId });
+                string sqlQuery = "SELECT * FROM UserRounds WHERE UserId = @userId AND RoundId = @roundId";
+                var userRounds = await db.QueryFirstOrDefaultAsync<UserRound>(sqlQuery, new { userId, roundId });
                 return userRounds;
             }
         }

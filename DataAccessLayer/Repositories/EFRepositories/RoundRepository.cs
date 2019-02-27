@@ -14,7 +14,7 @@ namespace DataAccessLayer.Repositories
         }
         public async Task<List<Round>> Get(Game game)
         {
-            return await _data.Rounds.Where(x => x.GameId == game.Id).ToListAsync();
+            return await _data.Rounds.Where(round => round.GameId == game.Id).ToListAsync();
         }
     }
 }

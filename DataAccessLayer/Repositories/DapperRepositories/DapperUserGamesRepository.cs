@@ -22,9 +22,9 @@ namespace DataAccessLayer.Repositories.DapperRepositories
         {
             using (IDbConnection db = new SqlConnection(connectionString))
             {
-                StringBuilder sqlQuery = new StringBuilder("SELECT * FROM UserGames WHERE GameId = @gameId");
+                string sqlQuery = "SELECT * FROM UserGames WHERE GameId = @gameId";
                 var gameId = round.GameId;
-                var userGames = await db.QueryAsync<UserGames>(sqlQuery.ToString(), new { gameId });
+                var userGames = await db.QueryAsync<UserGames>(sqlQuery, new { gameId });
                 return userGames.ToList();
             }
         }
@@ -33,9 +33,9 @@ namespace DataAccessLayer.Repositories.DapperRepositories
         {
             using (IDbConnection db = new SqlConnection(connectionString))
             {
-                StringBuilder sqlQuery = new StringBuilder("SELECT * FROM UserGames WHERE GameId = @gameId");
+                string sqlQuery = "SELECT * FROM UserGames WHERE GameId = @gameId";
                 var gameId = game.Id;
-                var userGames = await db.QueryAsync<UserGames>(sqlQuery.ToString(), new { gameId });
+                var userGames = await db.QueryAsync<UserGames>(sqlQuery, new { gameId });
                 return userGames.ToList();
             }
         }
@@ -44,8 +44,8 @@ namespace DataAccessLayer.Repositories.DapperRepositories
         {
             using (IDbConnection db = new SqlConnection(connectionString))
             {
-                StringBuilder sqlQuery = new StringBuilder("SELECT * FROM UserGames WHERE GameId = @gameId AND UserId = @userId");
-                var userGames = await db.QueryFirstOrDefaultAsync<UserGames>(sqlQuery.ToString(), new { gameId, userId });
+                string sqlQuery = "SELECT * FROM UserGames WHERE GameId = @gameId AND UserId = @userId";
+                var userGames = await db.QueryFirstOrDefaultAsync<UserGames>(sqlQuery, new { gameId, userId });
                 return userGames;
             }
         }

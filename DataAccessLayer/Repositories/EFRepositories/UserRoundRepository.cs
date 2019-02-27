@@ -15,19 +15,19 @@ namespace DataAccessLayer.Repositories
         }
         public async Task<List<UserRound>> Get(Round round)
         {
-            return await _data.UserRounds.Where(x => x.RoundId == round.Id).ToListAsync();
+            return await _data.UserRounds.Where(item => item.RoundId == round.Id).ToListAsync();
         }
         public async Task<List<UserRound>> Get(List<Round> rounds)
         {
-            return await _data.UserRounds.Where(x => rounds.Select(elem => elem.Id).Contains((int)x.RoundId)).ToListAsync();
+            return await _data.UserRounds.Where(item => rounds.Select(elem => elem.Id).Contains((int)item.RoundId)).ToListAsync();
         }
         public async Task<List<UserRound>> Get(List<User> users)
         {
-            return await _data.UserRounds.Where(x => users.Select(elem => elem.Id).Contains((int)x.UserId)).ToListAsync();
+            return await _data.UserRounds.Where(item => users.Select(elem => elem.Id).Contains((int)item.UserId)).ToListAsync();
         }
         public async Task<UserRound> Get(int userId, int roundId)
         {
-            return await _data.UserRounds.FirstOrDefaultAsync(x => x.UserId == userId && x.RoundId == roundId);
+            return await _data.UserRounds.FirstOrDefaultAsync(item => item.UserId == userId && item.RoundId == roundId);
         }
     }
 }
