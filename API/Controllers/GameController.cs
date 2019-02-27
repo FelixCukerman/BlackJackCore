@@ -23,12 +23,10 @@ namespace API.Controllers
     public class GameController : ControllerBase
     {
         private IGameService _service { get; set; }
-        private ILoggerFactory _loggerFactory { get; set; }
 
-        public GameController(IGameService service, ILoggerFactory loggerFactory)
+        public GameController(IGameService service)
         {
             this._service = service;
-            this._loggerFactory = loggerFactory;
         }
 
         [HttpGet]
