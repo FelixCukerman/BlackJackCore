@@ -4,8 +4,6 @@ using DataAccessLayer.Repositories;
 using DataAccessLayer.Repositories.DapperRepositories;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using BusinessLogicLayer.Enums;
 using Microsoft.Extensions.Configuration;
 using BusinessLogicLayer.Constants;

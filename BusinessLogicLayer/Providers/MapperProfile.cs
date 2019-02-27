@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using EntitiesLayer.Entities;
 using ViewModelsLayer.ViewModels.CardViewModels;
-using ViewModelsLayer.ViewModels.GameViewModels;
 using ViewModelsLayer.ViewModels.MoveViewModels;
 using ViewModelsLayer.ViewModels.RoundViewModels;
 using ViewModelsLayer.ViewModels.UserGameViewModels;

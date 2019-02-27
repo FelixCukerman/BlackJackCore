@@ -1,8 +1,5 @@
-﻿using EntitiesLayer.Entities;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using ViewModelsLayer.ViewModels.GameViewModels;
-using ViewModelsLayer.ViewModels;
-using ViewModelsLayer.ViewModels.UserViewModels;
 using System.Collections.Generic;
 using ViewModelsLayer.ViewModels.ReplenishCashViewModel;
 using ViewModelsLayer.ViewModels.DealCardsToBotViewModel;

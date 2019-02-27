@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BusinessLogicLayer.Constants
+﻿namespace BusinessLogicLayer.Constants
 {
     class ConfigureConstant
     {

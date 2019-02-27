@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BusinessLogicLayer.Enums
+﻿namespace BusinessLogicLayer.Enums
 {
     public enum RepositoryType
     {
