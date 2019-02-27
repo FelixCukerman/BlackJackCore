@@ -1,7 +1,4 @@
-﻿using EntitiesLayer.Enums;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using ViewModelsLayer.ViewModels.UserRoundViewModels;
 
 namespace ViewModelsLayer.ViewModels.RoundViewModels

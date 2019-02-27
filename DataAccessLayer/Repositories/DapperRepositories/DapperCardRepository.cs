@@ -6,7 +6,6 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using Dapper;
-using Dapper.Contrib;
 using System.Transactions;
 using Dapper.Contrib.Extensions;
 using System.Text;

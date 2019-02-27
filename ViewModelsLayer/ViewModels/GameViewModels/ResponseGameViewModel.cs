@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using ViewModelsLayer.ViewModels.UserViewModels;
 using ViewModelsLayer.ViewModels.RoundViewModels;
 using ViewModelsLayer.ViewModels.UserGameViewModels;

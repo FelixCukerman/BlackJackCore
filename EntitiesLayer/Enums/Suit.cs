@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace EntitiesLayer.Enums
+﻿namespace EntitiesLayer.Enums
 {
     public enum Suit
     {

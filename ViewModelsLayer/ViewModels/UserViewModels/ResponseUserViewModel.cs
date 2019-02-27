@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using ViewModelsLayer.ViewModels.CardViewModels;
-using EntitiesLayer.Entities;
 using EntitiesLayer.Enums;
 
 namespace ViewModelsLayer.ViewModels.UserViewModels

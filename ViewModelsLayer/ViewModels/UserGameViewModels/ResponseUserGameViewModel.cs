@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ViewModelsLayer.ViewModels.UserGameViewModels
+﻿namespace ViewModelsLayer.ViewModels.UserGameViewModels
 {
     public class ResponseUserGameViewModel
     {

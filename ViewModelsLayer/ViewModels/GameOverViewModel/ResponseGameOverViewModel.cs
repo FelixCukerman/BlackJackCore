@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using ViewModelsLayer.ViewModels.UserViewModels;
-
-namespace ViewModelsLayer.ViewModels.GameOverViewModel
+﻿namespace ViewModelsLayer.ViewModels.GameOverViewModel
 {
     public class ResponseGameOverViewModel
     {

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace EntitiesLayer.Constants
+﻿namespace EntitiesLayer.Constants
 {
     public static class EntitiesConstant
     {
