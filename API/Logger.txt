@@ -1,0 +1,12 @@
+Time              : 2/28/2019 4:02:23 PM
+Exception details : System.NullReferenceException: Object reference not set to an instance of an object.
+   at BusinessLogicLayer.Services.HistoryService.GetHistoryUserRounds(RequestHistoryUserRoundViewModel request) in C:\Users\Anuitex\source\repos\BlackJackCore\BusinessLogicLayer\Services\HistoryService.cs:line 130
+   at API.Controllers.HistoryController.GetHistoryUserRounds(RequestHistoryUserRoundViewModel request) in C:\Users\Anuitex\source\repos\BlackJackCore\API\Controllers\HistoryController.cs:line 60
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Time              : 2/28/2019 4:02:50 PM
+Exception details : System.NullReferenceException: Object reference not set to an instance of an object.
+   at BusinessLogicLayer.Services.HistoryService.GetHistoryUserRounds(RequestHistoryUserRoundViewModel request) in C:\Users\Anuitex\source\repos\BlackJackCore\BusinessLogicLayer\Services\HistoryService.cs:line 130
+   at API.Controllers.HistoryController.GetHistoryUserRounds(RequestHistoryUserRoundViewModel request) in C:\Users\Anuitex\source\repos\BlackJackCore\API\Controllers\HistoryController.cs:line 60
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+

@@ -41,6 +41,7 @@ namespace API
             services.AddMemoryCache();
             services.AddRepositories(Configuration);
             services.AddTransient<IGameService, GameService>();
+            services.AddTransient<IHistoryService, HistoryService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -8,7 +8,7 @@ namespace BusinessLogicLayer.Interfaces
     {
         Task<IEnumerable<int>> GetRoundIdsByGame(int gameId);
         Task<IEnumerable<int>> GetAllGameIdsByUser(int userId);
-        Task<List<HistoryUserRoundViewModel>> GetHistoryUserRounds(int gameId, int roundId);
+        Task<List<HistoryUserRoundViewModel>> GetHistoryUserRounds(RequestHistoryUserRoundViewModel request);
         Task<List<HistoryUserDetailsViewModel>> GetHistoryUserDetails(int gameId);
     }
 }

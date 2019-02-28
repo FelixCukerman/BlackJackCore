@@ -99,11 +99,11 @@ namespace BusinessLogicLayer.Services
             return userGameIds;
         }
 
-        public async Task<List<HistoryUserRoundViewModel>> GetHistoryUserRounds(int gameId, int roundId)
+        public async Task<List<HistoryUserRoundViewModel>> GetHistoryUserRounds(RequestHistoryUserRoundViewModel request)
         {
             List<HistoryUserRoundViewModel> result = new List<HistoryUserRoundViewModel>();
-            var game = await _gameRepository.Get(gameId);
-            var round = await _roundRepository.Get(roundId);
+            var game = await _gameRepository.Get(request.GameId);
+            var round = await _roundRepository.Get(request.RoundId);
             if (game == null || round == null)
             {
                 throw new NullReferenceException();
@@ -112,15 +112,16 @@ namespace BusinessLogicLayer.Services
             var userRounds = await _userRoundRepository.Get(round);
             var userGames = await _userGamesRepository.Get(game);
             var users = await _userRepository.Get(userGames);
-            var moves = await _moveRepository.Get(round);
+            var moves = (await _moveRepository.Get(round)).OrderBy(x => x.DateOfCreation);
             var cards = await _cardRepository.Get(moves);
 
             for(int i = 0; i < userRounds.Count; i++)
             {
                 User currentUser = users.FirstOrDefault(user => user.Id == userRounds[i].UserId);
-                IEnumerable<Card> userCards = cards.Where(card => moves.Select(move => move.CardId).Contains(card.Id));
+                IEnumerable<Card> userCards = cards.Where(card => moves.Where(move => move.UserId == currentUser.Id).Select(move => move.CardId).Contains(card.Id));
                 IEnumerable<ResponseCardViewModel> cardViewModels = _mapper.Map<List<ResponseCardViewModel>>(userCards);
                 HistoryUserRoundViewModel historyUserRound = new HistoryUserRoundViewModel();
+                historyUserRound.Cards = new List<ResponseCardViewModel>();
 
                 historyUserRound.UserId = currentUser.Id;
                 historyUserRound.Nickname = currentUser.Nickname;
@@ -157,6 +158,11 @@ namespace BusinessLogicLayer.Services
             {
                 User currentUser = users.FirstOrDefault(user => user.Id == userGames[i].UserId);
                 HistoryUserDetailsViewModel historyUserDetails = new HistoryUserDetailsViewModel();
+
+                if(currentUser.UserRole == UserRole.Dealer)
+                {
+                    continue;
+                }
 
                 historyUserDetails.UserId = currentUser.Id;
                 historyUserDetails.Nickname = currentUser.Nickname;
