@@ -22,7 +22,11 @@ namespace DataAccessLayer.Repositories
         }
         public async Task<UserGames> Get(int userId, int gameId)
         {
-            return await _data.UserGames.Where(item => item.GameId == gameId && item.UserId == userId).FirstOrDefaultAsync();
+            return await _data.UserGames.FirstOrDefaultAsync(item => item.GameId == gameId && item.UserId == userId);
+        }
+        public async Task<List<UserGames>> Get(User user)
+        {
+            return await _data.UserGames.Where(item => item.UserId == user.Id).ToListAsync();
         }
     }
 }

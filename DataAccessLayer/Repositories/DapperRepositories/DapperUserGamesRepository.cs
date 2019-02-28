@@ -49,5 +49,16 @@ namespace DataAccessLayer.Repositories.DapperRepositories
                 return userGames;
             }
         }
+
+        public async Task<List<UserGames>> Get(User user)
+        {
+            using (IDbConnection db = new SqlConnection(connectionString))
+            {
+                string sqlQuery = "SELECT * FROM UserGames WHERE UserId = @userId";
+                var userId = user.Id;
+                var userGames = await db.QueryAsync<UserGames>(sqlQuery, new { userId });
+                return userGames.ToList();
+            }
+        }
     }
 }

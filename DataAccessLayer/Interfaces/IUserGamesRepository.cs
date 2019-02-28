@@ -9,5 +9,6 @@ namespace DataAccessLayer.Interfaces
         Task<List<UserGames>> Get(Round round);
         Task<List<UserGames>> Get(Game game);
         Task<UserGames> Get(int userId, int gameId);
+        Task<List<UserGames>> Get(User user);
     }
 }
