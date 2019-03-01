@@ -10,3 +10,120 @@ Exception details : System.NullReferenceException: Object reference not set to a
    at API.Controllers.HistoryController.GetHistoryUserRounds(RequestHistoryUserRoundViewModel request) in C:\Users\Anuitex\source\repos\BlackJackCore\API\Controllers\HistoryController.cs:line 60
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+Time              : 3/1/2019 1:10:25 PM
+Exception details : System.ArgumentOutOfRangeException: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+   at System.Collections.Generic.List`1.RemoveAt(Int32 index)
+   at System.Collections.Generic.List`1.Remove(T item)
+   at BusinessLogicLayer.Services.GameService.DealCardsToBot(RequestDealCardsToBotViewModel request) in C:\Users\Anuitex\source\repos\BlackJackCore\BusinessLogicLayer\Services\GameService.cs:line 785
+   at API.Controllers.GameController.DealCardsToBots(RequestDealCardsToBotViewModel request) in C:\Users\Anuitex\source\repos\BlackJackCore\API\Controllers\GameController.cs:line 139
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Time              : 3/1/2019 1:14:46 PM
+Exception details : System.NullReferenceException: Object reference not set to an instance of an object.
+   at BusinessLogicLayer.Services.GameService.CreateNewRound(Int32 gameId) in C:\Users\Anuitex\source\repos\BlackJackCore\BusinessLogicLayer\Services\GameService.cs:line 555
+   at BusinessLogicLayer.Services.GameService.CreateNewGame(RequestGameViewModel request) in C:\Users\Anuitex\source\repos\BlackJackCore\BusinessLogicLayer\Services\GameService.cs:line 529
+   at API.Controllers.GameController.CreateNewGame(RequestGameViewModel request) in C:\Users\Anuitex\source\repos\BlackJackCore\API\Controllers\GameController.cs:line 78
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Time              : 3/1/2019 4:44:29 PM
+Exception details : Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while updating the entries. See the inner exception for details. ---> System.Data.SqlClient.SqlException: The MERGE statement conflicted with the FOREIGN KEY constraint "FK_UserGames_Games_GameId". The conflict occurred in database "GameDB", table "dbo.Games", column 'Id'.
+The statement has been terminated.
+   at System.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__122_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot)
+--- End of stack trace from previous location where exception was thrown ---
+   at Microsoft.EntityFrameworkCore.Storage.Internal.RelationalCommand.ExecuteAsync(IRelationalConnection connection, DbCommandMethod executeMethod, IReadOnlyDictionary`2 parameterValues, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(DbContext _, ValueTuple`2 parameters, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IReadOnlyList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at DataAccessLayer.Repositories.GenericRepository`1.CreateRange(IEnumerable`1 items) in C:\Users\Anuitex\source\repos\BlackJackCore\DataAccessLayer\Repositories\EFRepositories\GenericRepository.cs:line 35
+   at BusinessLogicLayer.Services.GameService.CreateNewGame(RequestGameViewModel request) in C:\Users\Anuitex\source\repos\BlackJackCore\BusinessLogicLayer\Services\GameService.cs:line 598
+   at API.Controllers.GameController.CreateNewGame(RequestGameViewModel request) in C:\Users\Anuitex\source\repos\BlackJackCore\API\Controllers\GameController.cs:line 78
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Time              : 3/1/2019 4:44:44 PM
+Exception details : Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while updating the entries. See the inner exception for details. ---> System.Data.SqlClient.SqlException: The MERGE statement conflicted with the FOREIGN KEY constraint "FK_UserGames_Games_GameId". The conflict occurred in database "GameDB", table "dbo.Games", column 'Id'.
+The statement has been terminated.
+   at System.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__122_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot)
+--- End of stack trace from previous location where exception was thrown ---
+   at Microsoft.EntityFrameworkCore.Storage.Internal.RelationalCommand.ExecuteAsync(IRelationalConnection connection, DbCommandMethod executeMethod, IReadOnlyDictionary`2 parameterValues, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(DbContext _, ValueTuple`2 parameters, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IReadOnlyList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at DataAccessLayer.Repositories.GenericRepository`1.CreateRange(IEnumerable`1 items) in C:\Users\Anuitex\source\repos\BlackJackCore\DataAccessLayer\Repositories\EFRepositories\GenericRepository.cs:line 35
+   at BusinessLogicLayer.Services.GameService.CreateNewGame(RequestGameViewModel request) in C:\Users\Anuitex\source\repos\BlackJackCore\BusinessLogicLayer\Services\GameService.cs:line 598
+   at API.Controllers.GameController.CreateNewGame(RequestGameViewModel request) in C:\Users\Anuitex\source\repos\BlackJackCore\API\Controllers\GameController.cs:line 78
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Time              : 3/1/2019 4:45:22 PM
+Exception details : Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while updating the entries. See the inner exception for details. ---> System.Data.SqlClient.SqlException: The MERGE statement conflicted with the FOREIGN KEY constraint "FK_UserGames_Games_GameId". The conflict occurred in database "GameDB", table "dbo.Games", column 'Id'.
+The statement has been terminated.
+   at System.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__122_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot)
+--- End of stack trace from previous location where exception was thrown ---
+   at Microsoft.EntityFrameworkCore.Storage.Internal.RelationalCommand.ExecuteAsync(IRelationalConnection connection, DbCommandMethod executeMethod, IReadOnlyDictionary`2 parameterValues, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(DbContext _, ValueTuple`2 parameters, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IReadOnlyList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at DataAccessLayer.Repositories.GenericRepository`1.CreateRange(IEnumerable`1 items) in C:\Users\Anuitex\source\repos\BlackJackCore\DataAccessLayer\Repositories\EFRepositories\GenericRepository.cs:line 35
+   at BusinessLogicLayer.Services.GameService.CreateNewGame(RequestGameViewModel request) in C:\Users\Anuitex\source\repos\BlackJackCore\BusinessLogicLayer\Services\GameService.cs:line 598
+   at API.Controllers.GameController.CreateNewGame(RequestGameViewModel request) in C:\Users\Anuitex\source\repos\BlackJackCore\API\Controllers\GameController.cs:line 78
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Time              : 3/1/2019 4:47:01 PM
+Exception details : Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while updating the entries. See the inner exception for details. ---> System.Data.SqlClient.SqlException: The MERGE statement conflicted with the FOREIGN KEY constraint "FK_UserGames_Games_GameId". The conflict occurred in database "GameDB", table "dbo.Games", column 'Id'.
+The statement has been terminated.
+   at System.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__122_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot)
+--- End of stack trace from previous location where exception was thrown ---
+   at Microsoft.EntityFrameworkCore.Storage.Internal.RelationalCommand.ExecuteAsync(IRelationalConnection connection, DbCommandMethod executeMethod, IReadOnlyDictionary`2 parameterValues, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(DbContext _, ValueTuple`2 parameters, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IReadOnlyList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at DataAccessLayer.Repositories.GenericRepository`1.CreateRange(IEnumerable`1 items) in C:\Users\Anuitex\source\repos\BlackJackCore\DataAccessLayer\Repositories\EFRepositories\GenericRepository.cs:line 35
+   at BusinessLogicLayer.Services.GameService.CreateNewGame(RequestGameViewModel request) in C:\Users\Anuitex\source\repos\BlackJackCore\BusinessLogicLayer\Services\GameService.cs:line 598
+   at API.Controllers.GameController.CreateNewGame(RequestGameViewModel request) in C:\Users\Anuitex\source\repos\BlackJackCore\API\Controllers\GameController.cs:line 78
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Time              : 3/1/2019 4:53:00 PM
+Exception details : System.ArgumentOutOfRangeException: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+   at System.Collections.Generic.List`1.RemoveAt(Int32 index)
+   at System.Collections.Generic.List`1.Remove(T item)
+   at BusinessLogicLayer.Services.GameService.DealCardsToBot(RequestDealCardsToBotViewModel request) in C:\Users\Anuitex\source\repos\BlackJackCore\BusinessLogicLayer\Services\GameService.cs:line 875
+   at API.Controllers.GameController.DealCardsToBots(RequestDealCardsToBotViewModel request) in C:\Users\Anuitex\source\repos\BlackJackCore\API\Controllers\GameController.cs:line 139
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
