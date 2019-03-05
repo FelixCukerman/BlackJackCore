@@ -132,11 +132,11 @@ namespace API.Controllers
         }
 
         [HttpPost("dealcardstobot")]
-        public async Task<ObjectResult> DealCardsToBots(RequestDealCardsToBotViewModel request)
+        public ObjectResult DealCardsToBots(RequestDealCardsToBotViewModel request)
         {
             try
             {
-                var result = await _service.DealCardsToBot(request);
+                var result = _service.DealCardsToBot(request);
                 return new ObjectResult(result);
             }
             catch (Exception ex)

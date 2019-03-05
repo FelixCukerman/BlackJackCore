@@ -15,7 +15,8 @@ namespace DataAccessLayer.Repositories
         }
         public async Task<List<Card>> Get(IEnumerable<Move> moves)
         {
-            return await _data.Cards.Where(card => moves.Select(elem => elem.CardId).Contains(card.Id)).ToListAsync();
+            List<int> cardsIds = moves.Select(elem => elem.CardId).ToList();
+            return await _data.Cards.Where(card => cardsIds.Contains(card.Id)).ToListAsync();
         }
     }
 }
