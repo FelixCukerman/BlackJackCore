@@ -19,8 +19,8 @@ var GameService = /** @class */ (function () {
         var result = this.http.post(this.url + "/replenishcash", request);
         return result;
     };
-    GameService.prototype.DealCardsToBots = function (request) {
-        var result = this.http.post(this.url + "/dealcardstobot", request);
+    GameService.prototype.DealCardsToBots = function (gameId) {
+        var result = this.http.post(this.url + "/dealcardstobots/" + gameId, gameId);
         return result;
     };
     GameService.prototype.DealCardsToDealer = function (id) {

@@ -1,0 +1,24 @@
+Time              : 3/7/2019 2:56:29 PM
+Exception details : System.NullReferenceException: Object reference not set to an instance of an object.
+   at BusinessLogicLayer.Services.GameService.<>c__DisplayClass32_0.<CreateNewRound>b__0(HandCards item) in C:\Users\Anuitex\source\repos\BlackJackCore\BusinessLogicLayer\Services\GameService.cs:line 651
+   at System.Linq.Enumerable.TryGetFirst[TSource](IEnumerable`1 source, Func`2 predicate, Boolean& found)
+   at System.Linq.Enumerable.FirstOrDefault[TSource](IEnumerable`1 source, Func`2 predicate)
+   at BusinessLogicLayer.Services.GameService.CreateNewRound(Int32 gameId) in C:\Users\Anuitex\source\repos\BlackJackCore\BusinessLogicLayer\Services\GameService.cs:line 651
+   at BusinessLogicLayer.Services.GameService.CreateNewGame(RequestGameViewModel request) in C:\Users\Anuitex\source\repos\BlackJackCore\BusinessLogicLayer\Services\GameService.cs:line 618
+   at API.Controllers.GameController.CreateNewGame(RequestGameViewModel request) in C:\Users\Anuitex\source\repos\BlackJackCore\API\Controllers\GameController.cs:line 78
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Time              : 3/7/2019 4:06:35 PM
+Exception details : System.NullReferenceException: Object reference not set to an instance of an object.
+   at BusinessLogicLayer.Services.GameService.GameResponse(Int32 gameId) in C:\Users\Anuitex\source\repos\BlackJackCore\BusinessLogicLayer\Services\GameService.cs:line 379
+   at BusinessLogicLayer.Services.GameService.GetGameById(Int32 gameId) in C:\Users\Anuitex\source\repos\BlackJackCore\BusinessLogicLayer\Services\GameService.cs:line 502
+   at API.Controllers.GameController.GameById(Int32 gameId) in C:\Users\Anuitex\source\repos\BlackJackCore\API\Controllers\GameController.cs:line 30
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Time              : 3/7/2019 4:32:29 PM
+Exception details : System.NullReferenceException: Object reference not set to an instance of an object.
+   at BusinessLogicLayer.Services.GameService.CreateNewRound(Int32 gameId) in C:\Users\Anuitex\source\repos\BlackJackCore\BusinessLogicLayer\Services\GameService.cs:line 652
+   at BusinessLogicLayer.Services.GameService.CreateNewGame(RequestGameViewModel request) in C:\Users\Anuitex\source\repos\BlackJackCore\BusinessLogicLayer\Services\GameService.cs:line 618
+   at API.Controllers.GameController.CreateNewGame(RequestGameViewModel request) in C:\Users\Anuitex\source\repos\BlackJackCore\API\Controllers\GameController.cs:line 80
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+

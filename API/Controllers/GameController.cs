@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using BusinessLogicLayer.Interfaces;
 using ViewModelsLayer.ViewModels.GameViewModels;
 using System.Net;
-using ViewModelsLayer.ViewModels.DealCardsToBotViewModel;
 using ViewModelsLayer.ViewModels.ReplenishCashViewModel;
 using API.Logger;
 using System.Collections.Generic;
@@ -31,7 +30,7 @@ namespace API.Controllers
                 var result = await _service.GetGameById(gameId);
                 return new ObjectResult(result);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 FileLogger.LogError(ex);
                 return new ObjectResult(StatusCode((int)HttpStatusCode.NotFound));
@@ -132,12 +131,12 @@ namespace API.Controllers
             }
         }
 
-        [HttpPost("dealcardstobot")]
-        public ObjectResult DealCardsToBots(IEnumerable<RequestDealCardsToBotViewModel> request)
+        [HttpPost("dealcardstobots/{gameId}")]
+        public async Task<ObjectResult> DealCardsToBots(int gameId)
         {
             try
             {
-                var result = _service.DealCardsToAllBots(request);
+                var result = await _service.DealCardsToAllBots(gameId);
                 return new ObjectResult(result);
             }
             catch (Exception ex)

@@ -10,7 +10,6 @@ import { ResponseUserRoundViewModel } from 'src/app/viewmodels/UserRoundViewMode
 import { RequestReplenishCashViewModel } from 'src/app/viewmodels/ReplenishCashViewModels/request-replenish-cash-view-model';
 import { GameState } from 'src/app/shared/enums/game-state';
 import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
-import { RequestDealCardsToBotViewModel } from 'src/app/viewmodels/DealCardsToBotViewModel/request-deal-cards-to-bot-view-model';
 import { ResponseUserGameViewModel } from 'src/app/viewmodels/UserGameViewModels/response-user-game-view-models';
 import { ResponseGameOverViewModel } from 'src/app/viewmodels/GameOverViewModels/response-game-over-view-model';
 import { debug } from 'util';
@@ -24,7 +23,6 @@ export class GameComponent implements OnInit
 {
   public response: ResponseGameViewModel;
   public requestReplenishCash: RequestReplenishCashViewModel;
-  public requestDealCardsToBot: Array<RequestDealCardsToBotViewModel>;
   public users: Array<ResponseUserViewModel>;
   public bots: Array<ResponseUserViewModel>;
   public peopleplayer: ResponseUserViewModel;
@@ -78,25 +76,9 @@ export class GameComponent implements OnInit
     this.gameProcess = "Bots draw cards";
     this.storage.set('gameProcess', this.gameProcess);
 
-    this.bots = [];
-    this.requestDealCardsToBot = [];
-    this.bots = this.response.users.filter(user => user.userRole == UserRole.BotPlayer);
+    let gameId = this.currentRoute.snapshot.params['id'];
 
-    console.log(this.response.users.filter(user => user.userRole == UserRole.BotPlayer));
-    console.log(this.response.users.filter(user => user.userRole == UserRole.BotPlayer).length);
-    console.log(this.requestDealCardsToBot);
-    debugger;
-
-    for (let i = 0; i < this.bots.length; i++) {
-      let botId = this.bots[i].id;
-      let gameId = this.currentRoute.snapshot.params['id'];
-
-      let botRequest = new RequestDealCardsToBotViewModel(botId, gameId);
-
-      this.requestDealCardsToBot.push(botRequest);
-    }
-
-    this.service.DealCardsToBots(this.requestDealCardsToBot).subscribe((data: ResponseGameViewModel) => {
+    this.service.DealCardsToBots(gameId).subscribe((data: ResponseGameViewModel) => {
       this.response = data;
       this.InitializeUsers();
       setTimeout(() => { this.DealCardsToDealer(); }, 4000);
@@ -161,7 +143,6 @@ export class GameComponent implements OnInit
   {
     this.gameProcess = this.storage.get('gameProcess');
     this.requestReplenishCash = new RequestReplenishCashViewModel(0, 0);
-    this.requestDealCardsToBot = new Array<RequestDealCardsToBotViewModel>();
     this.bots = new Array<ResponseUserViewModel>();
     this.gameState = this.storage.get('key');
     this.service.GameById(this.currentRoute.snapshot.params['id']).subscribe((data: ResponseGameViewModel) => {

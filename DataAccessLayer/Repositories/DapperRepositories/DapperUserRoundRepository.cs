@@ -51,6 +51,17 @@ namespace DataAccessLayer.Repositories.DapperRepositories
             }
         }
 
+        public async Task<List<UserRound>> Get(IEnumerable<User> users, int roundId)
+        {
+            using (IDbConnection db = new SqlConnection(connectionString))
+            {
+                string sqlQuery = "SELECT * FROM UserRounds WHERE UserId IN @userIds AND RoundId = @roundId";
+                List<int> userIds = users.Select(user => user.Id).ToList();
+                var userRounds = await db.QueryAsync<UserRound>(sqlQuery, new { userIds, roundId });
+                return userRounds.ToList();
+            }
+        }
+
         public async Task<UserRound> Get(int userId, int roundId)
         {
             using (IDbConnection db = new SqlConnection(connectionString))

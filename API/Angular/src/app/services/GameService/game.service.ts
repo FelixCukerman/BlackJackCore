@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { RequestReplenishCashViewModel } from '../../viewmodels/ReplenishCashViewModels/request-replenish-cash-view-model';
-import { RequestDealCardsToBotViewModel } from 'src/app/viewmodels/DealCardsToBotViewModel/request-deal-cards-to-bot-view-model';
 
 @Injectable({
   providedIn: 'root'
@@ -31,10 +30,10 @@ export class GameService
     let result = this.http.post(this.url + "/replenishcash", request);
     return result;
   }
-  
-  public DealCardsToBots(request: Array<RequestDealCardsToBotViewModel>)
+
+  public DealCardsToBots(gameId: number)
   {
-    let result = this.http.post(this.url + "/dealcardstobot", request);
+    let result = this.http.post(this.url + "/dealcardstobots/" + gameId, gameId);
     return result;
   }
 

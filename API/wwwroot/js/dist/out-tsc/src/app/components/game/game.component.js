@@ -6,7 +6,6 @@ import { UserRole } from 'src/app/shared/enums/user-role';
 import { RequestReplenishCashViewModel } from 'src/app/viewmodels/ReplenishCashViewModels/request-replenish-cash-view-model';
 import { GameState } from 'src/app/shared/enums/game-state';
 import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
-import { RequestDealCardsToBotViewModel } from 'src/app/viewmodels/DealCardsToBotViewModel/request-deal-cards-to-bot-view-model';
 var GameComponent = /** @class */ (function () {
     function GameComponent(storage, service, router, currentRoute) {
         this.storage = storage;
@@ -47,20 +46,8 @@ var GameComponent = /** @class */ (function () {
         this.storage.set('key', this.gameState);
         this.gameProcess = "Bots draw cards";
         this.storage.set('gameProcess', this.gameProcess);
-        this.bots = [];
-        this.requestDealCardsToBot = [];
-        this.bots = this.response.users.filter(function (user) { return user.userRole == UserRole.BotPlayer; });
-        console.log(this.response.users.filter(function (user) { return user.userRole == UserRole.BotPlayer; }));
-        console.log(this.response.users.filter(function (user) { return user.userRole == UserRole.BotPlayer; }).length);
-        console.log(this.requestDealCardsToBot);
-        debugger;
-        for (var i = 0; i < this.bots.length; i++) {
-            var botId = this.bots[i].id;
-            var gameId = this.currentRoute.snapshot.params['id'];
-            var botRequest = new RequestDealCardsToBotViewModel(botId, gameId);
-            this.requestDealCardsToBot.push(botRequest);
-        }
-        this.service.DealCardsToBots(this.requestDealCardsToBot).subscribe(function (data) {
+        var gameId = this.currentRoute.snapshot.params['id'];
+        this.service.DealCardsToBots(gameId).subscribe(function (data) {
             _this.response = data;
             _this.InitializeUsers();
             setTimeout(function () { _this.DealCardsToDealer(); }, 4000);
@@ -124,7 +111,6 @@ var GameComponent = /** @class */ (function () {
         var _this = this;
         this.gameProcess = this.storage.get('gameProcess');
         this.requestReplenishCash = new RequestReplenishCashViewModel(0, 0);
-        this.requestDealCardsToBot = new Array();
         this.bots = new Array();
         this.gameState = this.storage.get('key');
         this.service.GameById(this.currentRoute.snapshot.params['id']).subscribe(function (data) {

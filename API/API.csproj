@@ -18,7 +18,6 @@
 
   <ItemGroup>
     <None Remove="Angular\src\app\shared\enums\game-state.ts" />
-    <None Remove="Angular\src\app\viewmodels\DealCardsToBotViewModel\request-deal-cards-to-bot-view-model.ts" />
     <None Remove="Angular\src\app\viewmodels\GameOverViewModels\response-game-over-view-model.ts" />
     <None Remove="Angular\src\app\viewmodels\ReplenishCashViewModels\request-replenish-cash-view-model.ts" />
     <None Remove="Angular\src\app\viewmodels\UserGameViewModels\response-user-game-view-models.ts" />
@@ -43,7 +42,6 @@
 
   <ItemGroup>
     <TypeScriptCompile Include="Angular\src\app\shared\enums\game-state.ts" />
-    <TypeScriptCompile Include="Angular\src\app\viewmodels\DealCardsToBotViewModel\request-deal-cards-to-bot-view-model.ts" />
     <TypeScriptCompile Include="Angular\src\app\viewmodels\GameOverViewModels\response-game-over-view-model.ts" />
     <TypeScriptCompile Include="Angular\src\app\viewmodels\ReplenishCashViewModels\request-replenish-cash-view-model.ts" />
     <TypeScriptCompile Include="Angular\src\app\viewmodels\UserGameViewModels\response-user-game-view-models.ts" />

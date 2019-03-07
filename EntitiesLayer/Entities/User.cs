@@ -15,6 +15,7 @@ namespace EntitiesLayer.Entities
         [Required]
         public int Cash { get; set; }
 
+
         public User()
         {
             DateOfCreation = DateTime.Now;

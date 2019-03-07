@@ -217,8 +217,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var src_app_viewmodels_ReplenishCashViewModels_request_replenish_cash_view_model__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/viewmodels/ReplenishCashViewModels/request-replenish-cash-view-model */ "./src/app/viewmodels/ReplenishCashViewModels/request-replenish-cash-view-model.ts");
 /* harmony import */ var src_app_shared_enums_game_state__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! src/app/shared/enums/game-state */ "./src/app/shared/enums/game-state.ts");
 /* harmony import */ var angular_webstorage_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! angular-webstorage-service */ "./node_modules/angular-webstorage-service/bundles/angular-webstorage-service.es5.js");
-/* harmony import */ var src_app_viewmodels_DealCardsToBotViewModel_request_deal_cards_to_bot_view_model__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! src/app/viewmodels/DealCardsToBotViewModel/request-deal-cards-to-bot-view-model */ "./src/app/viewmodels/DealCardsToBotViewModel/request-deal-cards-to-bot-view-model.ts");
-
 
 
 
@@ -267,20 +265,8 @@ var GameComponent = /** @class */ (function () {
         this.storage.set('key', this.gameState);
         this.gameProcess = "Bots draw cards";
         this.storage.set('gameProcess', this.gameProcess);
-        this.bots = [];
-        this.requestDealCardsToBot = [];
-        this.bots = this.response.users.filter(function (user) { return user.userRole == src_app_shared_enums_user_role__WEBPACK_IMPORTED_MODULE_4__["UserRole"].BotPlayer; });
-        console.log(this.response.users.filter(function (user) { return user.userRole == src_app_shared_enums_user_role__WEBPACK_IMPORTED_MODULE_4__["UserRole"].BotPlayer; }));
-        console.log(this.response.users.filter(function (user) { return user.userRole == src_app_shared_enums_user_role__WEBPACK_IMPORTED_MODULE_4__["UserRole"].BotPlayer; }).length);
-        console.log(this.requestDealCardsToBot);
-        debugger;
-        for (var i = 0; i < this.bots.length; i++) {
-            var botId = this.bots[i].id;
-            var gameId = this.currentRoute.snapshot.params['id'];
-            var botRequest = new src_app_viewmodels_DealCardsToBotViewModel_request_deal_cards_to_bot_view_model__WEBPACK_IMPORTED_MODULE_8__["RequestDealCardsToBotViewModel"](botId, gameId);
-            this.requestDealCardsToBot.push(botRequest);
-        }
-        this.service.DealCardsToBots(this.requestDealCardsToBot).subscribe(function (data) {
+        var gameId = this.currentRoute.snapshot.params['id'];
+        this.service.DealCardsToBots(gameId).subscribe(function (data) {
             _this.response = data;
             _this.InitializeUsers();
             setTimeout(function () { _this.DealCardsToDealer(); }, 4000);
@@ -344,7 +330,6 @@ var GameComponent = /** @class */ (function () {
         var _this = this;
         this.gameProcess = this.storage.get('gameProcess');
         this.requestReplenishCash = new src_app_viewmodels_ReplenishCashViewModels_request_replenish_cash_view_model__WEBPACK_IMPORTED_MODULE_5__["RequestReplenishCashViewModel"](0, 0);
-        this.requestDealCardsToBot = new Array();
         this.bots = new Array();
         this.gameState = this.storage.get('key');
         this.service.GameById(this.currentRoute.snapshot.params['id']).subscribe(function (data) {
@@ -593,8 +578,8 @@ var GameService = /** @class */ (function () {
         var result = this.http.post(this.url + "/replenishcash", request);
         return result;
     };
-    GameService.prototype.DealCardsToBots = function (request) {
-        var result = this.http.post(this.url + "/dealcardstobot", request);
+    GameService.prototype.DealCardsToBots = function (gameId) {
+        var result = this.http.post(this.url + "/dealcardstobots/" + gameId, gameId);
         return result;
     };
     GameService.prototype.DealCardsToDealer = function (id) {
@@ -702,28 +687,6 @@ var UserRole;
     UserRole[UserRole["Dealer"] = 3] = "Dealer";
 })(UserRole || (UserRole = {}));
 ;
-
-
-/***/ }),
-
-/***/ "./src/app/viewmodels/DealCardsToBotViewModel/request-deal-cards-to-bot-view-model.ts":
-/*!********************************************************************************************!*\
-  !*** ./src/app/viewmodels/DealCardsToBotViewModel/request-deal-cards-to-bot-view-model.ts ***!
-  \********************************************************************************************/
-/*! exports provided: RequestDealCardsToBotViewModel */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RequestDealCardsToBotViewModel", function() { return RequestDealCardsToBotViewModel; });
-var RequestDealCardsToBotViewModel = /** @class */ (function () {
-    function RequestDealCardsToBotViewModel(userId, gameId) {
-        this.userId = userId;
-        this.gameId = gameId;
-    }
-    return RequestDealCardsToBotViewModel;
-}());
-
 
 
 /***/ }),
