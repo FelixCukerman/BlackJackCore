@@ -47,15 +47,24 @@ var GameComponent = /** @class */ (function () {
         this.storage.set('key', this.gameState);
         this.gameProcess = "Bots draw cards";
         this.storage.set('gameProcess', this.gameProcess);
-        var bots = this.response.users.filter(function (user) { return user.userRole == UserRole.BotPlayer; });
-        for (var i = 0; i < bots.length; i++) {
-            this.requestDealCardsToBot.gameId = this.currentRoute.snapshot.params['id'];
-            this.requestDealCardsToBot.userId = bots[i].id;
-            this.service.DealCardsToBots(this.requestDealCardsToBot).subscribe(function (data) {
-                _this.response = data;
-                _this.InitializeUsers();
-            });
+        this.bots = [];
+        this.requestDealCardsToBot = [];
+        this.bots = this.response.users.filter(function (user) { return user.userRole == UserRole.BotPlayer; });
+        console.log(this.response.users.filter(function (user) { return user.userRole == UserRole.BotPlayer; }));
+        console.log(this.response.users.filter(function (user) { return user.userRole == UserRole.BotPlayer; }).length);
+        console.log(this.requestDealCardsToBot);
+        debugger;
+        for (var i = 0; i < this.bots.length; i++) {
+            var botId = this.bots[i].id;
+            var gameId = this.currentRoute.snapshot.params['id'];
+            var botRequest = new RequestDealCardsToBotViewModel(botId, gameId);
+            this.requestDealCardsToBot.push(botRequest);
         }
+        this.service.DealCardsToBots(this.requestDealCardsToBot).subscribe(function (data) {
+            _this.response = data;
+            _this.InitializeUsers();
+            setTimeout(function () { _this.DealCardsToDealer(); }, 4000);
+        });
     };
     GameComponent.prototype.GameOver = function () {
         var _this = this;
@@ -66,7 +75,6 @@ var GameComponent = /** @class */ (function () {
         this.service.GameOver(this.currentRoute.snapshot.params['id']).subscribe(function (data) {
             _this.responseGameOver = data;
             _this.InitializeWinners();
-            console.log(_this.responseGameOver);
         });
     };
     GameComponent.prototype.InitializeWinners = function () {
@@ -76,26 +84,30 @@ var GameComponent = /** @class */ (function () {
         }
     };
     GameComponent.prototype.DealCardsToDealer = function () {
-        var _this = this;
-        this.gameState = GameState.DealerMove;
-        this.storage.set('key', this.gameState);
-        this.gameProcess = "Dealer draw cards";
-        this.storage.set('gameProcess', this.gameProcess);
-        this.service.DealCardsToDealer(this.currentRoute.snapshot.params['id']).subscribe(function (data) {
-            _this.response = data;
-            _this.InitializeUsers();
-            _this.gameIsOver = _this.response.isOver;
-            if (_this.gameIsOver) {
-                setTimeout(function () {
-                    _this.GameOver();
-                }, 3000);
-            }
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return tslib_1.__generator(this, function (_a) {
+                this.gameState = GameState.DealerMove;
+                this.storage.set('key', this.gameState);
+                this.gameProcess = "Dealer draw cards";
+                this.storage.set('gameProcess', this.gameProcess);
+                this.service.DealCardsToDealer(this.currentRoute.snapshot.params['id']).subscribe(function (data) {
+                    _this.response = data;
+                    _this.InitializeUsers();
+                    _this.gameIsOver = _this.response.isOver;
+                    if (_this.gameIsOver) {
+                        setTimeout(function () {
+                            _this.GameOver();
+                        }, 3000);
+                    }
+                });
+                return [2 /*return*/];
+            });
         });
     };
     GameComponent.prototype.SkipCard = function () {
         var _this = this;
         setTimeout(function () { _this.DealCardsToBots(); }, 4000);
-        setTimeout(function () { _this.DealCardsToDealer(); }, 8000);
     };
     GameComponent.prototype.DealCards = function () {
         var _this = this;
@@ -112,7 +124,8 @@ var GameComponent = /** @class */ (function () {
         var _this = this;
         this.gameProcess = this.storage.get('gameProcess');
         this.requestReplenishCash = new RequestReplenishCashViewModel(0, 0);
-        this.requestDealCardsToBot = new RequestDealCardsToBotViewModel(0, 0);
+        this.requestDealCardsToBot = new Array();
+        this.bots = new Array();
         this.gameState = this.storage.get('key');
         this.service.GameById(this.currentRoute.snapshot.params['id']).subscribe(function (data) {
             _this.response = data;
@@ -120,7 +133,6 @@ var GameComponent = /** @class */ (function () {
             if (_this.response.isOver && _this.gameState == GameState.GameIsOver) {
                 _this.GameOver();
             }
-            console.log(_this.response);
         });
     };
     GameComponent = tslib_1.__decorate([

@@ -7,6 +7,7 @@ using System.Net;
 using ViewModelsLayer.ViewModels.DealCardsToBotViewModel;
 using ViewModelsLayer.ViewModels.ReplenishCashViewModel;
 using API.Logger;
+using System.Collections.Generic;
 
 namespace API.Controllers
 {
@@ -30,7 +31,7 @@ namespace API.Controllers
                 var result = await _service.GetGameById(gameId);
                 return new ObjectResult(result);
             }
-            catch(NullReferenceException ex)
+            catch(Exception ex)
             {
                 FileLogger.LogError(ex);
                 return new ObjectResult(StatusCode((int)HttpStatusCode.NotFound));
@@ -46,7 +47,7 @@ namespace API.Controllers
                 var result = await _service.GameOver(gameId);
                 return new ObjectResult(result);
             }
-            catch (NullReferenceException ex)
+            catch (Exception ex)
             {
                 FileLogger.LogError(ex);
                 return new ObjectResult(StatusCode((int)HttpStatusCode.NotFound));
@@ -62,7 +63,7 @@ namespace API.Controllers
                 var result = await _service.ReplenishCash(request);
                 return new ObjectResult(result);
             }
-            catch (NullReferenceException ex)
+            catch (Exception ex)
             {
                 FileLogger.LogError(ex);
                 return new ObjectResult(StatusCode((int)HttpStatusCode.NotFound));
@@ -132,11 +133,11 @@ namespace API.Controllers
         }
 
         [HttpPost("dealcardstobot")]
-        public ObjectResult DealCardsToBots(RequestDealCardsToBotViewModel request)
+        public ObjectResult DealCardsToBots(IEnumerable<RequestDealCardsToBotViewModel> request)
         {
             try
             {
-                var result = _service.DealCardsToBot(request);
+                var result = _service.DealCardsToAllBots(request);
                 return new ObjectResult(result);
             }
             catch (Exception ex)

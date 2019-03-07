@@ -13,6 +13,7 @@ import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
 import { RequestDealCardsToBotViewModel } from 'src/app/viewmodels/DealCardsToBotViewModel/request-deal-cards-to-bot-view-model';
 import { ResponseUserGameViewModel } from 'src/app/viewmodels/UserGameViewModels/response-user-game-view-models';
 import { ResponseGameOverViewModel } from 'src/app/viewmodels/GameOverViewModels/response-game-over-view-model';
+import { debug } from 'util';
 
 @Component({
   selector: 'app-game',
@@ -23,8 +24,9 @@ export class GameComponent implements OnInit
 {
   public response: ResponseGameViewModel;
   public requestReplenishCash: RequestReplenishCashViewModel;
-  public requestDealCardsToBot: RequestDealCardsToBotViewModel;
+  public requestDealCardsToBot: Array<RequestDealCardsToBotViewModel>;
   public users: Array<ResponseUserViewModel>;
+  public bots: Array<ResponseUserViewModel>;
   public peopleplayer: ResponseUserViewModel;
   public dealer: ResponseUserViewModel;
   public userRounds: Array<ResponseUserRoundViewModel>;
@@ -75,17 +77,30 @@ export class GameComponent implements OnInit
     this.storage.set('key', this.gameState);
     this.gameProcess = "Bots draw cards";
     this.storage.set('gameProcess', this.gameProcess);
-    let bots = this.response.users.filter(user => user.userRole == UserRole.BotPlayer);
 
-    for (let i = 0; i < bots.length; i++) {
-      this.requestDealCardsToBot.gameId = this.currentRoute.snapshot.params['id'];
-      this.requestDealCardsToBot.userId = bots[i].id;
-      this.service.DealCardsToBots(this.requestDealCardsToBot).subscribe((data: ResponseGameViewModel) =>
-      {
-        this.response = data;
-        this.InitializeUsers();
-      });
+    this.bots = [];
+    this.requestDealCardsToBot = [];
+    this.bots = this.response.users.filter(user => user.userRole == UserRole.BotPlayer);
+
+    console.log(this.response.users.filter(user => user.userRole == UserRole.BotPlayer));
+    console.log(this.response.users.filter(user => user.userRole == UserRole.BotPlayer).length);
+    console.log(this.requestDealCardsToBot);
+    debugger;
+
+    for (let i = 0; i < this.bots.length; i++) {
+      let botId = this.bots[i].id;
+      let gameId = this.currentRoute.snapshot.params['id'];
+
+      let botRequest = new RequestDealCardsToBotViewModel(botId, gameId);
+
+      this.requestDealCardsToBot.push(botRequest);
     }
+
+    this.service.DealCardsToBots(this.requestDealCardsToBot).subscribe((data: ResponseGameViewModel) => {
+      this.response = data;
+      this.InitializeUsers();
+      setTimeout(() => { this.DealCardsToDealer(); }, 4000);
+    });
   }
 
   GameOver() {
@@ -98,7 +113,6 @@ export class GameComponent implements OnInit
     {
       this.responseGameOver = data;
       this.InitializeWinners();
-      console.log(this.responseGameOver);
     });
   }
 
@@ -109,7 +123,7 @@ export class GameComponent implements OnInit
     }
   }
 
-  DealCardsToDealer() {
+  async DealCardsToDealer() {
     this.gameState = GameState.DealerMove;
     this.storage.set('key', this.gameState);
     this.gameProcess = "Dealer draw cards";
@@ -130,7 +144,6 @@ export class GameComponent implements OnInit
 
   SkipCard() {
     setTimeout(() => { this.DealCardsToBots(); }, 4000);
-    setTimeout(() => { this.DealCardsToDealer(); }, 8000);
   }
 
   DealCards() {
@@ -148,7 +161,8 @@ export class GameComponent implements OnInit
   {
     this.gameProcess = this.storage.get('gameProcess');
     this.requestReplenishCash = new RequestReplenishCashViewModel(0, 0);
-    this.requestDealCardsToBot = new RequestDealCardsToBotViewModel(0, 0);
+    this.requestDealCardsToBot = new Array<RequestDealCardsToBotViewModel>();
+    this.bots = new Array<ResponseUserViewModel>();
     this.gameState = this.storage.get('key');
     this.service.GameById(this.currentRoute.snapshot.params['id']).subscribe((data: ResponseGameViewModel) => {
       this.response = data;
@@ -156,7 +170,6 @@ export class GameComponent implements OnInit
       if (this.response.isOver && this.gameState == GameState.GameIsOver) {
         this.GameOver();
       }
-      console.log(this.response);
     });
   }
 }

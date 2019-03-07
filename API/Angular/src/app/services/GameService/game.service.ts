@@ -32,7 +32,7 @@ export class GameService
     return result;
   }
   
-  public DealCardsToBots(request: RequestDealCardsToBotViewModel)
+  public DealCardsToBots(request: Array<RequestDealCardsToBotViewModel>)
   {
     let result = this.http.post(this.url + "/dealcardstobot", request);
     return result;

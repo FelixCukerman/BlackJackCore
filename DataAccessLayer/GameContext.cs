@@ -14,6 +14,8 @@ namespace DataAccessLayer
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Card>().HasData(DatabaseInitializer.GetCards().ToArray());
+            modelBuilder.Entity<User>().HasData(new User { Id = 1, Nickname = "Dealer", UserRole = EntitiesLayer.Enums.UserRole.Dealer});
+
             base.OnModelCreating(modelBuilder);
         }
 

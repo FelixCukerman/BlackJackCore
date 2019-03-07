@@ -17,6 +17,7 @@ namespace BusinessLogicLayer.Interfaces
         Task<ResponseGameViewModel> DealCards(int gameId);
         Task<ResponseGameViewModel> DealCardToPlayer(int gameId);
         Task<ResponseGameViewModel> DealCardToDealer(int gameId);
-        ResponseGameViewModel DealCardsToBot(RequestDealCardsToBotViewModel request);
+        Task<ResponseGameViewModel> DealCardsToBot(RequestDealCardsToBotViewModel request);
+        Task<ResponseGameViewModel> DealCardsToAllBots(IEnumerable<RequestDealCardsToBotViewModel> request);
     }
 }
