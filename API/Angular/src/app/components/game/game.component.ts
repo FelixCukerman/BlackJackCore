@@ -25,7 +25,7 @@ export class GameComponent implements OnInit
   public requestReplenishCash: RequestReplenishCashViewModel;
   public users: Array<ResponseUserViewModel>;
   public bots: Array<ResponseUserViewModel>;
-  public peopleplayer: ResponseUserViewModel;
+  public person: ResponseUserViewModel;
   public dealer: ResponseUserViewModel;
   public userRounds: Array<ResponseUserRoundViewModel>;
   public userGames: Array<ResponseUserGameViewModel>;
@@ -45,7 +45,7 @@ export class GameComponent implements OnInit
     this.dealer = this.response.users.filter(user => user.userRole == UserRole.Dealer).shift();
     this.userRounds = this.response.rounds[this.response.rounds.length - 1].userRound;
     this.userGames = this.response.userGames;
-    this.peopleplayer = this.users.filter(user => user.userRole == UserRole.PeoplePlayer).shift();
+    this.person = this.users.filter(user => user.userRole == UserRole.PeoplePlayer).shift();
   }
 
   CreateNewRound() {
@@ -57,8 +57,9 @@ export class GameComponent implements OnInit
   }
 
   ReplenishCash() {
-    this.requestReplenishCash.gameId = this.currentRoute.snapshot.params['id'];
-    this.service.ReplenishCash(this.requestReplenishCash).subscribe((data: number) => { this.peopleplayer.cash = data; });
+    this.requestReplenishCash.userId = this.person.id;
+    console.log(1);
+    this.service.ReplenishCash(this.requestReplenishCash).subscribe((data: number) => { this.person.cash = data; });
   }
 
   DealCardToPlayer() {

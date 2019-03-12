@@ -42,7 +42,7 @@
         </div>
         <div class="separator" style="width: 2%; background-color: rgba(0, 0, 0, 0.38)"></div>
         <div class="peopleplayer-block">
-          <div class="total-cash">Total cash: {{this.peopleplayer.cash}}$</div>
+          <div class="total-cash">Total cash: {{this.person.cash}}$</div>
           <div class="action-block">
             <div *ngIf="this.gameState == 2">
               <button type="button" class="btn btn-success btn-lg btn-block" (click)="DealCardToPlayer()">Take a card</button>

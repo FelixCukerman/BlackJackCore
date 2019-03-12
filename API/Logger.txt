@@ -22,3 +22,27 @@ Exception details : System.NullReferenceException: Object reference not set to a
    at API.Controllers.GameController.CreateNewGame(RequestGameViewModel request) in C:\Users\Anuitex\source\repos\BlackJackCore\API\Controllers\GameController.cs:line 80
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+Time              : 3/12/2019 2:20:34 PM
+Exception details : System.NullReferenceException: Object reference not set to an instance of an object.
+   at BusinessLogicLayer.Services.GameService.ReplenishCash(RequestReplenishCashViewModel request) in C:\Users\Anuitex\source\repos\BlackJackCore\BusinessLogicLayer\Services\GameService.cs:line 511
+   at API.Controllers.GameController.ReplenishCash(RequestReplenishCashViewModel request) in C:\Users\Anuitex\source\repos\BlackJackCore\API\Controllers\GameController.cs:line 62
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Time              : 3/12/2019 2:21:36 PM
+Exception details : System.NullReferenceException: Object reference not set to an instance of an object.
+   at BusinessLogicLayer.Services.GameService.ReplenishCash(RequestReplenishCashViewModel request) in C:\Users\Anuitex\source\repos\BlackJackCore\BusinessLogicLayer\Services\GameService.cs:line 511
+   at API.Controllers.GameController.ReplenishCash(RequestReplenishCashViewModel request) in C:\Users\Anuitex\source\repos\BlackJackCore\API\Controllers\GameController.cs:line 62
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Time              : 3/12/2019 2:21:46 PM
+Exception details : System.NullReferenceException: Object reference not set to an instance of an object.
+   at BusinessLogicLayer.Services.GameService.ReplenishCash(RequestReplenishCashViewModel request) in C:\Users\Anuitex\source\repos\BlackJackCore\BusinessLogicLayer\Services\GameService.cs:line 511
+   at API.Controllers.GameController.ReplenishCash(RequestReplenishCashViewModel request) in C:\Users\Anuitex\source\repos\BlackJackCore\API\Controllers\GameController.cs:line 62
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Time              : 3/12/2019 2:22:09 PM
+Exception details : System.NullReferenceException: Object reference not set to an instance of an object.
+   at BusinessLogicLayer.Services.GameService.ReplenishCash(RequestReplenishCashViewModel request) in C:\Users\Anuitex\source\repos\BlackJackCore\BusinessLogicLayer\Services\GameService.cs:line 511
+   at API.Controllers.GameController.ReplenishCash(RequestReplenishCashViewModel request) in C:\Users\Anuitex\source\repos\BlackJackCore\API\Controllers\GameController.cs:line 62
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+

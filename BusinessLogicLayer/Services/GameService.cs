@@ -503,15 +503,9 @@ namespace BusinessLogicLayer.Services
             return result;
         }
 
-        //change RequestReplenishCashViewModel (replace gameId to userId)
         public async Task<int> ReplenishCash(RequestReplenishCashViewModel request)
         {
-            Game game = await _gameRepository.Get(request.GameId);
-
-            List<UserGames> userGames = await _userGamesRepository.Get(game);
-            IEnumerable<User> users = await _userRepository.Get(userGames);
-
-            User user = users.FirstOrDefault(item => item.UserRole == UserRole.PeoplePlayer);
+            User user = await _userRepository.Get(request.UserId);
 
             int userCache = request.Cash;
             user.Cash += userCache;

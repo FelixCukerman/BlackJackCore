@@ -1,6 +1,6 @@
 var RequestReplenishCashViewModel = /** @class */ (function () {
-    function RequestReplenishCashViewModel(gameId, cash) {
-        this.gameId = gameId;
+    function RequestReplenishCashViewModel(userId, cash) {
+        this.userId = userId;
         this.cash = cash;
     }
     return RequestReplenishCashViewModel;

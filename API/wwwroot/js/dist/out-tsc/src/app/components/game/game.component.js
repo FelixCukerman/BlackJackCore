@@ -18,7 +18,7 @@ var GameComponent = /** @class */ (function () {
         this.dealer = this.response.users.filter(function (user) { return user.userRole == UserRole.Dealer; }).shift();
         this.userRounds = this.response.rounds[this.response.rounds.length - 1].userRound;
         this.userGames = this.response.userGames;
-        this.peopleplayer = this.users.filter(function (user) { return user.userRole == UserRole.PeoplePlayer; }).shift();
+        this.person = this.users.filter(function (user) { return user.userRole == UserRole.PeoplePlayer; }).shift();
     };
     GameComponent.prototype.CreateNewRound = function () {
         var _this = this;
@@ -28,8 +28,8 @@ var GameComponent = /** @class */ (function () {
     };
     GameComponent.prototype.ReplenishCash = function () {
         var _this = this;
-        this.requestReplenishCash.gameId = this.currentRoute.snapshot.params['id'];
-        this.service.ReplenishCash(this.requestReplenishCash).subscribe(function (data) { _this.peopleplayer.cash = data; });
+        this.requestReplenishCash.userId = this.person.id;
+        this.service.ReplenishCash(this.requestReplenishCash).subscribe(function (data) { _this.person.cash = data; });
     };
     GameComponent.prototype.DealCardToPlayer = function () {
         var _this = this;
