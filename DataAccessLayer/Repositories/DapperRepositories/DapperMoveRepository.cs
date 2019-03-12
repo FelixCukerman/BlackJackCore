@@ -2,7 +2,6 @@
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Dapper;
 using DataAccessLayer.Interfaces;
@@ -12,7 +11,6 @@ namespace DataAccessLayer.Repositories.DapperRepositories
 {
     public class DapperMoveRepository : DapperGenericRepository<Move>, IMoveRepository
     {
-        private string connectionString = null;
         public DapperMoveRepository(string connectionString) : base(connectionString)
         {
             this.connectionString = connectionString;
@@ -23,7 +21,9 @@ namespace DataAccessLayer.Repositories.DapperRepositories
             using (IDbConnection db = new SqlConnection(connectionString))
             {
                 string sqlQuery = "SELECT * FROM Moves WHERE UserId = @userId AND RoundId = @roundId";
-                var moves = await db.QueryAsync<Move>(sqlQuery, new { userId, roundId } );
+
+                IEnumerable<Move> moves = await db.QueryAsync<Move>(sqlQuery, new { userId, roundId } );
+
                 return moves.ToList();
             }
         }
@@ -33,8 +33,11 @@ namespace DataAccessLayer.Repositories.DapperRepositories
             using (IDbConnection db = new SqlConnection(connectionString))
             {
                 string sqlQuery = "SELECT * FROM Moves WHERE RoundId = @roundId";
+
                 var roundId = round.Id;
-                var moves = await db.QueryAsync<Move>(sqlQuery, new { roundId });
+
+                IEnumerable<Move> moves = await db.QueryAsync<Move>(sqlQuery, new { roundId });
+
                 return moves.ToList();
             }
         }
@@ -44,8 +47,11 @@ namespace DataAccessLayer.Repositories.DapperRepositories
             using (IDbConnection db = new SqlConnection(connectionString))
             {
                 string sqlQuery = "SELECT * FROM Moves WHERE UserId IN @userIds";
-                List<int> userIds = users.Select(user => user.Id).ToList();
-                var moves = await db.QueryAsync<Move>(sqlQuery, new { userIds });
+
+                IEnumerable<int> userIds = users.Select(user => user.Id);
+
+                IEnumerable<Move> moves = await db.QueryAsync<Move>(sqlQuery, new { userIds });
+
                 return moves.ToList();
             }
         }
@@ -55,8 +61,11 @@ namespace DataAccessLayer.Repositories.DapperRepositories
             using (IDbConnection db = new SqlConnection(connectionString))
             {
                 string sqlQuery = "SELECT * FROM Moves WHERE UserId IN @userIds AND RoundId = @roundId";
-                List<int> userIds = users.Select(user => user.Id).ToList();
-                var moves = await db.QueryAsync<Move>(sqlQuery, new { userIds, roundId });
+
+                IEnumerable<int> userIds = users.Select(user => user.Id);
+
+                IEnumerable<Move> moves = await db.QueryAsync<Move>(sqlQuery, new { userIds, roundId });
+
                 return moves.ToList();
             }
         }
@@ -66,8 +75,11 @@ namespace DataAccessLayer.Repositories.DapperRepositories
             using (IDbConnection db = new SqlConnection(connectionString))
             {
                 string sqlQuery = "SELECT * FROM Moves WHERE RoundId IN @roundIds";
-                List<int> roundIds = rounds.Select(round => round.Id).ToList();
-                var moves = await db.QueryAsync<Move>(sqlQuery, new { roundIds });
+
+                IEnumerable<int> roundIds = rounds.Select(round => round.Id);
+
+                IEnumerable<Move> moves = await db.QueryAsync<Move>(sqlQuery, new { roundIds });
+
                 return moves.ToList();
             }
         }

@@ -11,7 +11,6 @@ namespace DataAccessLayer.Repositories.DapperRepositories
 {
     public class DapperRoundRepository : DapperGenericRepository<Round>, IRoundRepository
     {
-        private string connectionString = null;
         public DapperRoundRepository(string connectionString) : base(connectionString)
         {
             this.connectionString = connectionString;
@@ -22,8 +21,11 @@ namespace DataAccessLayer.Repositories.DapperRepositories
             using (IDbConnection db = new SqlConnection(connectionString))
             {
                 string sqlQuery = "SELECT * FROM Rounds WHERE GameId = @gameId";
-                var gameId = game.Id;
-                var rounds = await db.QueryAsync<Round>(sqlQuery, new { gameId });
+
+                int gameId = game.Id;
+
+                IEnumerable<Round> rounds = await db.QueryAsync<Round>(sqlQuery, new { gameId });
+
                 return rounds.ToList();
             }
         }

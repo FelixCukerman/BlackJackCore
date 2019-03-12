@@ -29,6 +29,7 @@ var GameComponent = /** @class */ (function () {
     GameComponent.prototype.ReplenishCash = function () {
         var _this = this;
         this.requestReplenishCash.userId = this.person.id;
+        console.log(1);
         this.service.ReplenishCash(this.requestReplenishCash).subscribe(function (data) { _this.person.cash = data; });
     };
     GameComponent.prototype.DealCardToPlayer = function () {

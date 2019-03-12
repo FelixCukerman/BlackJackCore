@@ -6,7 +6,6 @@ using ViewModelsLayer.ViewModels.GameViewModels;
 using System.Net;
 using ViewModelsLayer.ViewModels.ReplenishCashViewModel;
 using API.Logger;
-using System.Collections.Generic;
 
 namespace API.Controllers
 {

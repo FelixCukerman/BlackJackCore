@@ -11,7 +11,6 @@ namespace DataAccessLayer.Repositories.DapperRepositories
 {
     public class DapperCardRepository : DapperGenericRepository<Card>, ICardRepository
     {
-        private string connectionString = null;
         public DapperCardRepository(string connectionString) : base(connectionString)
         {
             this.connectionString = connectionString;
@@ -22,8 +21,11 @@ namespace DataAccessLayer.Repositories.DapperRepositories
             using (IDbConnection db = new SqlConnection(connectionString))
             {
                 string sqlQuery = "SELECT * FROM Cards WHERE Id IN @cardIds";
-                List<int> cardIds = moves.Select(move => move.CardId).ToList();
-                var cards = await db.QueryAsync<Card>(sqlQuery, new { cardIds });
+
+                IEnumerable<int> cardIds = moves.Select(move => move.CardId);
+
+                IEnumerable<Card> cards = await db.QueryAsync<Card>(sqlQuery, new { cardIds });
+
                 return cards.ToList();
             }
         }

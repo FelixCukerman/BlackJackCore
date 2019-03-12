@@ -2,7 +2,6 @@
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Dapper;
 using DataAccessLayer.Interfaces;
@@ -12,7 +11,6 @@ namespace DataAccessLayer.Repositories.DapperRepositories
 {
     public class DapperUserRepository : DapperGenericRepository<User>, IUserRepository
     {
-        private string connectionString = null;
         public DapperUserRepository(string connectionString) : base(connectionString)
         {
             this.connectionString = connectionString;
@@ -23,19 +21,23 @@ namespace DataAccessLayer.Repositories.DapperRepositories
             using (IDbConnection db = new SqlConnection(connectionString))
             {
                 string sqlQuery = "SELECT * FROM Users WHERE Id IN @userIds";
-                List<int?> userIds = userGames.Select(item => item.UserId).ToList();
-                var users = await db.QueryAsync<User>(sqlQuery, new { userIds });
+
+                IEnumerable<int?> userIds = userGames.Select(item => item.UserId);
+
+                IEnumerable<User> users = await db.QueryAsync<User>(sqlQuery, new { userIds });
+
                 return users.ToList();
             }
         }
-
-        //fix them
+        
         public async Task<User> Get(string nickname)
         {
             using (IDbConnection db = new SqlConnection(connectionString))
             {
                 string sqlQuery = "SELECT * FROM Users WHERE Nickname = @nickname";
-                var user = await db.QueryFirstOrDefaultAsync<User>(sqlQuery, new { nickname });
+
+                User user = await db.QueryFirstOrDefaultAsync<User>(sqlQuery, new { nickname });
+
                 return user;
             }
         }
@@ -45,7 +47,9 @@ namespace DataAccessLayer.Repositories.DapperRepositories
             using (IDbConnection db = new SqlConnection(connectionString))
             {
                 string sqlQuery = "SELECT * FROM Users WHERE Id IN @userIds";
-                var users = await db.QueryAsync<User>(sqlQuery, new { userIds });
+
+                IEnumerable<User> users = await db.QueryAsync<User>(sqlQuery, new { userIds });
+
                 return users.ToList();
             }
         }

@@ -18,7 +18,7 @@ namespace EntitiesLayer.Entities
         [Write(false)]
         [Computed]
         public Round Round { get; set; }
-        public RoundStatus RoundStatus { get; set; }
+        public RoundStatusType RoundStatus { get; set; }
         public int Points { get; set; }
 
         public UserRound()

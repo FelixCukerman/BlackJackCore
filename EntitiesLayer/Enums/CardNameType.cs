@@ -1,6 +1,6 @@
 ﻿namespace EntitiesLayer.Enums
 {
-    public enum CardName
+    public enum CardNameType
     {
         None = 0,
         Ace = 1,

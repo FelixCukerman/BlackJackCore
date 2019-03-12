@@ -1,10 +1,12 @@
 ﻿using System;
 using Microsoft.Extensions.Caching.Memory;
 using BusinessLogicLayer.DTOs;
+using BusinessLogicLayer.Constants;
+using BusinessLogicLayer.Interfaces;
 
 namespace BusinessLogicLayer.Providers
 {
-    public class DeckProvider
+    public class DeckProvider : IDeckProvider
     {
         private IMemoryCache _cache;
         public DeckProvider(IMemoryCache cache)
@@ -19,15 +21,15 @@ namespace BusinessLogicLayer.Providers
 
         public void Add(Deck deck, int gameId)
         {
-            _cache.Set(gameId, deck, new MemoryCacheEntryOptions
-            {
-                AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(30)
-            });
+            var options = new MemoryCacheEntryOptions();
+            options.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(BusinessLogicConstant._DataRetentionTime);
+
+            _cache.Set(gameId, deck, options);
         }
 
         public void Update(Deck deck, int gameId)
         {
-            _cache.Set(gameId, deck, DateTime.Now.AddMinutes(30));
+            _cache.Set(gameId, deck, DateTime.Now.AddMinutes(BusinessLogicConstant._DataRetentionTime));
         }
 
         public void Delete(int gameId)

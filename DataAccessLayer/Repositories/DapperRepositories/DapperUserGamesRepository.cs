@@ -2,7 +2,6 @@
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Dapper;
 using DataAccessLayer.Interfaces;
@@ -12,7 +11,6 @@ namespace DataAccessLayer.Repositories.DapperRepositories
 {
     public class DapperUserGamesRepository : DapperGenericRepository<UserGames>, IUserGamesRepository
     {
-        private string connectionString = null;
         public DapperUserGamesRepository(string connectionString) : base(connectionString)
         {
             this.connectionString = connectionString;
@@ -23,8 +21,11 @@ namespace DataAccessLayer.Repositories.DapperRepositories
             using (IDbConnection db = new SqlConnection(connectionString))
             {
                 string sqlQuery = "SELECT * FROM UserGames WHERE GameId = @gameId";
-                var gameId = round.GameId;
-                var userGames = await db.QueryAsync<UserGames>(sqlQuery, new { gameId });
+
+                int gameId = (int)round.GameId;
+
+                IEnumerable<UserGames> userGames = await db.QueryAsync<UserGames>(sqlQuery, new { gameId });
+
                 return userGames.ToList();
             }
         }
@@ -34,8 +35,11 @@ namespace DataAccessLayer.Repositories.DapperRepositories
             using (IDbConnection db = new SqlConnection(connectionString))
             {
                 string sqlQuery = "SELECT * FROM UserGames WHERE GameId = @gameId";
-                var gameId = game.Id;
-                var userGames = await db.QueryAsync<UserGames>(sqlQuery, new { gameId });
+
+                int gameId = game.Id;
+
+                IEnumerable<UserGames> userGames = await db.QueryAsync<UserGames>(sqlQuery, new { gameId });
+
                 return userGames.ToList();
             }
         }
@@ -45,7 +49,9 @@ namespace DataAccessLayer.Repositories.DapperRepositories
             using (IDbConnection db = new SqlConnection(connectionString))
             {
                 string sqlQuery = "SELECT * FROM UserGames WHERE GameId = @gameId AND UserId = @userId";
-                var userGames = await db.QueryFirstOrDefaultAsync<UserGames>(sqlQuery, new { gameId, userId });
+
+                UserGames userGames = await db.QueryFirstOrDefaultAsync<UserGames>(sqlQuery, new { gameId, userId });
+
                 return userGames;
             }
         }
@@ -55,8 +61,11 @@ namespace DataAccessLayer.Repositories.DapperRepositories
             using (IDbConnection db = new SqlConnection(connectionString))
             {
                 string sqlQuery = "SELECT * FROM UserGames WHERE UserId = @userId";
-                var userId = user.Id;
-                var userGames = await db.QueryAsync<UserGames>(sqlQuery, new { userId });
+
+                int userId = user.Id;
+
+                IEnumerable<UserGames> userGames = await db.QueryAsync<UserGames>(sqlQuery, new { userId });
+
                 return userGames.ToList();
             }
         }

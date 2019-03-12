@@ -1,6 +1,6 @@
 ﻿namespace EntitiesLayer.Enums
 {
-    public enum RoundStatus
+    public enum RoundStatusType
     {
         None = 0,
         Winner = 1,

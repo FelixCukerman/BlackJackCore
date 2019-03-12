@@ -12,7 +12,7 @@ namespace DataAccessLayer.Repositories.DapperRepositories
 {
     public class DapperGenericRepository<T> : IRepository<T> where T : BaseEntity
     {
-        private string connectionString = null;
+        protected string connectionString = null;
         public DapperGenericRepository(string connectionString)
         {
             this.connectionString = connectionString;
@@ -22,7 +22,9 @@ namespace DataAccessLayer.Repositories.DapperRepositories
         {
             using (IDbConnection db = new SqlConnection(connectionString))
             {
-                return await db.GetAllAsync<T>();
+                IEnumerable<T> result = await db.GetAllAsync<T>();
+
+                return result;
             }
         }
 
@@ -31,7 +33,10 @@ namespace DataAccessLayer.Repositories.DapperRepositories
             using (IDbConnection db = new SqlConnection(connectionString))
             {
                 db.Open();
-                return await db.GetAsync<T>(id);
+
+                T result = await db.GetAsync<T>(id);
+
+                return result;
             }
         }
 
@@ -40,22 +45,30 @@ namespace DataAccessLayer.Repositories.DapperRepositories
             using (IDbConnection db = new SqlConnection(connectionString))
             {
                 db.Open();
-                var invoice = await db.InsertAsync(item);
+
+                int invoice = await db.InsertAsync(item);
+
                 item.Id = invoice;
             }
         }
 
         public async Task CreateRange(IEnumerable<T> items)
         {
-            using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+            using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
                 using (IDbConnection db = new SqlConnection(connectionString))
                 {
+                    T currentItem = null;
+
                     for (int i = 0; i < items.Count(); i++)
                     {
-                        var invoice = await db.InsertAsync(items.ElementAt(i));
-                        items.ElementAt(i).Id = invoice;
+                        currentItem = items.ElementAt(i);
+
+                        int invoice = await db.InsertAsync(currentItem);
+
+                        currentItem.Id = invoice;
                     }
+
                     scope.Complete();
                 }
             }
@@ -66,7 +79,8 @@ namespace DataAccessLayer.Repositories.DapperRepositories
             using (IDbConnection db = new SqlConnection(connectionString))
             {
                 db.Open();
-                var invoice = await db.UpdateAsync(item);
+
+                bool invoice = await db.UpdateAsync(item);
             }
         }
 
@@ -76,10 +90,15 @@ namespace DataAccessLayer.Repositories.DapperRepositories
             {
                 using (IDbConnection db = new SqlConnection(connectionString))
                 {
+                    T currentItem = null;
+
                     for (int i = 0; i < items.Count(); i++)
                     {
-                        var invoice = await db.UpdateAsync(items.ElementAt(i));
+                        currentItem = items.ElementAt(i);
+
+                        bool invoice = await db.UpdateAsync(currentItem);
                     }
+
                     scope.Complete();
                 }
             }
@@ -90,19 +109,24 @@ namespace DataAccessLayer.Repositories.DapperRepositories
             using (IDbConnection db = new SqlConnection(connectionString))
             {
                 db.Open();
-                var invoice = await db.DeleteAsync(item);
+
+                bool invoice = await db.DeleteAsync(item);
             }
         }
 
         public async Task DeleteRange(IEnumerable<T> items)
         {
-            using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+            using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
                 using (IDbConnection db = new SqlConnection(connectionString))
                 {
+                    T currentItem = null;
+
                     for (int i = 0; i < items.Count(); i++)
                     {
-                        var invoice = await db.DeleteAsync(items.ElementAt(i));
+                        currentItem = items.ElementAt(i);
+
+                        bool invoice = await db.DeleteAsync(currentItem);
                     }
                     scope.Complete();
                 }

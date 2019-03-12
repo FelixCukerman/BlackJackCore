@@ -1,6 +1,6 @@
 ﻿namespace EntitiesLayer.Enums
 {
-    public enum UserRole
+    public enum UserRoleType
     {
         None = 0,
         BotPlayer = 1,

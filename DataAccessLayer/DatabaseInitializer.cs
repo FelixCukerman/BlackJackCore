@@ -15,17 +15,21 @@ namespace DataAccessLayer
         public static List<Card> GetCards()
         {
             List<Card> cards = new List<Card>();
+
             for (int i = 1; i < 5; i++)
             {
-                for (int j = (int)CardName.Two; j < (int)CardName.Ten + 1; j++)
+
+                for (int j = (int)CardNameType.Two; j < (int)CardNameType.Ten + 1; j++)
                 {
-                    cards.Add(new Card { Id = GenerateKey(), Suit = (Suit)i, CardName = (CardName)j, CardValue = j });
+                    cards.Add(new Card { Id = GenerateKey(), Suit = (SuitType)i, CardName = (CardNameType)j, CardValue = j });
                 }
-                cards.Add(new Card { Id = GenerateKey(), Suit = (Suit)i, CardName = CardName.Jack, CardValue = 10 });
-                cards.Add(new Card { Id = GenerateKey(), Suit = (Suit)i, CardName = CardName.Queen, CardValue = 10 });
-                cards.Add(new Card { Id = GenerateKey(), Suit = (Suit)i, CardName = CardName.King, CardValue = 10 });
-                cards.Add(new Card { Id = GenerateKey(), Suit = (Suit)i, CardName = CardName.Ace, CardValue = 11 });
+
+                cards.Add(new Card { Id = GenerateKey(), Suit = (SuitType)i, CardName = CardNameType.Jack, CardValue = 10 });
+                cards.Add(new Card { Id = GenerateKey(), Suit = (SuitType)i, CardName = CardNameType.Queen, CardValue = 10 });
+                cards.Add(new Card { Id = GenerateKey(), Suit = (SuitType)i, CardName = CardNameType.King, CardValue = 10 });
+                cards.Add(new Card { Id = GenerateKey(), Suit = (SuitType)i, CardName = CardNameType.Ace, CardValue = 11 });
             }
+
             return cards;
         }
     }

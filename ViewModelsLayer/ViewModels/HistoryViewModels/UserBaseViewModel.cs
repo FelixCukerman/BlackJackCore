@@ -6,6 +6,6 @@ namespace ViewModelsLayer.ViewModels.HistoryViewModels
     {
         public int UserId { get; set; }
         public string Nickname { get; set; }
-        public UserRole UserRole { get; set; }
+        public UserRoleType UserRole { get; set; }
     }
 }

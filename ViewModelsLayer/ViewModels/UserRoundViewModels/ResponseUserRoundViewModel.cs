@@ -6,7 +6,7 @@ namespace ViewModelsLayer.ViewModels.UserRoundViewModels
     {
         public int UserId { get; set; }
         public string Nickname { get; set; }
-        public RoundStatus RoundStatus { get; set; }
+        public RoundStatusType RoundStatus { get; set; }
         public int Points { get; set; }
     }
 }

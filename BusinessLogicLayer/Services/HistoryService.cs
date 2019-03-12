@@ -59,12 +59,12 @@ namespace BusinessLogicLayer.Services
             for (int i = 0; i < users.Count; i++)
             {
                 //the dealer isn't included in this statistic
-                if (users[i].UserRole == UserRole.Dealer)
+                if (users[i].UserRole == UserRoleType.Dealer)
                 {
                     continue;
                 }
                 var currentUserRounds = userRounds.Where(item => item.UserId == users[i].Id);
-                IEnumerable<UserRound> wins = currentUserRounds.Where(x => x.RoundStatus == RoundStatus.Winner);
+                IEnumerable<UserRound> wins = currentUserRounds.Where(x => x.RoundStatus == RoundStatusType.Winner);
                 //To avoid an exception
                 if (wins == null)
                 {
@@ -159,7 +159,7 @@ namespace BusinessLogicLayer.Services
                 User currentUser = users.FirstOrDefault(user => user.Id == userGames[i].UserId);
                 HistoryUserDetailsViewModel historyUserDetails = new HistoryUserDetailsViewModel();
 
-                if(currentUser.UserRole == UserRole.Dealer)
+                if(currentUser.UserRole == UserRoleType.Dealer)
                 {
                     continue;
                 }

@@ -8,11 +8,11 @@ namespace EntitiesLayer.Entities
     public class Card : BaseEntity
     {
         [Required]
-        public Suit Suit { get; set; }
+        public SuitType Suit { get; set; }
         [Required]
         public int CardValue { get; set; }
         [Required]
-        public CardName CardName { get; set; }
+        public CardNameType CardName { get; set; }
 
         public Card()
         {

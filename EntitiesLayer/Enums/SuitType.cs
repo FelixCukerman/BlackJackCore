@@ -1,6 +1,6 @@
 ﻿namespace EntitiesLayer.Enums
 {
-    public enum Suit
+    public enum SuitType
     {
         None = 0,
         Hearts = 1,

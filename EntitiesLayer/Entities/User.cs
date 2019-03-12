@@ -11,7 +11,7 @@ namespace EntitiesLayer.Entities
         [Required]
         public string Nickname { get; set; }
         [Required]
-        public UserRole UserRole { get; set; }
+        public UserRoleType UserRole { get; set; }
         [Required]
         public int Cash { get; set; }
 
@@ -20,7 +20,7 @@ namespace EntitiesLayer.Entities
         {
             DateOfCreation = DateTime.Now;
             Nickname = EntitiesConstant._DefaultNickname;
-            UserRole = UserRole.None;
+            UserRole = UserRoleType.None;
             Cash = EntitiesConstant._DefaultCash;
         }
     }
