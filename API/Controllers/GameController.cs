@@ -6,6 +6,7 @@ using ViewModelsLayer.ViewModels.GameViewModels;
 using System.Net;
 using ViewModelsLayer.ViewModels.ReplenishCashViewModel;
 using API.Logger;
+using API.Inerfaces;
 
 namespace API.Controllers
 {
@@ -14,10 +15,12 @@ namespace API.Controllers
     public class GameController : ControllerBase
     {
         private IGameService _service { get; set; }
+        private IFileLogger _logger { get; set; }
 
-        public GameController(IGameService service)
+        public GameController(IGameService service, IFileLogger logger)
         {
-            this._service = service;
+            _service = service;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -31,7 +34,7 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                FileLogger.LogError(ex);
+                _logger.LogError(ex);
                 return new ObjectResult(StatusCode((int)HttpStatusCode.NotFound));
             }
         }
@@ -47,7 +50,7 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                FileLogger.LogError(ex);
+                _logger.LogError(ex);
                 return new ObjectResult(StatusCode((int)HttpStatusCode.NotFound));
             }
         }
@@ -63,7 +66,7 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                FileLogger.LogError(ex);
+                _logger.LogError(ex);
                 return new ObjectResult(StatusCode((int)HttpStatusCode.NotFound));
             }
         }
@@ -79,7 +82,7 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                FileLogger.LogError(ex);
+                _logger.LogError(ex);
                 return new ObjectResult(StatusCode((int)HttpStatusCode.NotFound));
             }
         }
@@ -95,7 +98,7 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                FileLogger.LogError(ex);
+                _logger.LogError(ex);
                 return new ObjectResult(StatusCode((int)HttpStatusCode.NotFound));
             }
         }
@@ -110,7 +113,7 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                FileLogger.LogError(ex);
+                _logger.LogError(ex);
                 return new ObjectResult(ex.Message);
             }
         }
@@ -125,7 +128,7 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                FileLogger.LogError(ex);
+                _logger.LogError(ex);
                 return new ObjectResult(ex.Message);
             }
         }
@@ -140,7 +143,7 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                FileLogger.LogError(ex);
+                _logger.LogError(ex);
                 return new ObjectResult(ex.Message);
             }
         }
@@ -155,7 +158,7 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                FileLogger.LogError(ex);
+                _logger.LogError(ex);
                 return new ObjectResult(ex.Message);
             }
         }

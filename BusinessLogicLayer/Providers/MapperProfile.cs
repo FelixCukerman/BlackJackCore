@@ -24,7 +24,7 @@ namespace BusinessLogicLayer.Providers
 
             CreateMap<User, ResponseUserViewModel>()
             .ForMember(x => x.Id, x => x.MapFrom(m => m.Id))
-            .ForMember(x => x.Nickname, x => x.MapFrom(m => m.Nickname))
+            .ForMember(x => x.Nickname, x => x.MapFrom(m => m.UserName))
             .ForMember(x => x.UserRole, x => x.MapFrom(m => m.UserRole))
             .ForMember(x => x.Cards, x => x.Ignore())
             .ForMember(x => x.Cash, x => x.MapFrom(m => m.Cash));

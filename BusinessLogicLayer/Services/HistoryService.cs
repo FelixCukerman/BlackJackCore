@@ -74,7 +74,7 @@ namespace BusinessLogicLayer.Services
                 {
                     winsQuantity = wins.Count();
                 }
-                result.Add(new ResponseGameOverViewModel { UserId = users[i].Id, Username = users[i].Nickname, WinsQuantity = winsQuantity });
+                result.Add(new ResponseGameOverViewModel { UserId = users[i].Id, Username = users[i].UserName, WinsQuantity = winsQuantity });
             }
 
             return result;
@@ -124,7 +124,7 @@ namespace BusinessLogicLayer.Services
                 historyUserRound.Cards = new List<ResponseCardViewModel>();
 
                 historyUserRound.UserId = currentUser.Id;
-                historyUserRound.Nickname = currentUser.Nickname;
+                historyUserRound.Nickname = currentUser.UserName;
                 historyUserRound.UserRole = currentUser.UserRole;
                 historyUserRound.Points = userRounds[i].Points;
                 historyUserRound.RoundStatus = userRounds[i].RoundStatus;
@@ -165,7 +165,7 @@ namespace BusinessLogicLayer.Services
                 }
 
                 historyUserDetails.UserId = currentUser.Id;
-                historyUserDetails.Nickname = currentUser.Nickname;
+                historyUserDetails.Nickname = currentUser.UserName;
                 historyUserDetails.UserRole = currentUser.UserRole;
                 historyUserDetails.Rate = userGames[i].Rate;
 

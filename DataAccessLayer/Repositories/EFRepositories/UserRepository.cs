@@ -24,7 +24,7 @@ namespace DataAccessLayer.Repositories
         }
         public async Task<User> Get(string nickname)
         {
-            return await _data.Users.FirstOrDefaultAsync(user => user.Nickname == nickname && (user.UserRole == UserRoleType.PeoplePlayer || user.UserRole == UserRoleType.Dealer));
+            return await _data.Users.FirstOrDefaultAsync(user => user.UserName == nickname && (user.UserRole == UserRoleType.PeoplePlayer || user.UserRole == UserRoleType.Dealer));
         }
     }
 }

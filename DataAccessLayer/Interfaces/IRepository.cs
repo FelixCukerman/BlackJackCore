@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using EntitiesLayer.Abstraction;
+using EntitiesLayer.Interfaces;
 
 namespace DataAccessLayer.Interfaces
 {
-    public interface IRepository<T> where T : BaseEntity
+    public interface IRepository<T> where T : IBaseEntity
     {
         Task<IEnumerable<T>> Get();
         Task<T> Get(int id);

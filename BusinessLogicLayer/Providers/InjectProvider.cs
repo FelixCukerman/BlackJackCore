@@ -28,7 +28,6 @@ namespace Microsoft.Extensions.DependencyInjection
                 services.AddTransient<ICardRepository>(provider => new DapperCardRepository(connectionString));
                 services.AddTransient<IMoveRepository>(provider => new DapperMoveRepository(connectionString));
                 services.AddTransient<IRoundRepository>(provider => new DapperRoundRepository(connectionString));
-                services.AddTransient<IUserRepository>(provider => new DapperUserRepository(connectionString));
                 services.AddTransient<IUserGamesRepository>(provider => new DapperUserGamesRepository(connectionString));
                 services.AddTransient<IUserRoundRepository>(provider => new DapperUserRoundRepository(connectionString));
             }

@@ -235,7 +235,7 @@ namespace BusinessLogicLayer.Services
                 var itemToResult = new ResponseGameOverViewModel();
 
                 itemToResult.UserId = user.Id;
-                itemToResult.Username = user.Nickname;
+                itemToResult.Username = user.UserName;
                 itemToResult.WinsQuantity = winsQuantity;
 
                 result.Add(itemToResult);
@@ -427,7 +427,7 @@ namespace BusinessLogicLayer.Services
             {
                 int currentUserId = userRounds[i].UserId;
                 User currentUser = users.FirstOrDefault(item => item.Id == currentUserId);
-                string currentUserNickname = currentUser.Nickname;
+                string currentUserNickname = currentUser.UserName;
 
                 userRounds[i].Nickname = currentUserNickname;
             }
@@ -603,7 +603,7 @@ namespace BusinessLogicLayer.Services
             for (int i = 0; i < request.BotQuantity; i++)
             {
                 var bot = new User();
-                bot.Nickname = $"Bot#{i+1}";
+                bot.UserName = $"Bot#{i+1}";
                 bot.UserRole = UserRoleType.BotPlayer;
 
                 bots.Add(bot);
@@ -621,7 +621,7 @@ namespace BusinessLogicLayer.Services
             if (peoplePlayer == null)
             {
                 peoplePlayer = new User();
-                peoplePlayer.Nickname = requestUser.Nickname;
+                peoplePlayer.UserName = requestUser.Nickname;
                 peoplePlayer.UserRole = UserRoleType.PeoplePlayer;
 
                 await _userRepository.Create(peoplePlayer);
@@ -732,7 +732,7 @@ namespace BusinessLogicLayer.Services
                 dealTwoCardsRequest = new DealTwoCardsDTO { GameId = gameId, Moves = moves, RoundId = lastRoundId, User = currentUser };
 
                 cardToUser = DealTwoCards(dealTwoCardsRequest);
-                usersResult.FirstOrDefault(item => item.Nickname == currentUser.Nickname).Cards = _mapper.Map<List<ResponseCardViewModel>>(cardToUser);
+                usersResult.FirstOrDefault(item => item.Nickname == currentUser.UserName).Cards = _mapper.Map<List<ResponseCardViewModel>>(cardToUser);
 
                 userRound = userRounds.FirstOrDefault(item => item.UserId == currentUser.Id);
                 userRound.Points += cardToUser.Sum(card => card.CardValue);

@@ -3,11 +3,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using DataAccessLayer.Interfaces;
 using EntitiesLayer.Abstraction;
+using EntitiesLayer.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataAccessLayer.Repositories
 {
-    public class GenericRepository<T> : IRepository<T> where T : BaseEntity
+    public class GenericRepository<T> : IRepository<T> where T : class, IBaseEntity
+
     {
         protected GameContext _data;
         private DbSet<T> _dbSet;

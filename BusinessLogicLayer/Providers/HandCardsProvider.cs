@@ -24,7 +24,7 @@ namespace BusinessLogicLayer.Providers
 
         public HandCards Get(User user)
         {
-            return _cache.Get(user.Nickname) as HandCards;
+            return _cache.Get(user.UserName) as HandCards;
         }
 
         public List<HandCards> Get(IEnumerable<User> users)
@@ -32,32 +32,32 @@ namespace BusinessLogicLayer.Providers
             var handUsers = new List<HandCards>();
             for (int i = 0; i < users.Count(); i++)
             {
-                handUsers.Add(_cache.Get(users.ElementAt(i).Nickname) as HandCards);
+                handUsers.Add(_cache.Get(users.ElementAt(i).UserName) as HandCards);
             }
             return handUsers;
         }
 
         public void Add(HandCards handCards)
         {
-            _cache.Set(handCards.User.Nickname, handCards, options);
+            _cache.Set(handCards.User.UserName, handCards, options);
         }
 
         public void AddRange(List<HandCards> handCards)
         {
             for (int i = 0; i < handCards.Count; i++)
             {
-                _cache.Set(handCards[i].User.Nickname, handCards[i], options);
+                _cache.Set(handCards[i].User.UserName, handCards[i], options);
             }
         }
 
         public void Update(HandCards handCards)
         {
-            _cache.Set(handCards.User.Nickname, handCards, DateTime.Now.AddMinutes(BusinessLogicConstant._DataRetentionTime));
+            _cache.Set(handCards.User.UserName, handCards, DateTime.Now.AddMinutes(BusinessLogicConstant._DataRetentionTime));
         }
 
         public void Delete(User user)
         {
-            _cache.Remove(user.Nickname);
+            _cache.Remove(user.UserName);
         }
     }
 }

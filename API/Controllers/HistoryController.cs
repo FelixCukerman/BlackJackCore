@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Threading.Tasks;
+using API.Inerfaces;
 using API.Logger;
 using BusinessLogicLayer.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -13,10 +14,12 @@ namespace API.Controllers
     public class HistoryController : ControllerBase
     {
         private IHistoryService _service { get; set; }
+        private IFileLogger _logger { get; set; }
 
-        public HistoryController(IHistoryService service)
+        public HistoryController(IHistoryService service, IFileLogger logger)
         {
-            this._service = service;
+            _service = service;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -30,7 +33,7 @@ namespace API.Controllers
             }
             catch(NullReferenceException ex)
             {
-                FileLogger.LogError(ex);
+                _logger.LogError(ex);
                 return new ObjectResult(StatusCode((int)HttpStatusCode.NotFound));
             }
         }
@@ -46,7 +49,7 @@ namespace API.Controllers
             }
             catch (NullReferenceException ex)
             {
-                FileLogger.LogError(ex);
+                _logger.LogError(ex);
                 return new ObjectResult(StatusCode((int)HttpStatusCode.NotFound));
             }
         }
@@ -62,7 +65,7 @@ namespace API.Controllers
             }
             catch (NullReferenceException ex)
             {
-                FileLogger.LogError(ex);
+                _logger.LogError(ex);
                 return new ObjectResult(StatusCode((int)HttpStatusCode.NotFound));
             }
         }
@@ -78,7 +81,7 @@ namespace API.Controllers
             }
             catch (NullReferenceException ex)
             {
-                FileLogger.LogError(ex);
+                _logger.LogError(ex);
                 return new ObjectResult(StatusCode((int)HttpStatusCode.NotFound));
             }
         }
