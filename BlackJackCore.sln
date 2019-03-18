@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ViewModelsLayer", "ViewMode
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessLogicLayer", "BusinessLogicLayer\BusinessLogicLayer.csproj", "{E0D89882-F103-4B1B-A4E0-5D1DC59281D5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API", "API\API.csproj", "{4233F9CA-BB3F-45D6-BFBC-96215A487896}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API", "API\API.csproj", "{4233F9CA-BB3F-45D6-BFBC-96215A487896}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

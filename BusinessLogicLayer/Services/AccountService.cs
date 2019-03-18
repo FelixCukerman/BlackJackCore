@@ -4,10 +4,15 @@ using EntitiesLayer.Enums;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.IdentityModel.Tokens;
 using ViewModelsLayer.ViewModels.AccountViewModel;
 using ViewModelsLayer.ViewModels.UserViewModels;
+using BusinessLogicLayer.Providers;
+using System.IdentityModel.Tokens.Jwt;
+using Newtonsoft.Json;
 
 namespace BusinessLogicLayer.Services
 {
@@ -22,53 +27,55 @@ namespace BusinessLogicLayer.Services
             _signInManager = signInManager;
         }
 
-        private async Task<bool> CheckUserExist(string username)
+        private async Task<ClaimsIdentity> GetIdentity(string username)
         {
-            User user = await _userManager.FindByNameAsync(username);
+            User person = await _userManager.FindByNameAsync(username);
 
-            bool userExist = true;
-
-            if(user == null)
+            if (person != null)
             {
-                userExist = false;
-                return userExist;
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimsIdentity.DefaultNameClaimType, person.UserName),
+                    new Claim(ClaimsIdentity.DefaultRoleClaimType, person.UserRole.ToString())
+                };
+
+                ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, "Token", 
+                    ClaimsIdentity.DefaultNameClaimType,
+                    ClaimsIdentity.DefaultRoleClaimType);
+
+                return claimsIdentity;
             }
-
-            return userExist;
-        }
-
-
-
-        public async Task<User> RegisterUser(RegisterViewModel request)
-        {
-            var user = new User();
-            user.UserName = request.Username;
-            user.UserRole = UserRoleType.PeoplePlayer;
-
-            IdentityResult result = await _userManager.CreateAsync(user, request.Password);
-
-            if (result.Succeeded)
-            {
-                await _signInManager.SignInAsync(user, false);
-                return user;
-            }
-
+            
             return null;
         }
 
-        public async Task<bool> LoginUser(LoginViewModel request)
+        public async Task Token(string username)
         {
-            string password = request.Password;
-            string username = request.Username;
+            var identity = await GetIdentity(username);
+            if (identity == null)
+            {
+                return;
+            }
 
-            SignInResult result = await _signInManager.PasswordSignInAsync(username, password, false, false);
+            var now = DateTime.UtcNow;
 
-            return result.Succeeded;
-        }
+            var jwt = new JwtSecurityToken(
+                    issuer: AuthOptions._Issuer,
+                    audience: AuthOptions._Audience,
+                    notBefore: now,
+                    claims: identity.Claims,
+                    expires: now.Add(TimeSpan.FromMinutes(AuthOptions._Lifetime)),
+                    signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
 
-        public async Task LogOut()
-        {
-            await _signInManager.SignOutAsync();
+            var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
+
+            var response = new
+            {
+                access_token = encodedJwt,
+                username = identity.Name
+            };
+
+            var result = JsonConvert.SerializeObject(response, new JsonSerializerSettings { Formatting = Formatting.Indented });
         }
     }
 }
