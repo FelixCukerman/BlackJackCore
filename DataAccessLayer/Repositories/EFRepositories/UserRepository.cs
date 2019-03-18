@@ -6,6 +6,7 @@ using DataAccessLayer.Interfaces;
 using EntitiesLayer.Entities;
 using Microsoft.EntityFrameworkCore;
 using EntitiesLayer.Enums;
+using DataAccessLayer.Constants;
 
 namespace DataAccessLayer.Repositories
 {
@@ -25,6 +26,10 @@ namespace DataAccessLayer.Repositories
         public async Task<User> Get(string nickname)
         {
             return await _data.Users.FirstOrDefaultAsync(user => user.UserName == nickname && (user.UserRole == UserRoleType.PeoplePlayer || user.UserRole == UserRoleType.Dealer));
+        }
+        public async Task<List<User>> GetBotsByQuantity(int requestQuantity)
+        {
+            return await _data.Users.Where(user => user.UserRole == UserRoleType.BotPlayer).Skip(ConfigureConstant._MaxBotsCount - requestQuantity).ToListAsync();
         }
     }
 }

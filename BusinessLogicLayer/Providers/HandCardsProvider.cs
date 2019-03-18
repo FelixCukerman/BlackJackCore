@@ -19,7 +19,7 @@ namespace BusinessLogicLayer.Providers
             _cache = cache;
 
             options = new MemoryCacheEntryOptions();
-            options.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(BusinessLogicConstant._DataRetentionTime);
+            options.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(ConfigureConstant._DataRetentionTime);
         }
 
         public HandCards Get(User user)
@@ -52,7 +52,7 @@ namespace BusinessLogicLayer.Providers
 
         public void Update(HandCards handCards)
         {
-            _cache.Set(handCards.User.UserName, handCards, DateTime.Now.AddMinutes(BusinessLogicConstant._DataRetentionTime));
+            _cache.Set(handCards.User.UserName, handCards, DateTime.Now.AddMinutes(ConfigureConstant._DataRetentionTime));
         }
 
         public void Delete(User user)

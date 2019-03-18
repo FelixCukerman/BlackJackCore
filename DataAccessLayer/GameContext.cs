@@ -18,6 +18,7 @@ namespace DataAccessLayer
         {
             modelBuilder.Entity<Card>().HasData(DatabaseInitializer.GetCards().ToArray());
             modelBuilder.Entity<User>().HasData(new User { Id = 1, UserName = "Dealer", UserRole = UserRoleType.Dealer });
+            modelBuilder.Entity<User>().HasData(DatabaseInitializer.GetBots().ToArray());
 
             base.OnModelCreating(modelBuilder);
         }

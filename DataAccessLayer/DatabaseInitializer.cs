@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using DataAccessLayer.Constants;
 using EntitiesLayer.Entities;
 using EntitiesLayer.Enums;
 
@@ -14,7 +15,7 @@ namespace DataAccessLayer
         }
         public static List<Card> GetCards()
         {
-            List<Card> cards = new List<Card>();
+            var cards = new List<Card>();
 
             for (int i = 1; i < 5; i++)
             {
@@ -31,6 +32,28 @@ namespace DataAccessLayer
             }
 
             return cards;
+        }
+
+        public static List<User> GetBots()
+        {
+            var bots = new List<User>();
+
+            int botId = 2;
+
+            for (int i = 0; i < ConfigureConstant._MaxBotsCount; i++)
+            {
+                var bot = new User();
+
+                bot.Id = botId;
+                bot.UserName = $"Bot#{i + 1}";
+                bot.UserRole = UserRoleType.BotPlayer;
+
+                bots.Add(bot);
+
+                botId++;
+            }
+
+            return bots;
         }
     }
 }

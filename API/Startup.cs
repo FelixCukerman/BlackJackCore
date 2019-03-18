@@ -63,9 +63,10 @@ namespace API
             //    app.UseExceptionHandler("/Home/Error");
             //}
 
+            app.UseDeveloperExceptionPage();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-            app.UseDeveloperExceptionPage();
+            app.UseAuthentication();
             app.UseMvc(routes =>
             {
                 routes.MapRoute("start", "game/start", new { controller = "Home", action = "Index" });
