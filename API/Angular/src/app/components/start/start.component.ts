@@ -6,6 +6,9 @@ import { Router, Data } from '@angular/router';
 import ResponseGameViewModel from 'src/app/viewmodels/GameViewModels/response-game-view-model';
 import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
 import { GameState } from 'src/app/shared/enums/game-state';
+import { AccountService } from 'src/app/services/AccountService/account-service.service';
+import { GetTokenViewModel } from 'src/app/viewmodels/AccountViewModels/get-token-view-model';
+import { debug } from 'util';
 
 @Component({
   selector: 'app-start',
@@ -15,24 +18,44 @@ import { GameState } from 'src/app/shared/enums/game-state';
 export class StartComponent implements OnInit
 {
   public response: ResponseGameViewModel;
+  public tokenResult: GetTokenViewModel;
   public request: RequestGameViewModel;
   public user: RequestUserViewModel;
   private gameState: GameState;
 
-  constructor(@Inject(LOCAL_STORAGE) private storage: WebStorageService, private service: StartService, private router: Router)
+  constructor(@Inject(LOCAL_STORAGE) private storage: WebStorageService, private startService: StartService, private accountService: AccountService,  private router: Router)
   {
   }
 
   CreateNewGame()
   {
     this.request.user = this.user;
-    this.service.CreateNewGame(this.request).subscribe((data: ResponseGameViewModel) =>
-    {
-      this.response = data;
-      this.router.navigate(['game/' + data.id]);
-      this.gameState = GameState.StartRound;
-      this.storage.set('key', this.gameState);
-    });
+
+    console.log(this.user);
+
+    let token = this.storage.get('token');
+
+    console.log(token != null);
+    console.log(token == null);
+
+    if (token == null) {
+      console.log(1);
+      this.accountService.CreateToken(this.user.Nickname).subscribe((data: GetTokenViewModel) =>
+      {
+        this.tokenResult = data;
+        this.storage.set('token', this.tokenResult.accessToken);
+        console.log(2);
+      });
+    }
+
+    if (token != null) {
+      this.startService.CreateNewGame(this.request).subscribe((data: ResponseGameViewModel) => {
+        this.response = data;
+        this.router.navigate(['game/' + data.id]);
+        this.gameState = GameState.StartRound;
+        this.storage.set('key', this.gameState);
+      });
+    }
   }
 
   ngOnInit()
@@ -40,5 +63,4 @@ export class StartComponent implements OnInit
     this.user = new RequestUserViewModel("");
     this.request = new RequestGameViewModel(this.user, 0, 0, 0);
   }
-
 }

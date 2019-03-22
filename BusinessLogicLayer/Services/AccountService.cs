@@ -1,18 +1,14 @@
 ﻿using BusinessLogicLayer.Interfaces;
 using EntitiesLayer.Entities;
-using EntitiesLayer.Enums;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.IdentityModel.Tokens;
-using ViewModelsLayer.ViewModels.AccountViewModel;
-using ViewModelsLayer.ViewModels.UserViewModels;
 using BusinessLogicLayer.Providers;
 using System.IdentityModel.Tokens.Jwt;
-using Newtonsoft.Json;
+using ViewModelsLayer.ViewModels.AccountViewModel;
 
 namespace BusinessLogicLayer.Services
 {
@@ -49,33 +45,36 @@ namespace BusinessLogicLayer.Services
             return null;
         }
 
-        public async Task Token(string username)
+        public async Task<GetTokenViewModel> GetToken(string username)
         {
             var identity = await GetIdentity(username);
             if (identity == null)
             {
-                return;
+                throw new NullReferenceException("Invalid username");
+
             }
 
-            var now = DateTime.UtcNow;
+            DateTime currentDate = DateTime.UtcNow;
 
-            var jwt = new JwtSecurityToken(
-                    issuer: AuthOptions._Issuer,
-                    audience: AuthOptions._Audience,
-                    notBefore: now,
-                    claims: identity.Claims,
-                    expires: now.Add(TimeSpan.FromMinutes(AuthOptions._Lifetime)),
-                    signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
+            var jwt = new JwtSecurityToken
+            (
+                issuer: AuthOptions._Issuer,
+                audience: AuthOptions._Audience,
+                notBefore: currentDate,
+                claims: identity.Claims,
+                expires: currentDate.Add(TimeSpan.FromMinutes(AuthOptions._Lifetime)),
+                signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256Signature)
+            );
 
-            var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
+            string encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
 
-            var response = new
+            var response = new GetTokenViewModel
             {
-                access_token = encodedJwt,
-                username = identity.Name
+                AccessToken = encodedJwt,
+                Username = identity.Name
             };
 
-            var result = JsonConvert.SerializeObject(response, new JsonSerializerSettings { Formatting = Formatting.Indented });
+            return response;
         }
     }
 }

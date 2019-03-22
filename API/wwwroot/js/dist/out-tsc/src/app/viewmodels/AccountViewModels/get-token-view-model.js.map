@@ -1,0 +1,1 @@
+{"version":3,"file":"get-token-view-model.js","sourceRoot":"","sources":["../../../../../../../../Angular/src/app/viewmodels/AccountViewModels/get-token-view-model.ts"],"names":[],"mappings":"AAAA;IACE,2BAAY,WAAW,EAAE,QAAQ;QAC/B,IAAI,CAAC,WAAW,GAAG,WAAW,CAAC;QAC/B,IAAI,CAAC,QAAQ,GAAG,QAAQ,CAAC;IAC3B,CAAC;IAIH,wBAAC;AAAD,CAAC,AARD,IAQC"}

@@ -7,17 +7,16 @@
 
   <ItemGroup>
     <Compile Remove="Angular\src\app\services\NewFolder1\**" />
-    <Compile Remove="Angular\src\app\services\NewFolder\**" />
     <Content Remove="Angular\src\app\services\NewFolder1\**" />
-    <Content Remove="Angular\src\app\services\NewFolder\**" />
     <EmbeddedResource Remove="Angular\src\app\services\NewFolder1\**" />
-    <EmbeddedResource Remove="Angular\src\app\services\NewFolder\**" />
     <None Remove="Angular\src\app\services\NewFolder1\**" />
-    <None Remove="Angular\src\app\services\NewFolder\**" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Angular\src\app\auth\jwt.interceptor.ts" />
+    <None Remove="Angular\src\app\auth\token.interceptor.ts" />
     <None Remove="Angular\src\app\shared\enums\game-state.ts" />
+    <None Remove="Angular\src\app\viewmodels\AccountViewModels\get-token-view-model.ts" />
     <None Remove="Angular\src\app\viewmodels\GameOverViewModels\response-game-over-view-model.ts" />
     <None Remove="Angular\src\app\viewmodels\ReplenishCashViewModels\request-replenish-cash-view-model.ts" />
     <None Remove="Angular\src\app\viewmodels\UserGameViewModels\response-user-game-view-models.ts" />
@@ -37,10 +36,14 @@
 
   <ItemGroup>
     <Folder Include="Angular\src\app\components\history\" />
+    <Folder Include="Angular\src\app\services\AccountService\" />
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="Angular\src\app\auth\jwt.interceptor.ts" />
+    <TypeScriptCompile Include="Angular\src\app\auth\token.interceptor.ts" />
     <TypeScriptCompile Include="Angular\src\app\shared\enums\game-state.ts" />
+    <TypeScriptCompile Include="Angular\src\app\viewmodels\AccountViewModels\get-token-view-model.ts" />
     <TypeScriptCompile Include="Angular\src\app\viewmodels\GameOverViewModels\response-game-over-view-model.ts" />
     <TypeScriptCompile Include="Angular\src\app\viewmodels\ReplenishCashViewModels\request-replenish-cash-view-model.ts" />
     <TypeScriptCompile Include="Angular\src\app\viewmodels\UserGameViewModels\response-user-game-view-models.ts" />

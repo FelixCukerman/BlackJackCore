@@ -15,6 +15,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using BusinessLogicLayer.Providers;
+using System.IdentityModel.Tokens.Jwt;
+using System;
 
 namespace API
 {
@@ -29,25 +31,29 @@ namespace API
         
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
+            services.AddIdentity<User, IdentityRole<int>>()
+            .AddEntityFrameworkStores<GameContext>()
+            .AddDefaultTokenProviders();
+
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+            services
+                .AddAuthentication(options =>
                 {
-                    options.RequireHttpsMetadata = false;
-                    options.TokenValidationParameters = new TokenValidationParameters
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+
+                })
+                .AddJwtBearer(cfg =>
+                {
+                    cfg.RequireHttpsMetadata = false;
+                    cfg.SaveToken = true;
+                    cfg.TokenValidationParameters = new TokenValidationParameters
                     {
-                        ValidateIssuer = true,
-
                         ValidIssuer = AuthOptions._Issuer,
-                        
-                        ValidateAudience = true,
-
                         ValidAudience = AuthOptions._Audience,
-
-                        ValidateLifetime = true,
-
                         IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
-
-                        ValidateIssuerSigningKey = true,
+                        ClockSkew = TimeSpan.Zero
                     };
                 });
 
@@ -64,10 +70,8 @@ namespace API
             services.AddRepositories(Configuration);
             services.AddTransient<IGameService, GameService>();
             services.AddTransient<IHistoryService, HistoryService>();
+            services.AddTransient<IAccountService, AccountService>();
             services.AddTransient<IFileLogger, FileLogger>();
-
-            services.AddIdentity<User, IdentityRole<int>>()
-            .AddEntityFrameworkStores<GameContext>();
         }
         
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

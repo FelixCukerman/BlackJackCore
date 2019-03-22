@@ -1,9 +1,9 @@
 export class RequestUserViewModel
 {
-  constructor(nickname)
+  constructor(Nickname)
   {
-    this.nickname = nickname;
+    this.Nickname = Nickname;
   }
 
-  public nickname?: string;
+  public Nickname?: string;
 }

@@ -7,6 +7,7 @@ using System.Net;
 using ViewModelsLayer.ViewModels.ReplenishCashViewModel;
 using API.Logger;
 using API.Inerfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers
 {
@@ -23,8 +24,8 @@ namespace API.Controllers
             _logger = logger;
         }
 
-        [HttpGet]
-        [Route("gamebyid/{gameId}")]
+        [Authorize]
+        [HttpGet("gamebyid/{gameId}")]
         public async Task<ObjectResult> GameById(int gameId)
         {
             try
@@ -39,8 +40,7 @@ namespace API.Controllers
             }
         }
 
-        [HttpGet]
-        [Route("gameover/{gameId}")]
+        [HttpGet("gameover/{gameId}")]
         public async Task<ObjectResult> GameOver(int gameId)
         {
             try
@@ -55,8 +55,8 @@ namespace API.Controllers
             }
         }
 
-        [HttpPost]
-        [Route("replenishcash")]
+        [Authorize]
+        [HttpPost("replenishcash")]
         public async Task<ObjectResult> ReplenishCash([FromBody]RequestReplenishCashViewModel request)
         {
             try
@@ -70,14 +70,14 @@ namespace API.Controllers
                 return new ObjectResult(StatusCode((int)HttpStatusCode.NotFound));
             }
         }
-
-        [HttpPost]
-        [Route("create")]
+        
+        [Authorize]
+        [HttpPost("create")]
         public async Task<ObjectResult> CreateNewGame(RequestGameViewModel request)
         {
             try
             {
-                var result = await _service.CreateNewGame(request); ;
+                var result = await _service.CreateNewGame(request);
                 return new ObjectResult(result);
             }
             catch (Exception ex)
@@ -87,8 +87,8 @@ namespace API.Controllers
             }
         }
 
-        [HttpPost]
-        [Route("createround/{gameId}")]
+        [Authorize]
+        [HttpPost("createround/{gameId}")]
         public async Task<ObjectResult> CreateNewRound(int gameId)
         {
             try

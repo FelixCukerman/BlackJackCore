@@ -145,6 +145,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
 /* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ "./node_modules/@ng-bootstrap/ng-bootstrap/index.js");
+/* harmony import */ var _auth_token_interceptor__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./auth/token.interceptor */ "./src/app/auth/token.interceptor.ts");
+/* harmony import */ var angular_webstorage_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! angular-webstorage-service */ "./node_modules/angular-webstorage-service/bundles/angular-webstorage-service.es5.js");
+/* harmony import */ var _auth_jwt_interceptor__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./auth/jwt.interceptor */ "./src/app/auth/jwt.interceptor.ts");
+
+
+
 
 
 
@@ -161,16 +167,105 @@ var AppModule = /** @class */ (function () {
                 _app_component__WEBPACK_IMPORTED_MODULE_4__["AppComponent"]
             ],
             imports: [
+                angular_webstorage_service__WEBPACK_IMPORTED_MODULE_8__["StorageServiceModule"],
                 _angular_common_http__WEBPACK_IMPORTED_MODULE_5__["HttpClientModule"],
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["BrowserModule"],
                 _app_routing_module__WEBPACK_IMPORTED_MODULE_3__["AppRoutingModule"],
                 _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_6__["NgbModule"].forRoot()
             ],
-            providers: [_app_component__WEBPACK_IMPORTED_MODULE_4__["AppComponent"], _angular_common_http__WEBPACK_IMPORTED_MODULE_5__["HttpClientModule"]],
+            providers: [
+                {
+                    provide: _angular_common_http__WEBPACK_IMPORTED_MODULE_5__["HTTP_INTERCEPTORS"],
+                    useClass: _auth_token_interceptor__WEBPACK_IMPORTED_MODULE_7__["TokenInterceptor"],
+                    multi: true
+                },
+                {
+                    provide: _angular_common_http__WEBPACK_IMPORTED_MODULE_5__["HTTP_INTERCEPTORS"],
+                    useClass: _auth_jwt_interceptor__WEBPACK_IMPORTED_MODULE_9__["JwtInterceptor"],
+                    multi: true
+                },
+                _app_component__WEBPACK_IMPORTED_MODULE_4__["AppComponent"],
+                _angular_common_http__WEBPACK_IMPORTED_MODULE_5__["HttpClientModule"]
+            ],
             bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_4__["AppComponent"]]
         })
     ], AppModule);
     return AppModule;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/auth/jwt.interceptor.ts":
+/*!*****************************************!*\
+  !*** ./src/app/auth/jwt.interceptor.ts ***!
+  \*****************************************/
+/*! exports provided: JwtInterceptor */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "JwtInterceptor", function() { return JwtInterceptor; });
+/* harmony import */ var rxjs_add_operator_do__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! rxjs/add/operator/do */ "./node_modules/rxjs-compat/_esm5/add/operator/do.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+
+
+var JwtInterceptor = /** @class */ (function () {
+    function JwtInterceptor() {
+    }
+    JwtInterceptor.prototype.intercept = function (request, next) {
+        return next.handle(request).do(function (event) {
+            if (event instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpResponse"]) {
+            }
+        }, function (err) {
+            if (err instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpErrorResponse"]) {
+                if (err.status === 401) {
+                    console.log(401);
+                }
+            }
+        });
+    };
+    return JwtInterceptor;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/auth/token.interceptor.ts":
+/*!*******************************************!*\
+  !*** ./src/app/auth/token.interceptor.ts ***!
+  \*******************************************/
+/*! exports provided: TokenInterceptor */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TokenInterceptor", function() { return TokenInterceptor; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _services_AccountService_account_service_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../services/AccountService/account-service.service */ "./src/app/services/AccountService/account-service.service.ts");
+
+
+
+var TokenInterceptor = /** @class */ (function () {
+    function TokenInterceptor(auth) {
+        this.auth = auth;
+    }
+    TokenInterceptor.prototype.intercept = function (request, next) {
+        request = request.clone({
+            setHeaders: {
+                Authorization: "Bearer " + this.auth.GetToken()
+            }
+        });
+        return next.handle(request);
+    };
+    TokenInterceptor = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])(),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_services_AccountService_account_service_service__WEBPACK_IMPORTED_MODULE_2__["AccountService"]])
+    ], TokenInterceptor);
+    return TokenInterceptor;
 }());
 
 
@@ -397,6 +492,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 /* harmony import */ var angular_webstorage_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! angular-webstorage-service */ "./node_modules/angular-webstorage-service/bundles/angular-webstorage-service.es5.js");
 /* harmony import */ var src_app_shared_enums_game_state__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! src/app/shared/enums/game-state */ "./src/app/shared/enums/game-state.ts");
+/* harmony import */ var src_app_services_AccountService_account_service_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! src/app/services/AccountService/account-service.service */ "./src/app/services/AccountService/account-service.service.ts");
+
 
 
 
@@ -406,20 +503,35 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var StartComponent = /** @class */ (function () {
-    function StartComponent(storage, service, router) {
+    function StartComponent(storage, startService, accountService, router) {
         this.storage = storage;
-        this.service = service;
+        this.startService = startService;
+        this.accountService = accountService;
         this.router = router;
     }
     StartComponent.prototype.CreateNewGame = function () {
         var _this = this;
         this.request.user = this.user;
-        this.service.CreateNewGame(this.request).subscribe(function (data) {
-            _this.response = data;
-            _this.router.navigate(['game/' + data.id]);
-            _this.gameState = src_app_shared_enums_game_state__WEBPACK_IMPORTED_MODULE_7__["GameState"].StartRound;
-            _this.storage.set('key', _this.gameState);
-        });
+        console.log(this.user);
+        var token = this.storage.get('token');
+        console.log(token != null);
+        console.log(token == null);
+        if (token == null) {
+            console.log(1);
+            this.accountService.CreateToken(this.user.Nickname).subscribe(function (data) {
+                _this.tokenResult = data;
+                _this.storage.set('token', _this.tokenResult.accessToken);
+                console.log(2);
+            });
+        }
+        if (token != null) {
+            this.startService.CreateNewGame(this.request).subscribe(function (data) {
+                _this.response = data;
+                _this.router.navigate(['game/' + data.id]);
+                _this.gameState = src_app_shared_enums_game_state__WEBPACK_IMPORTED_MODULE_7__["GameState"].StartRound;
+                _this.storage.set('key', _this.gameState);
+            });
+        }
     };
     StartComponent.prototype.ngOnInit = function () {
         this.user = new src_app_viewmodels_UserViewModels_request_user_view_model__WEBPACK_IMPORTED_MODULE_3__["RequestUserViewModel"]("");
@@ -432,7 +544,7 @@ var StartComponent = /** @class */ (function () {
             styles: [__webpack_require__(/*! ./start.component.css */ "./src/app/components/start/start.component.css")]
         }),
         tslib__WEBPACK_IMPORTED_MODULE_0__["__param"](0, Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Inject"])(angular_webstorage_service__WEBPACK_IMPORTED_MODULE_6__["LOCAL_STORAGE"])),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [angular_webstorage_service__WEBPACK_IMPORTED_MODULE_6__["WebStorageService"], src_app_services_StartService_start_service__WEBPACK_IMPORTED_MODULE_4__["StartService"], _angular_router__WEBPACK_IMPORTED_MODULE_5__["Router"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [angular_webstorage_service__WEBPACK_IMPORTED_MODULE_6__["WebStorageService"], src_app_services_StartService_start_service__WEBPACK_IMPORTED_MODULE_4__["StartService"], src_app_services_AccountService_account_service_service__WEBPACK_IMPORTED_MODULE_8__["AccountService"], _angular_router__WEBPACK_IMPORTED_MODULE_5__["Router"]])
     ], StartComponent);
     return StartComponent;
 }());
@@ -545,6 +657,50 @@ var StartModule = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/services/AccountService/account-service.service.ts":
+/*!********************************************************************!*\
+  !*** ./src/app/services/AccountService/account-service.service.ts ***!
+  \********************************************************************/
+/*! exports provided: AccountService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AccountService", function() { return AccountService; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var angular_webstorage_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! angular-webstorage-service */ "./node_modules/angular-webstorage-service/bundles/angular-webstorage-service.es5.js");
+
+
+
+
+var AccountService = /** @class */ (function () {
+    function AccountService(http, storage) {
+        this.http = http;
+        this.storage = storage;
+        this.url = "/api/auth/";
+    }
+    AccountService.prototype.CreateToken = function (username) {
+        return this.http.get(this.url + "token/" + username);
+    };
+    AccountService.prototype.GetToken = function () {
+        return this.storage.get('token');
+    };
+    AccountService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
+            providedIn: 'root'
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__param"](1, Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Inject"])(angular_webstorage_service__WEBPACK_IMPORTED_MODULE_3__["LOCAL_STORAGE"])),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"], angular_webstorage_service__WEBPACK_IMPORTED_MODULE_3__["WebStorageService"]])
+    ], AccountService);
+    return AccountService;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/services/GameService/game.service.ts":
 /*!******************************************************!*\
   !*** ./src/app/services/GameService/game.service.ts ***!
@@ -564,35 +720,35 @@ __webpack_require__.r(__webpack_exports__);
 var GameService = /** @class */ (function () {
     function GameService(http) {
         this.http = http;
-        this.url = "/api/game";
+        this.url = "/api/game/";
     }
     GameService.prototype.GameById = function (id) {
-        return this.http.get(this.url + "/gamebyid/" + id);
+        return this.http.get(this.url + "gamebyid/" + id);
     };
     GameService.prototype.DealCards = function (id) {
-        return this.http.post(this.url + "/dealcards/" + id, id);
+        return this.http.post(this.url + "dealcards/" + id, id);
     };
     GameService.prototype.DealCardToPlayer = function (id) {
-        return this.http.post(this.url + "/dealcardstoplayer/" + id, id);
+        return this.http.post(this.url + "dealcardstoplayer/" + id, id);
     };
     GameService.prototype.ReplenishCash = function (request) {
-        var result = this.http.post(this.url + "/replenishcash", request);
+        var result = this.http.post(this.url + "replenishcash", request);
         return result;
     };
     GameService.prototype.DealCardsToBots = function (gameId) {
-        var result = this.http.post(this.url + "/dealcardstobots/" + gameId, gameId);
+        var result = this.http.post(this.url + "dealcardstobots/" + gameId, gameId);
         return result;
     };
     GameService.prototype.DealCardsToDealer = function (id) {
-        var result = this.http.post(this.url + "/dealcardstodealer/" + id, id);
+        var result = this.http.post(this.url + "dealcardstodealer/" + id, id);
         return result;
     };
     GameService.prototype.CreateNewRound = function (id) {
-        var result = this.http.post(this.url + "/createround/" + id, id);
+        var result = this.http.post(this.url + "createround/" + id, id);
         return result;
     };
     GameService.prototype.GameOver = function (id) {
-        var result = this.http.get(this.url + "/gameover/" + id);
+        var result = this.http.get(this.url + "gameover/" + id);
         return result;
     };
     GameService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
@@ -748,8 +904,8 @@ var RequestReplenishCashViewModel = /** @class */ (function () {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RequestUserViewModel", function() { return RequestUserViewModel; });
 var RequestUserViewModel = /** @class */ (function () {
-    function RequestUserViewModel(nickname) {
-        this.nickname = nickname;
+    function RequestUserViewModel(Nickname) {
+        this.Nickname = Nickname;
     }
     return RequestUserViewModel;
 }());

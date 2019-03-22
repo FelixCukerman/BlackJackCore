@@ -4,35 +4,35 @@ import { HttpClient } from '@angular/common/http';
 var GameService = /** @class */ (function () {
     function GameService(http) {
         this.http = http;
-        this.url = "/api/game";
+        this.url = "/api/game/";
     }
     GameService.prototype.GameById = function (id) {
-        return this.http.get(this.url + "/gamebyid/" + id);
+        return this.http.get(this.url + "gamebyid/" + id);
     };
     GameService.prototype.DealCards = function (id) {
-        return this.http.post(this.url + "/dealcards/" + id, id);
+        return this.http.post(this.url + "dealcards/" + id, id);
     };
     GameService.prototype.DealCardToPlayer = function (id) {
-        return this.http.post(this.url + "/dealcardstoplayer/" + id, id);
+        return this.http.post(this.url + "dealcardstoplayer/" + id, id);
     };
     GameService.prototype.ReplenishCash = function (request) {
-        var result = this.http.post(this.url + "/replenishcash", request);
+        var result = this.http.post(this.url + "replenishcash", request);
         return result;
     };
     GameService.prototype.DealCardsToBots = function (gameId) {
-        var result = this.http.post(this.url + "/dealcardstobots/" + gameId, gameId);
+        var result = this.http.post(this.url + "dealcardstobots/" + gameId, gameId);
         return result;
     };
     GameService.prototype.DealCardsToDealer = function (id) {
-        var result = this.http.post(this.url + "/dealcardstodealer/" + id, id);
+        var result = this.http.post(this.url + "dealcardstodealer/" + id, id);
         return result;
     };
     GameService.prototype.CreateNewRound = function (id) {
-        var result = this.http.post(this.url + "/createround/" + id, id);
+        var result = this.http.post(this.url + "createround/" + id, id);
         return result;
     };
     GameService.prototype.GameOver = function (id) {
-        var result = this.http.get(this.url + "/gameover/" + id);
+        var result = this.http.get(this.url + "gameover/" + id);
         return result;
     };
     GameService = tslib_1.__decorate([
