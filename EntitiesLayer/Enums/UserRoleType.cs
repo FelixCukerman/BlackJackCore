@@ -3,8 +3,8 @@
     public enum UserRoleType
     {
         None = 0,
-        BotPlayer = 1,
-        PeoplePlayer = 2,
+        Bot = 1,
+        People = 2,
         Dealer = 3
     }
 }

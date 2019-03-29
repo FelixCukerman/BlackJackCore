@@ -14,6 +14,9 @@ var AccountService = /** @class */ (function () {
     AccountService.prototype.GetToken = function () {
         return this.storage.get('token');
     };
+    AccountService.prototype.GetCurrentUsername = function () {
+        return this.storage.get('username');
+    };
     AccountService = tslib_1.__decorate([
         Injectable({
             providedIn: 'root'

@@ -13,10 +13,14 @@ namespace DataAccessLayer.Repositories
         public CardRepository(GameContext data) : base(data)
         {
         }
+
         public async Task<List<Card>> Get(IEnumerable<Move> moves)
         {
             List<int> cardsIds = moves.Select(elem => elem.CardId).ToList();
-            return await _data.Cards.Where(card => cardsIds.Contains(card.Id)).ToListAsync();
+
+            List<Card> result = await _data.Cards.Where(card => cardsIds.Contains(card.Id)).ToListAsync();
+
+            return result;
         }
     }
 }

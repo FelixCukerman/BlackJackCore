@@ -13,25 +13,46 @@ namespace DataAccessLayer.Repositories
         public UserRoundRepository(GameContext data) : base(data)
         {
         }
+
         public async Task<List<UserRound>> Get(Round round)
         {
-            return await _data.UserRounds.Where(item => item.RoundId == round.Id).ToListAsync();
+            List<UserRound> result = await _data.UserRounds.Where(item => item.RoundId == round.Id).ToListAsync();
+
+            return result;
         }
-        public async Task<List<UserRound>> Get(List<Round> rounds)
+
+        public async Task<List<UserRound>> Get(IEnumerable<Round> rounds)
         {
-            return await _data.UserRounds.Where(item => rounds.Select(elem => elem.Id).Contains((int)item.RoundId)).ToListAsync();
+            IEnumerable<int> roundsIds = rounds.Select(elem => elem.Id);
+
+            List<UserRound> result = await _data.UserRounds.Where(item => roundsIds.Contains((int)item.RoundId)).ToListAsync();
+
+            return result;
         }
-        public async Task<List<UserRound>> Get(List<User> users)
+
+        public async Task<List<UserRound>> Get(IEnumerable<User> users)
         {
-            return await _data.UserRounds.Where(item => users.Select(user => user.Id).Contains((int)item.UserId)).ToListAsync();
+            IEnumerable<int> usersIds = users.Select(user => user.Id);
+
+            List<UserRound> result = await _data.UserRounds.Where(item => usersIds.Contains((int)item.UserId)).ToListAsync();
+
+            return result;
         }
+
         public async Task<List<UserRound>> Get(IEnumerable<User> users, int roundId)
         {
-            return await _data.UserRounds.Where(item => users.Select(user => user.Id).Contains((int)item.UserId) && item.RoundId == roundId).ToListAsync();
+            IEnumerable<int> usersIds = users.Select(user => user.Id);
+
+            List<UserRound> result = await _data.UserRounds.Where(item => usersIds.Contains((int)item.UserId) && item.RoundId == roundId).ToListAsync();
+
+            return result;
         }
+
         public async Task<UserRound> Get(int userId, int roundId)
         {
-            return await _data.UserRounds.FirstOrDefaultAsync(item => item.UserId == userId && item.RoundId == roundId);
+            UserRound result = await _data.UserRounds.FirstOrDefaultAsync(item => item.UserId == userId && item.RoundId == roundId);
+
+            return result;
         }
     }
 }

@@ -14,13 +14,15 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static void AddRepositories(this IServiceCollection services, IConfiguration configuration)
         {
-            string connectionString = configuration.GetConnectionString(ConfigureConstant._nameConnection);
+            string connectionString = configuration.GetConnectionString(ConfigureConstant.NameConnection);
 
-            var repositoryType = configuration.GetSection("RepositoryType");
+            IConfigurationSection repositoryType = configuration.GetSection(ConfigureConstant.RepositoryTypeSection);
 
-            RepositoryType key = (RepositoryType)Enum.Parse(typeof(RepositoryType), repositoryType.Value);
+            RepositoryType key;
+            bool isParsed = Enum.TryParse(repositoryType.Value, out key);
 
-            services.AddDbContext<GameContext>(options => options.UseSqlServer(connectionString, b => b.MigrationsAssembly("DataAccessLayer")));
+            services.AddDbContext<GameContext>(options => options.UseSqlServer(connectionString, b => b.MigrationsAssembly(ConfigureConstant.LayerWithMigrations)));
+            services.AddTransient<IDatabaseInitializer, DatabaseInitializer>();
 
             if (key == RepositoryType.Dapper)
             {

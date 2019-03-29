@@ -17,16 +17,12 @@ var StartComponent = /** @class */ (function () {
     StartComponent.prototype.CreateNewGame = function () {
         var _this = this;
         this.request.user = this.user;
-        console.log(this.user);
+        this.storage.set('username', this.user.Nickname);
         var token = this.storage.get('token');
-        console.log(token != null);
-        console.log(token == null);
         if (token == null) {
-            console.log(1);
             this.accountService.CreateToken(this.user.Nickname).subscribe(function (data) {
                 _this.tokenResult = data;
                 _this.storage.set('token', _this.tokenResult.accessToken);
-                console.log(2);
             });
         }
         if (token != null) {

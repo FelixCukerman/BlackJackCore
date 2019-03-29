@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using EntitiesLayer.Abstraction;
 using EntitiesLayer.Interfaces;
 
 namespace DataAccessLayer.Interfaces

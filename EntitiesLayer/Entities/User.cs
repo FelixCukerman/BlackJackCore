@@ -19,7 +19,7 @@ namespace EntitiesLayer.Entities
         public User()
         {
             DateOfCreation = DateTime.Now;
-            Cash = EntitiesConstant._DefaultCash;
+            Cash = EntitiesConstants.DefaultCash;
         }
     }
 }

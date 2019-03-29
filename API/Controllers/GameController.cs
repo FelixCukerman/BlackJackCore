@@ -5,8 +5,7 @@ using BusinessLogicLayer.Interfaces;
 using ViewModelsLayer.ViewModels.GameViewModels;
 using System.Net;
 using ViewModelsLayer.ViewModels.ReplenishCashViewModel;
-using API.Logger;
-using API.Inerfaces;
+using API.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers
@@ -26,7 +25,7 @@ namespace API.Controllers
 
         [Authorize]
         [HttpGet("gamebyid/{gameId}")]
-        public async Task<ObjectResult> GameById(int gameId)
+        public async Task<IActionResult> GameById(int gameId)
         {
             try
             {
@@ -41,7 +40,7 @@ namespace API.Controllers
         }
 
         [HttpGet("gameover/{gameId}")]
-        public async Task<ObjectResult> GameOver(int gameId)
+        public async Task<IActionResult> GameOver(int gameId)
         {
             try
             {
@@ -57,7 +56,7 @@ namespace API.Controllers
 
         [Authorize]
         [HttpPost("replenishcash")]
-        public async Task<ObjectResult> ReplenishCash([FromBody]RequestReplenishCashViewModel request)
+        public async Task<IActionResult> ReplenishCash([FromBody]RequestReplenishCashViewModel request)
         {
             try
             {
@@ -73,8 +72,13 @@ namespace API.Controllers
         
         [Authorize]
         [HttpPost("create")]
-        public async Task<ObjectResult> CreateNewGame(RequestGameViewModel request)
+        public async Task<IActionResult> CreateNewGame(RequestGameViewModel request)
         {
+            if(request.User.Nickname != User.Identity.Name)
+            {
+                return Unauthorized();
+            }
+
             try
             {
                 var result = await _service.CreateNewGame(request);
@@ -89,7 +93,7 @@ namespace API.Controllers
 
         [Authorize]
         [HttpPost("createround/{gameId}")]
-        public async Task<ObjectResult> CreateNewRound(int gameId)
+        public async Task<IActionResult> CreateNewRound(int gameId)
         {
             try
             {
@@ -104,7 +108,7 @@ namespace API.Controllers
         }
 
         [HttpPost("dealcards/{gameId}")]
-        public async Task<ObjectResult> DealCards(int gameId)
+        public async Task<IActionResult> DealCards(int gameId)
         {
             try
             {
@@ -119,7 +123,7 @@ namespace API.Controllers
         }
 
         [HttpPost("dealcardstoplayer/{gameId}")]
-        public async Task<ObjectResult> DealCardsToPlayer(int gameId)
+        public async Task<IActionResult> DealCardsToPlayer(int gameId)
         {
             try
             {
@@ -134,7 +138,7 @@ namespace API.Controllers
         }
 
         [HttpPost("dealcardstobots/{gameId}")]
-        public async Task<ObjectResult> DealCardsToBots(int gameId)
+        public async Task<IActionResult> DealCardsToBots(int gameId)
         {
             try
             {
@@ -149,7 +153,7 @@ namespace API.Controllers
         }
 
         [HttpPost("dealcardstodealer/{gameId}")]
-        public async Task<ObjectResult> DealCardsToDealer(int gameId)
+        public async Task<IActionResult> DealCardsToDealer(int gameId)
         {
             try
             {

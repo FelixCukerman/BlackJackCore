@@ -34,9 +34,7 @@ namespace DataAccessLayer.Repositories.DapperRepositories
             {
                 string sqlQuery = "SELECT * FROM Moves WHERE RoundId = @roundId";
 
-                var roundId = round.Id;
-
-                IEnumerable<Move> moves = await db.QueryAsync<Move>(sqlQuery, new { roundId });
+                IEnumerable<Move> moves = await db.QueryAsync<Move>(sqlQuery, new { roundId = round.Id });
 
                 return moves.ToList();
             }
@@ -70,7 +68,7 @@ namespace DataAccessLayer.Repositories.DapperRepositories
             }
         }
 
-        public async Task<List<Move>> Get(List<Round> rounds)
+        public async Task<List<Move>> Get(IEnumerable<Round> rounds)
         {
             using (IDbConnection db = new SqlConnection(connectionString))
             {

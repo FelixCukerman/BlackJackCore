@@ -106,6 +106,7 @@ var GameComponent = /** @class */ (function () {
         this.service.DealCards(this.currentRoute.snapshot.params['id']).subscribe(function (data) {
             _this.response = data;
             _this.InitializeUsers();
+            console.log(_this.response);
         });
     };
     GameComponent.prototype.ngOnInit = function () {

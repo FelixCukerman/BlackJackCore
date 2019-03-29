@@ -58,15 +58,11 @@ namespace DataAccessLayer.Repositories.DapperRepositories
             {
                 using (IDbConnection db = new SqlConnection(connectionString))
                 {
-                    T currentItem = null;
-
-                    for (int i = 0; i < items.Count(); i++)
+                    foreach(T item in items)
                     {
-                        currentItem = items.ElementAt(i);
+                        int invoice = await db.InsertAsync(item);
 
-                        int invoice = await db.InsertAsync(currentItem);
-
-                        currentItem.Id = invoice;
+                        item.Id = invoice;
                     }
 
                     scope.Complete();
@@ -90,13 +86,9 @@ namespace DataAccessLayer.Repositories.DapperRepositories
             {
                 using (IDbConnection db = new SqlConnection(connectionString))
                 {
-                    T currentItem = null;
-
-                    for (int i = 0; i < items.Count(); i++)
+                    foreach(T item in items)
                     {
-                        currentItem = items.ElementAt(i);
-
-                        bool invoice = await db.UpdateAsync(currentItem);
+                        bool invoice = await db.UpdateAsync(item);
                     }
 
                     scope.Complete();
@@ -120,14 +112,11 @@ namespace DataAccessLayer.Repositories.DapperRepositories
             {
                 using (IDbConnection db = new SqlConnection(connectionString))
                 {
-                    T currentItem = null;
-
-                    for (int i = 0; i < items.Count(); i++)
+                    foreach(T item in items)
                     {
-                        currentItem = items.ElementAt(i);
-
-                        bool invoice = await db.DeleteAsync(currentItem);
+                        bool invoice = await db.DeleteAsync(item);
                     }
+
                     scope.Complete();
                 }
             }

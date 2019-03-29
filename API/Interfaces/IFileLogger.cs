@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace API.Inerfaces
+namespace API.Interfaces
 {
     public interface IFileLogger
     {

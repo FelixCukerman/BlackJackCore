@@ -19,4 +19,8 @@ export class AccountService {
   {
     return this.storage.get('token');
   }
+
+  public GetCurrentUsername(): string {
+    return this.storage.get('username');
+  }
 }

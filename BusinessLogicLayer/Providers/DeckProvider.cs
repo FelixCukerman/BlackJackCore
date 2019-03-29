@@ -22,14 +22,14 @@ namespace BusinessLogicLayer.Providers
         public void Add(Deck deck, int gameId)
         {
             var options = new MemoryCacheEntryOptions();
-            options.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(ConfigureConstant._DataRetentionTime);
+            options.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(ConfigureConstant.DataRetentionTime);
 
             _cache.Set(gameId, deck, options);
         }
 
         public void Update(Deck deck, int gameId)
         {
-            _cache.Set(gameId, deck, DateTime.Now.AddMinutes(ConfigureConstant._DataRetentionTime));
+            _cache.Set(gameId, deck, DateTime.Now.AddMinutes(ConfigureConstant.DataRetentionTime));
         }
 
         public void Delete(int gameId)

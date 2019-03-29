@@ -22,9 +22,7 @@ namespace DataAccessLayer.Repositories.DapperRepositories
             {
                 string sqlQuery = "SELECT * FROM Rounds WHERE GameId = @gameId";
 
-                int gameId = game.Id;
-
-                IEnumerable<Round> rounds = await db.QueryAsync<Round>(sqlQuery, new { gameId });
+                IEnumerable<Round> rounds = await db.QueryAsync<Round>(sqlQuery, new { gameId = game.Id });
 
                 return rounds.ToList();
             }

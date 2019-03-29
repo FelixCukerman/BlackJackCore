@@ -1,19 +1,25 @@
 import 'rxjs/add/operator/do';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { AccountService } from '../services/AccountService/account-service.service';
+import { Injectable } from '@angular/core';
 
+@Injectable({
+  providedIn: 'root'
+})
 export class JwtInterceptor implements HttpInterceptor {
-  constructor() { }
+  constructor(private accountService: AccountService) { }
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
     return next.handle(request).do((event: HttpEvent<any>) =>
     {
       if (event instanceof HttpResponse) {
       }
-    }, (err: any) => {
-      if (err instanceof HttpErrorResponse) {
-        if (err.status === 401) {
-          console.log(401);
+    }, (error: any) => {
+      if (error instanceof HttpErrorResponse) {
+        if (error.status === 401) {
+          let username: string = this.accountService.GetCurrentUsername();
+          this.accountService.CreateToken(username);
         }
       }
     });

@@ -24,7 +24,7 @@ namespace EntitiesLayer.Entities
         public UserGames()
         {
             DateOfCreation = DateTime.Now;
-            Rate = EntitiesConstant._DefaultRate;
+            Rate = EntitiesConstants.DefaultRate;
         }
     }
 }

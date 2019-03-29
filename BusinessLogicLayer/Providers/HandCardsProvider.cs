@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Microsoft.Extensions.Caching.Memory;
 using BusinessLogicLayer.DTOs;
 using EntitiesLayer.Entities;
-using System.Linq;
 using BusinessLogicLayer.Constants;
 using BusinessLogicLayer.Interfaces;
 
@@ -19,7 +18,7 @@ namespace BusinessLogicLayer.Providers
             _cache = cache;
 
             options = new MemoryCacheEntryOptions();
-            options.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(ConfigureConstant._DataRetentionTime);
+            options.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(ConfigureConstant.DataRetentionTime);
         }
 
         public HandCards Get(User user)
@@ -30,10 +29,12 @@ namespace BusinessLogicLayer.Providers
         public List<HandCards> Get(IEnumerable<User> users)
         {
             var handUsers = new List<HandCards>();
-            for (int i = 0; i < users.Count(); i++)
+
+            foreach(User user in users)
             {
-                handUsers.Add(_cache.Get(users.ElementAt(i).UserName) as HandCards);
+                handUsers.Add(_cache.Get(user.UserName) as HandCards);
             }
+
             return handUsers;
         }
 
@@ -42,17 +43,17 @@ namespace BusinessLogicLayer.Providers
             _cache.Set(handCards.User.UserName, handCards, options);
         }
 
-        public void AddRange(List<HandCards> handCards)
+        public void AddRange(List<HandCards> handsCards)
         {
-            for (int i = 0; i < handCards.Count; i++)
+            foreach(HandCards handCards in handsCards)
             {
-                _cache.Set(handCards[i].User.UserName, handCards[i], options);
+                _cache.Set(handCards.User.UserName, handCards, options);
             }
         }
 
         public void Update(HandCards handCards)
         {
-            _cache.Set(handCards.User.UserName, handCards, DateTime.Now.AddMinutes(ConfigureConstant._DataRetentionTime));
+            _cache.Set(handCards.User.UserName, handCards, DateTime.Now.AddMinutes(ConfigureConstant.DataRetentionTime));
         }
 
         public void Delete(User user)

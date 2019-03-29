@@ -12,21 +12,33 @@ namespace DataAccessLayer.Repositories
         public UserGamesRepository(GameContext data) : base(data)
         {
         }
+
         public async Task<List<UserGames>> Get(Round round)
         {
-            return await _data.UserGames.Where(item => item.GameId == round.GameId).ToListAsync();
+            List<UserGames> result = await _data.UserGames.Where(item => item.GameId == round.GameId).ToListAsync();
+
+            return result;
         }
+
         public async Task<List<UserGames>> Get(Game game)
         {
-            return await _data.UserGames.Where(item => item.GameId == game.Id).ToListAsync();
+            List<UserGames> result = await _data.UserGames.Where(item => item.GameId == game.Id).ToListAsync();
+
+            return result;
         }
+
         public async Task<UserGames> Get(int userId, int gameId)
         {
-            return await _data.UserGames.FirstOrDefaultAsync(item => item.GameId == gameId && item.UserId == userId);
+            UserGames result = await _data.UserGames.FirstOrDefaultAsync(item => item.GameId == gameId && item.UserId == userId);
+
+            return result;
         }
+
         public async Task<List<UserGames>> Get(User user)
         {
-            return await _data.UserGames.Where(item => item.UserId == user.Id).ToListAsync();
+            List<UserGames> result = await _data.UserGames.Where(item => item.UserId == user.Id).ToListAsync();
+
+            return result;
         }
     }
 }

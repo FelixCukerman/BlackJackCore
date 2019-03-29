@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Threading.Tasks;
-using API.Inerfaces;
-using API.Logger;
+using API.Interfaces;
 using BusinessLogicLayer.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using ViewModelsLayer.ViewModels.HistoryViewModels;

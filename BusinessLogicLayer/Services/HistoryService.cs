@@ -43,38 +43,26 @@ namespace BusinessLogicLayer.Services
 
         private async Task<List<ResponseGameOverViewModel>> GameOverResponse(int gameId)
         {
-            var game = await _gameRepository.Get(gameId);
-            if (game == null)
-            {
-                throw new NullReferenceException();
-            }
+            Game game = await _gameRepository.Get(gameId);
+            List<Round> rounds = await _roundRepository.Get(game);
+            List<UserRound> userRounds = await _userRoundRepository.Get(rounds);
 
-            var userGames = await _userGamesRepository.Get(game);
-            var users = await _userRepository.Get(userGames);
-            var rounds = await _roundRepository.Get(game);
-            var userRounds = await _userRoundRepository.Get(rounds);
+            List<UserGames> userGames = await _userGamesRepository.Get(game);
+            List<User> users = await _userRepository.Get(userGames);
+            IEnumerable<User> usersExceptDealer = users.Where(user => user.UserRole != UserRoleType.Dealer);
+
             int winsQuantity = 0;
+
             List<ResponseGameOverViewModel> result = new List<ResponseGameOverViewModel>();
 
-            for (int i = 0; i < users.Count; i++)
+            foreach(User user in usersExceptDealer)
             {
-                //the dealer isn't included in this statistic
-                if (users[i].UserRole == UserRoleType.Dealer)
-                {
-                    continue;
-                }
-                var currentUserRounds = userRounds.Where(item => item.UserId == users[i].Id);
-                IEnumerable<UserRound> wins = currentUserRounds.Where(x => x.RoundStatus == RoundStatusType.Winner);
-                //To avoid an exception
-                if (wins == null)
-                {
-                    winsQuantity = 0;
-                }
-                if (wins != null)
-                {
-                    winsQuantity = wins.Count();
-                }
-                result.Add(new ResponseGameOverViewModel { UserId = users[i].Id, Username = users[i].UserName, WinsQuantity = winsQuantity });
+                IEnumerable<UserRound> currentUserRounds = userRounds.Where(item => item.UserId == user.Id);
+                IEnumerable<UserRound> wins = currentUserRounds.Where(item => item.RoundStatus == RoundStatusType.Winner);
+
+                winsQuantity = wins?.Count() ?? 0;
+
+                result.Add(new ResponseGameOverViewModel { UserId = user.Id, Username = user.UserName, WinsQuantity = winsQuantity });
             }
 
             return result;
@@ -83,8 +71,9 @@ namespace BusinessLogicLayer.Services
         #region Public Methods
         public async Task<IEnumerable<int>> GetRoundIdsByGame(int gameId)
         {
-            var game = await _gameRepository.Get(gameId);
-            var rounds = await _roundRepository.Get(game);
+            Game game = await _gameRepository.Get(gameId);
+            List<Round> rounds = await _roundRepository.Get(game);
+
             IEnumerable<int> roundIds = rounds.Select(round => round.Id);
 
             return roundIds;
@@ -92,8 +81,9 @@ namespace BusinessLogicLayer.Services
 
         public async Task<IEnumerable<int>> GetAllGameIdsByUser(int userId)
         {
-            var user = await _userRepository.Get(userId);
-            var userGame = await _userGamesRepository.Get(user);
+            User user = await _userRepository.Get(userId);
+            List<UserGames> userGame = await _userGamesRepository.Get(user);
+
             IEnumerable<int> userGameIds = userGame.Select(item => (int)item.GameId);
 
             return userGameIds;
@@ -101,33 +91,35 @@ namespace BusinessLogicLayer.Services
 
         public async Task<List<HistoryUserRoundViewModel>> GetHistoryUserRounds(RequestHistoryUserRoundViewModel request)
         {
-            List<HistoryUserRoundViewModel> result = new List<HistoryUserRoundViewModel>();
-            var game = await _gameRepository.Get(request.GameId);
-            var round = await _roundRepository.Get(request.RoundId);
-            if (game == null || round == null)
-            {
-                throw new NullReferenceException();
-            }
+            var result = new List<HistoryUserRoundViewModel>();
 
-            var userRounds = await _userRoundRepository.Get(round);
-            var userGames = await _userGamesRepository.Get(game);
-            var users = await _userRepository.Get(userGames);
-            var moves = (await _moveRepository.Get(round)).OrderBy(x => x.DateOfCreation);
-            var cards = await _cardRepository.Get(moves);
+            Game game = await _gameRepository.Get(request.GameId);
+            List<UserGames> userGames = await _userGamesRepository.Get(game);
+            List<User> users = await _userRepository.Get(userGames);
 
-            for(int i = 0; i < userRounds.Count; i++)
+            Round round = await _roundRepository.Get(request.RoundId);
+            IOrderedEnumerable<Move> moves = (await _moveRepository.Get(round)).OrderBy(x => x.DateOfCreation);
+            List<Card> cards = await _cardRepository.Get(moves);
+
+            List<UserRound> userRounds = await _userRoundRepository.Get(round);
+
+            foreach(UserRound userRound in userRounds)
             {
-                User currentUser = users.FirstOrDefault(user => user.Id == userRounds[i].UserId);
-                IEnumerable<Card> userCards = cards.Where(card => moves.Where(move => move.UserId == currentUser.Id).Select(move => move.CardId).Contains(card.Id));
-                IEnumerable<ResponseCardViewModel> cardViewModels = _mapper.Map<List<ResponseCardViewModel>>(userCards);
+                User currentUser = users.FirstOrDefault(user => user.Id == userRound.UserId);
+                IEnumerable<Move> userMoves = moves.Where(move => move.UserId == currentUser.Id);
+                IEnumerable<int> cardsIds = userMoves.Select(move => move.CardId);
+                IEnumerable<Card> userCards = cards.Where(card => cardsIds.Contains(card.Id));
+
                 HistoryUserRoundViewModel historyUserRound = new HistoryUserRoundViewModel();
-                historyUserRound.Cards = new List<ResponseCardViewModel>();
 
+                historyUserRound.Cards = new List<ResponseCardViewModel>();
                 historyUserRound.UserId = currentUser.Id;
                 historyUserRound.Nickname = currentUser.UserName;
                 historyUserRound.UserRole = currentUser.UserRole;
-                historyUserRound.Points = userRounds[i].Points;
-                historyUserRound.RoundStatus = userRounds[i].RoundStatus;
+                historyUserRound.Points = userRound.Points;
+                historyUserRound.RoundStatus = userRound.RoundStatus;
+
+                IEnumerable<ResponseCardViewModel> cardViewModels = _mapper.Map<List<ResponseCardViewModel>>(userCards);
                 historyUserRound.Cards.AddRange(cardViewModels);
 
                 result.Add(historyUserRound);
@@ -139,41 +131,40 @@ namespace BusinessLogicLayer.Services
         public async Task<List<HistoryUserDetailsViewModel>> GetHistoryUserDetails(int gameId)
         {
             List<HistoryUserDetailsViewModel> result = new List<HistoryUserDetailsViewModel>();
-            var game = await _gameRepository.Get(gameId);
-            if (game == null)
-            {
-                throw new NullReferenceException();
-            }
+
+            Game game = await _gameRepository.Get(gameId);
 
             List<ResponseGameOverViewModel> userStatistic = await GameOverResponse(gameId);
-            var userGames = await _userGamesRepository.Get(game);
-            var users = await _userRepository.Get(userGames);
-            //take the first player with the max number of wins
+
+            List<UserGames> userGames = await _userGamesRepository.Get(game);
+            List<User> users = await _userRepository.Get(userGames);
+
             ResponseGameOverViewModel firstWinner = userStatistic.OrderByDescending(item => item.WinsQuantity).FirstOrDefault();
-            //take players by #firstWinner
+
             List<ResponseGameOverViewModel> winners = userStatistic.Where(item => item.WinsQuantity == firstWinner.WinsQuantity).ToList();
             List<ResponseGameOverViewModel> loosers = userStatistic.Except(winners).ToList();
 
-            for (int i = 0; i < userGames.Count; i++)
+            foreach(User user in users)
             {
-                User currentUser = users.FirstOrDefault(user => user.Id == userGames[i].UserId);
-                HistoryUserDetailsViewModel historyUserDetails = new HistoryUserDetailsViewModel();
-
-                if(currentUser.UserRole == UserRoleType.Dealer)
+                if(user.UserRole == UserRoleType.Dealer)
                 {
                     continue;
                 }
 
-                historyUserDetails.UserId = currentUser.Id;
-                historyUserDetails.Nickname = currentUser.UserName;
-                historyUserDetails.UserRole = currentUser.UserRole;
-                historyUserDetails.Rate = userGames[i].Rate;
+                HistoryUserDetailsViewModel historyUserDetails = new HistoryUserDetailsViewModel();
+                UserGames userGame = userGames.FirstOrDefault(item => item.UserId == user.Id);
 
-                if(winners.Select(item => item.UserId).Contains(currentUser.Id))
+                historyUserDetails.UserId = user.Id;
+                historyUserDetails.Nickname = user.UserName;
+                historyUserDetails.UserRole = user.UserRole;
+                historyUserDetails.Rate = userGame.Rate;
+
+                if(winners.Select(item => item.UserId).Contains(user.Id))
                 {
                     historyUserDetails.Status = UserGameStatus.Winner;
                 }
-                if (loosers.Select(item => item.UserId).Contains(currentUser.Id))
+
+                if (loosers.Select(item => item.UserId).Contains(user.Id))
                 {
                     historyUserDetails.Status = UserGameStatus.Looser;
                 }

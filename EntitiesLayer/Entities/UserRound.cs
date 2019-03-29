@@ -19,6 +19,7 @@ namespace EntitiesLayer.Entities
         [Computed]
         public Round Round { get; set; }
         public RoundStatusType RoundStatus { get; set; }
+        public CardCombinationType CardCombination { get; set; }
         public int Points { get; set; }
 
         public UserRound()

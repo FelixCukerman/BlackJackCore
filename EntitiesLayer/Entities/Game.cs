@@ -13,7 +13,7 @@ namespace EntitiesLayer.Entities
         public Game()
         {
             DateOfCreation = DateTime.Now;
-            RoundQuantity = EntitiesConstant._DefaultRoundQuantity;
+            RoundQuantity = EntitiesConstants.DefaultRoundQuantity;
         }
     }
 }

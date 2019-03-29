@@ -283,3 +283,27 @@ Exception details : Microsoft.EntityFrameworkCore.DbUpdateException: An error oc
    at API.Controllers.GameController.DealCardsToDealer(Int32 gameId) in C:\Users\Anuitex\source\repos\BlackJackCore\API\Controllers\GameController.cs:line 156
 ------------------------------------------------------------------------------------------------------------------------------------------------------
 
+Time              : 3/27/2019 3:55:31 PM
+Exception details : System.NullReferenceException: Object reference not set to an instance of an object.
+   at BusinessLogicLayer.Providers.HandCardsProvider.Add(HandCards handCards) in C:\Users\Anuitex\source\repos\BlackJackCore\BusinessLogicLayer\Providers\HandCardsProvider.cs:line 43
+   at BusinessLogicLayer.Services.GameService.CreateHandCards(User user) in C:\Users\Anuitex\source\repos\BlackJackCore\BusinessLogicLayer\Services\GameService.cs:line 405
+   at BusinessLogicLayer.Services.GameService.CreateNewGame(RequestGameViewModel request) in C:\Users\Anuitex\source\repos\BlackJackCore\BusinessLogicLayer\Services\GameService.cs:line 595
+   at API.Controllers.GameController.CreateNewGame(RequestGameViewModel request) in C:\Users\Anuitex\source\repos\BlackJackCore\API\Controllers\GameController.cs:line 84
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Time              : 3/28/2019 3:26:13 PM
+Exception details : System.NullReferenceException: Object reference not set to an instance of an object.
+   at BusinessLogicLayer.Providers.HandCardsProvider.Add(HandCards handCards) in C:\Users\Anuitex\source\repos\BlackJackCore\BusinessLogicLayer\Providers\HandCardsProvider.cs:line 43
+   at BusinessLogicLayer.Services.GameService.CreateHandCards(User user) in C:\Users\Anuitex\source\repos\BlackJackCore\BusinessLogicLayer\Services\GameService.cs:line 453
+   at BusinessLogicLayer.Services.GameService.CreateNewGame(RequestGameViewModel request) in C:\Users\Anuitex\source\repos\BlackJackCore\BusinessLogicLayer\Services\GameService.cs:line 642
+   at API.Controllers.GameController.CreateNewGame(RequestGameViewModel request) in C:\Users\Anuitex\source\repos\BlackJackCore\API\Controllers\GameController.cs:line 84
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Time              : 3/28/2019 3:26:23 PM
+Exception details : System.NullReferenceException: Object reference not set to an instance of an object.
+   at BusinessLogicLayer.Providers.HandCardsProvider.Add(HandCards handCards) in C:\Users\Anuitex\source\repos\BlackJackCore\BusinessLogicLayer\Providers\HandCardsProvider.cs:line 43
+   at BusinessLogicLayer.Services.GameService.CreateHandCards(User user) in C:\Users\Anuitex\source\repos\BlackJackCore\BusinessLogicLayer\Services\GameService.cs:line 453
+   at BusinessLogicLayer.Services.GameService.CreateNewGame(RequestGameViewModel request) in C:\Users\Anuitex\source\repos\BlackJackCore\BusinessLogicLayer\Services\GameService.cs:line 642
+   at API.Controllers.GameController.CreateNewGame(RequestGameViewModel request) in C:\Users\Anuitex\source\repos\BlackJackCore\API\Controllers\GameController.cs:line 84
+------------------------------------------------------------------------------------------------------------------------------------------------------
+

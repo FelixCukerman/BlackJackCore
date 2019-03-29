@@ -30,21 +30,15 @@ export class StartComponent implements OnInit
   CreateNewGame()
   {
     this.request.user = this.user;
-
-    console.log(this.user);
+    this.storage.set('username', this.user.Nickname);
 
     let token = this.storage.get('token');
 
-    console.log(token != null);
-    console.log(token == null);
-
     if (token == null) {
-      console.log(1);
       this.accountService.CreateToken(this.user.Nickname).subscribe((data: GetTokenViewModel) =>
       {
         this.tokenResult = data;
         this.storage.set('token', this.tokenResult.accessToken);
-        console.log(2);
       });
     }
 

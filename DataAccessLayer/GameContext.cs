@@ -3,22 +3,24 @@ using EntitiesLayer.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using EntitiesLayer.Enums;
 using Microsoft.AspNetCore.Identity;
+using DataAccessLayer.Interfaces;
 
 namespace DataAccessLayer
 {
     public class GameContext : IdentityDbContext<User, IdentityRole<int>, int>
     {
-        public GameContext(DbContextOptions<GameContext> options) : base(options)
-        {
+        private IDatabaseInitializer _initializer;
 
+        public GameContext(DbContextOptions<GameContext> options, IDatabaseInitializer initializer) : base(options)
+        {
+            _initializer = initializer;
             Database.EnsureCreated();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Card>().HasData(DatabaseInitializer.GetCards().ToArray());
-            modelBuilder.Entity<User>().HasData(new User { Id = 1, UserName = "Dealer", UserRole = UserRoleType.Dealer });
-            modelBuilder.Entity<User>().HasData(DatabaseInitializer.GetBots().ToArray());
+            modelBuilder.Entity<Card>().HasData(_initializer.GetCards().ToArray());
+            modelBuilder.Entity<User>().HasData(_initializer.GetUsers().ToArray());
 
             base.OnModelCreating(modelBuilder);
         }

@@ -1,4 +1,4 @@
-﻿using API.Inerfaces;
+﻿using API.Interfaces;
 using API.Logger;
 using AutoMapper;
 using BusinessLogicLayer.Interfaces;
@@ -14,9 +14,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using BusinessLogicLayer.Providers;
+using BusinessLogicLayer.Helpers;
 using System.IdentityModel.Tokens.Jwt;
 using System;
+using BusinessLogicLayer.Providers;
 
 namespace API
 {
@@ -37,25 +38,24 @@ namespace API
 
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
             services
-                .AddAuthentication(options =>
+            .AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(cfg =>
+            {
+                cfg.RequireHttpsMetadata = false;
+                cfg.SaveToken = true;
+                cfg.TokenValidationParameters = new TokenValidationParameters
                 {
-                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-
-                })
-                .AddJwtBearer(cfg =>
-                {
-                    cfg.RequireHttpsMetadata = false;
-                    cfg.SaveToken = true;
-                    cfg.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidIssuer = AuthOptions._Issuer,
-                        ValidAudience = AuthOptions._Audience,
-                        IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
-                        ClockSkew = TimeSpan.Zero
-                    };
-                });
+                    ValidIssuer = AuthHelper.Issuer,
+                    ValidAudience = AuthHelper.Audience,
+                    IssuerSigningKey = new AuthHelper().GetSymmetricSecurityKey(),
+                    ClockSkew = TimeSpan.Zero
+                };
+            });
 
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -72,19 +72,13 @@ namespace API
             services.AddTransient<IHistoryService, HistoryService>();
             services.AddTransient<IAccountService, AccountService>();
             services.AddTransient<IFileLogger, FileLogger>();
+            services.AddTransient<IHandCardsProvider, HandCardsProvider>();
+            services.AddTransient<IAuthHelper, AuthHelper>();
+            services.AddTransient<IDeckProvider, DeckProvider>();
         }
         
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            //if (env.IsDevelopment())
-            //{
-            //    app.UseDeveloperExceptionPage();
-            //}
-            //else
-            //{
-            //    app.UseExceptionHandler("/Home/Error");
-            //}
-
             app.UseDeveloperExceptionPage();
             app.UseStaticFiles();
             app.UseCookiePolicy();

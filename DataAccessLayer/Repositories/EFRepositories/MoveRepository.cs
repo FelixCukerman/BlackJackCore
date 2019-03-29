@@ -16,23 +16,43 @@ namespace DataAccessLayer.Repositories
 
         public async Task<List<Move>> Get(IEnumerable<User> users)
         {
-            return await _data.Moves.Where(move => users.Select(elem => elem.Id).Contains((int)move.UserId)).ToListAsync();
+            IEnumerable<int> usersIds = users.Select(elem => elem.Id);
+
+            List<Move> result = await _data.Moves.Where(move => usersIds.Contains((int)move.UserId)).ToListAsync(); 
+
+            return result;
         }
+
         public async Task<List<Move>> Get(IEnumerable<User> users, int roundId)
         {
-            return await _data.Moves.Where(move => users.Select(elem => elem.Id).Contains((int)move.UserId) && move.RoundId == roundId).ToListAsync();
+            IEnumerable<int> usersIds = users.Select(elem => elem.Id);
+
+            List<Move> result = await _data.Moves.Where(move => usersIds.Contains((int)move.UserId) && move.RoundId == roundId).ToListAsync();
+
+            return result;
         }
+
         public async Task<List<Move>> Get(int userId, int roundId)
         {
-            return await _data.Moves.Where(move => move.UserId == userId && move.RoundId == roundId).ToListAsync();
+            List<Move> result = await _data.Moves.Where(move => move.UserId == userId && move.RoundId == roundId).ToListAsync();
+
+            return result;
         }
+
         public async Task<List<Move>> Get(Round round)
         {
-            return await _data.Moves.Where(move => move.RoundId == round.Id).ToListAsync();
+            List<Move> result = await _data.Moves.Where(move => move.RoundId == round.Id).ToListAsync();
+
+            return result;
         }
-        public async Task<List<Move>> Get(List<Round> rounds)
+
+        public async Task<List<Move>> Get(IEnumerable<Round> rounds)
         {
-            return await _data.Moves.Where(move => rounds.Select(item => item.Id).Contains((int)move.RoundId)).ToListAsync();
+            IEnumerable<int> roundsIds = rounds.Select(item => item.Id);
+
+            List<Move> result = await _data.Moves.Where(move => roundsIds.Contains((int)move.RoundId)).ToListAsync();
+
+            return result;
         }
     }
 }

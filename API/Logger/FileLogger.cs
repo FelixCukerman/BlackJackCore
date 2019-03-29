@@ -1,4 +1,4 @@
-﻿using API.Inerfaces;
+﻿using API.Interfaces;
 using System;
 using System.IO;
 

@@ -1,20 +1,32 @@
+import * as tslib_1 from "tslib";
 import 'rxjs/add/operator/do';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { AccountService } from '../services/AccountService/account-service.service';
+import { Injectable } from '@angular/core';
 var JwtInterceptor = /** @class */ (function () {
-    function JwtInterceptor() {
+    function JwtInterceptor(accountService) {
+        this.accountService = accountService;
     }
     JwtInterceptor.prototype.intercept = function (request, next) {
+        var _this = this;
         return next.handle(request).do(function (event) {
             if (event instanceof HttpResponse) {
             }
-        }, function (err) {
-            if (err instanceof HttpErrorResponse) {
-                if (err.status === 401) {
-                    console.log(401);
+        }, function (error) {
+            if (error instanceof HttpErrorResponse) {
+                if (error.status === 401) {
+                    var username = _this.accountService.GetCurrentUsername();
+                    _this.accountService.CreateToken(username);
                 }
             }
         });
     };
+    JwtInterceptor = tslib_1.__decorate([
+        Injectable({
+            providedIn: 'root'
+        }),
+        tslib_1.__metadata("design:paramtypes", [AccountService])
+    ], JwtInterceptor);
     return JwtInterceptor;
 }());
 export { JwtInterceptor };

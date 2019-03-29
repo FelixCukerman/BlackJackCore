@@ -1,9 +1,12 @@
 ﻿namespace BusinessLogicLayer.Constants
 {
-    class ConfigureConstant
+    public class ConfigureConstant
     {
-        public const string _keyForDeck = "key";
-        public const string _nameConnection = "DefaultConnection";
-        public const int _DataRetentionTime = 30;
+        public const string KeyForDeck = "key";
+        public const string NameConnection = "DefaultConnection";
+        public const string LayerWithMigrations = "DataAccessLayer";
+        public const string RepositoryTypeSection = "RepositoryType";
+        public const string AuthenticationType = "Token";
+        public const int DataRetentionTime = 30;
     }
 }

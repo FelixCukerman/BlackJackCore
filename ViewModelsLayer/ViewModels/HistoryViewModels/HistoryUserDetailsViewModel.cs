@@ -1,8 +1,4 @@
-﻿using EntitiesLayer.Enums;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using ViewModelsLayer.Enums;
+﻿using ViewModelsLayer.Enums;
 
 namespace ViewModelsLayer.ViewModels.HistoryViewModels
 {

@@ -137,6 +137,7 @@ export class GameComponent implements OnInit
     this.service.DealCards(this.currentRoute.snapshot.params['id']).subscribe((data: ResponseGameViewModel) => {
       this.response = data;
       this.InitializeUsers();
+      console.log(this.response);
     });
   }
 

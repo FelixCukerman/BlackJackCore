@@ -15,21 +15,35 @@ namespace DataAccessLayer.Repositories
         public UserRepository(GameContext data) : base(data)
         {
         }
-        public async Task<List<User>> Get(List<UserGames> userGames)
+
+        public async Task<List<User>> Get(IEnumerable<UserGames> userGames)
         {
-            return await _data.Users.Where(user => userGames.Select(elem => elem.UserId).Contains(user.Id)).ToListAsync();
+            IEnumerable<int> usersIds = userGames.Select(elem => (int)elem.UserId);
+
+            List<User> result = await _data.Users.Where(user => usersIds.Contains(user.Id)).ToListAsync();
+
+            return result;
         }
-        public async Task<List<User>> Get(List<int> userIds)
+
+        public async Task<List<User>> Get(IEnumerable<int> userIds)
         {
-            return await _data.Users.Where(user => userIds.Contains(user.Id)).ToListAsync();
+            List<User> result = await _data.Users.Where(user => userIds.Contains(user.Id)).ToListAsync();
+
+            return result;
         }
-        public async Task<User> Get(string nickname)
-        {
-            return await _data.Users.FirstOrDefaultAsync(user => user.UserName == nickname && (user.UserRole == UserRoleType.PeoplePlayer || user.UserRole == UserRoleType.Dealer));
-        }
+
         public async Task<List<User>> GetBotsByQuantity(int requestQuantity)
         {
-            return await _data.Users.Where(user => user.UserRole == UserRoleType.BotPlayer).Skip(ConfigureConstant._MaxBotsCount - requestQuantity).ToListAsync();
+            List<User> result = await _data.Users.Where(user => user.UserRole == UserRoleType.Bot).Skip(ConfigureConstant.MaxBotsCount - requestQuantity).ToListAsync();
+
+            return result;
+        }
+
+        public async Task<User> Get(string username)
+        {
+            User result = await _data.Users.FirstOrDefaultAsync(user => user.UserName == username);
+
+            return result;
         }
     }
 }

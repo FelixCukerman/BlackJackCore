@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DataAccessLayer.Constants
+﻿namespace DataAccessLayer.Constants
 {
-    class ConfigureConstant
+    public class ConfigureConstant
     {
-        public const int _MaxBotsCount = 4;
+        public const int MaxBotsCount = 4;
+        public const string DealerNickname = "Dealer";
+        public const int FirstId = 1;
     }
 }

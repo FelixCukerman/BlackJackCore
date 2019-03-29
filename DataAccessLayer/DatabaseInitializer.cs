@@ -1,59 +1,92 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using DataAccessLayer.Constants;
+using DataAccessLayer.Interfaces;
 using EntitiesLayer.Entities;
 using EntitiesLayer.Enums;
 
 namespace DataAccessLayer
 {
-    public class DatabaseInitializer
+    public class DatabaseInitializer : IDatabaseInitializer
     {
-        private static int _key = 0;
-        private static int GenerateKey()
-        {
-            _key++;
-            return _key;
-        }
-        public static List<Card> GetCards()
+        public List<Card> GetCards()
         {
             var cards = new List<Card>();
 
-            for (int i = 1; i < 5; i++)
-            {
+            int id = ConfigureConstant.FirstId;
 
-                for (int j = (int)CardNameType.Two; j < (int)CardNameType.Ten + 1; j++)
+            var faces = new Dictionary<CardNameType, int>
+            {
+                { CardNameType.Two, 2 },
+                { CardNameType.Three, 3 },
+                { CardNameType.Four, 4 },
+                { CardNameType.Five, 5 },
+                { CardNameType.Six, 6 },
+                { CardNameType.Seven, 7 },
+                { CardNameType.Eight, 8 },
+                { CardNameType.Nine, 9 },
+                { CardNameType.Ten, 10 },
+                { CardNameType.Jack, 10 },
+                { CardNameType.Queen, 10 },
+                { CardNameType.King, 10 },
+                { CardNameType.Ace, 11 }
+            };
+
+            Array suits = Enum.GetValues(typeof(SuitType));
+
+            foreach (SuitType suit in suits)
+            {
+                if(suit == SuitType.None)
                 {
-                    cards.Add(new Card { Id = GenerateKey(), Suit = (SuitType)i, CardName = (CardNameType)j, CardValue = j });
+                    continue;
                 }
 
-                cards.Add(new Card { Id = GenerateKey(), Suit = (SuitType)i, CardName = CardNameType.Jack, CardValue = 10 });
-                cards.Add(new Card { Id = GenerateKey(), Suit = (SuitType)i, CardName = CardNameType.Queen, CardValue = 10 });
-                cards.Add(new Card { Id = GenerateKey(), Suit = (SuitType)i, CardName = CardNameType.King, CardValue = 10 });
-                cards.Add(new Card { Id = GenerateKey(), Suit = (SuitType)i, CardName = CardNameType.Ace, CardValue = 11 });
+                foreach(KeyValuePair<CardNameType, int> face in faces)
+                {
+                    cards.Add(new Card { Id = id, Suit = suit, CardName = face.Key, CardValue = face.Value });
+                    id++;
+                }
             }
 
             return cards;
         }
 
-        public static List<User> GetBots()
+        public List<User> GetUsers()
         {
-            var bots = new List<User>();
+            var users = new List<User>();
 
-            int botId = 2;
+            int id = ConfigureConstant.FirstId;
 
-            for (int i = 0; i < ConfigureConstant._MaxBotsCount; i++)
+            var dealer = new User();
+            dealer.Id = id;
+            dealer.UserName = ConfigureConstant.DealerNickname;
+            dealer.UserRole = UserRoleType.Dealer;
+
+            users.Add(dealer);
+
+            for (int i = 0; i < ConfigureConstant.MaxBotsCount; i++)
             {
+                id++;
+
                 var bot = new User();
 
-                bot.Id = botId;
+                bot.Id = id;
                 bot.UserName = $"Bot#{i + 1}";
-                bot.UserRole = UserRoleType.BotPlayer;
+                bot.UserRole = UserRoleType.Bot;
 
-                bots.Add(bot);
-
-                botId++;
+                users.Add(bot);
             }
 
-            return bots;
+            id++;
+
+            var person = new User();
+            person.Id = id;
+            person.UserName = "Felix";
+            person.UserRole = UserRoleType.People;
+
+            users.Add(person);
+
+            return users;
         }
     }
 }
