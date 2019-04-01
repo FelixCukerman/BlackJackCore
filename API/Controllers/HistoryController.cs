@@ -22,15 +22,15 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        [Route("roundsbygameid/{gameId}")]
-        public async Task<ObjectResult> GetRoundsByGameId(int gameId)
+        [Route("allgamesbyuser/{userId}")]
+        public async Task<ObjectResult> GetAllGameIdsByUser(int userId)
         {
             try
             {
-                var result = await _service.GetRoundIdsByGame(gameId);
+                var result = await _service.GetAllGameIdsByUser(userId);
                 return new ObjectResult(result);
             }
-            catch(NullReferenceException ex)
+            catch (NullReferenceException ex)
             {
                 _logger.LogError(ex);
                 return new ObjectResult(StatusCode((int)HttpStatusCode.NotFound));
@@ -38,12 +38,12 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        [Route("allgamesbyuser/{userId}")]
-        public async Task<ObjectResult> GetAllGameIdsByUser(int userId)
+        [Route("roundsbygameid/{gameId}")]
+        public async Task<ObjectResult> GetRoundsByGameId(int gameId)
         {
             try
             {
-                var result = await _service.GetAllGameIdsByUser(userId);
+                var result = await _service.GetRoundIdsByGame(gameId);
                 return new ObjectResult(result);
             }
             catch (NullReferenceException ex)

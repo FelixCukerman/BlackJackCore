@@ -77,7 +77,7 @@ namespace BusinessLogicLayer.Services
             IEnumerable<int> roundIds = rounds.Select(round => round.Id);
 
             return roundIds;
-        }
+        } 
 
         public async Task<IEnumerable<int>> GetAllGameIdsByUser(int userId)
         {

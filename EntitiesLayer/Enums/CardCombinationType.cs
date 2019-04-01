@@ -3,10 +3,9 @@
     public enum CardCombinationType
     {
         None = 0,
-        BlackJack = 1,
-        BlackJackAtTheStart = 2,
-        GoldenPoint = 3,
-        Shortfall = 4,
-        Bust = 5
+        BlackJackAtTheStart = 1,
+        GoldenPoint = 2,
+        Shortfall = 3,
+        Bust = 4
     }
 }
