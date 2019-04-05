@@ -19,5 +19,12 @@ namespace DataAccessLayer.Repositories
 
             return result;
         }
+
+        public async Task<List<Round>> Get(IEnumerable<int> gamesIds)
+        {
+            List<Round> rounds = await _data.Rounds.Where(round => gamesIds.Contains((int)round.GameId)).ToListAsync();
+
+            return rounds;
+        }
     }
 }

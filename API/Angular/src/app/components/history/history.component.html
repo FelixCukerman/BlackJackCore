@@ -1,0 +1,8 @@
+<div class="bg">
+  <input type="text" id="userIdFirstWay" list="users" class="user-autocomplete" [(ngModel)]="username"/>
+  <datalist id="users">
+    <option *ngFor="let item of this.users" [value]="item.username"></option>
+  </datalist>
+
+  <button (click) = "GetGamesByUser()"></button>
+</div>

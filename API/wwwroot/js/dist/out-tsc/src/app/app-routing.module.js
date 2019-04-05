@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { StartModule } from './modules/start.module';
 import { GameModule } from './modules/game.module';
+import { HistoryModule } from './modules/history.module';
 var routes = [
     {
         path: '',
@@ -12,6 +13,10 @@ var routes = [
     {
         path: 'game',
         loadChildren: function () { return StartModule; }
+    },
+    {
+        path: 'game',
+        loadChildren: function () { return HistoryModule; }
     },
     {
         path: 'game',

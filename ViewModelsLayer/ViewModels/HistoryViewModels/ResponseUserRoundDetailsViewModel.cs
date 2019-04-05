@@ -4,7 +4,7 @@ using ViewModelsLayer.ViewModels.CardViewModels;
 
 namespace ViewModelsLayer.ViewModels.HistoryViewModels
 {
-    public class HistoryUserRoundViewModel : UserBaseViewModel
+    public class ResponseUserRoundDetailsViewModel : UserBaseViewModel
     {
         public int Points { get; set; }
         public RoundStatusType RoundStatus { get; set; }

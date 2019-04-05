@@ -27,5 +27,17 @@ namespace DataAccessLayer.Repositories.DapperRepositories
                 return rounds.ToList();
             }
         }
+
+        public async Task<List<Round>> Get(IEnumerable<int> gamesIds)
+        {
+            using (IDbConnection db = new SqlConnection(connectionString))
+            {
+                string sqlQuery = "SELECT * FROM Rounds WHERE GameId IN @gamesIds";
+
+                IEnumerable<Round> rounds = await db.QueryAsync<Round>(sqlQuery, new { gamesIds });
+
+                return rounds.ToList();
+            }
+        }
     }
 }

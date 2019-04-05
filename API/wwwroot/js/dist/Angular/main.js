@@ -38,6 +38,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 /* harmony import */ var _modules_start_module__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/start.module */ "./src/app/modules/start.module.ts");
 /* harmony import */ var _modules_game_module__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/game.module */ "./src/app/modules/game.module.ts");
+/* harmony import */ var _modules_history_module__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modules/history.module */ "./src/app/modules/history.module.ts");
+
 
 
 
@@ -52,6 +54,10 @@ var routes = [
     {
         path: 'game',
         loadChildren: function () { return _modules_start_module__WEBPACK_IMPORTED_MODULE_3__["StartModule"]; }
+    },
+    {
+        path: 'game',
+        loadChildren: function () { return _modules_history_module__WEBPACK_IMPORTED_MODULE_5__["HistoryModule"]; }
     },
     {
         path: 'game',
@@ -468,6 +474,89 @@ var GameComponent = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/components/history/history.component.css":
+/*!**********************************************************!*\
+  !*** ./src/app/components/history/history.component.css ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ".bg {\r\n  background-image: url('/images/background/mainbackground.jpg');\r\n  min-height: 938px;\r\n  background-position: center;\r\n  background-repeat: no-repeat;\r\n  background-size: cover;\r\n}\r\n\r\n.user-autocomplete {\r\n  width: 300px;\r\n  height: 60px;\r\n  text-align: center;\r\n  font-size: 20pt;\r\n  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\r\n}\r\n\r\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9oaXN0b3J5L2hpc3RvcnkuY29tcG9uZW50LmNzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNFLDhEQUE2RDtFQUM3RCxpQkFBaUI7RUFDakIsMkJBQTJCO0VBQzNCLDRCQUE0QjtFQUM1QixzQkFBc0I7QUFDeEI7O0FBRUE7RUFDRSxZQUFZO0VBQ1osWUFBWTtFQUNaLGtCQUFrQjtFQUNsQixlQUFlO0VBQ2YsMkRBQTJEO0FBQzdEIiwiZmlsZSI6InNyYy9hcHAvY29tcG9uZW50cy9oaXN0b3J5L2hpc3RvcnkuY29tcG9uZW50LmNzcyIsInNvdXJjZXNDb250ZW50IjpbIi5iZyB7XHJcbiAgYmFja2dyb3VuZC1pbWFnZTogdXJsKH4vaW1hZ2VzL2JhY2tncm91bmQvbWFpbmJhY2tncm91bmQuanBnKTtcclxuICBtaW4taGVpZ2h0OiA5MzhweDtcclxuICBiYWNrZ3JvdW5kLXBvc2l0aW9uOiBjZW50ZXI7XHJcbiAgYmFja2dyb3VuZC1yZXBlYXQ6IG5vLXJlcGVhdDtcclxuICBiYWNrZ3JvdW5kLXNpemU6IGNvdmVyO1xyXG59XHJcblxyXG4udXNlci1hdXRvY29tcGxldGUge1xyXG4gIHdpZHRoOiAzMDBweDtcclxuICBoZWlnaHQ6IDYwcHg7XHJcbiAgdGV4dC1hbGlnbjogY2VudGVyO1xyXG4gIGZvbnQtc2l6ZTogMjBwdDtcclxuICBmb250LWZhbWlseTonU2Vnb2UgVUknLCBUYWhvbWEsIEdlbmV2YSwgVmVyZGFuYSwgc2Fucy1zZXJpZjtcclxufVxyXG4iXX0= */"
+
+/***/ }),
+
+/***/ "./src/app/components/history/history.component.html":
+/*!***********************************************************!*\
+  !*** ./src/app/components/history/history.component.html ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"bg\">\r\n  <input type=\"text\" id=\"userIdFirstWay\" list=\"users\" class=\"user-autocomplete\" [(ngModel)]=\"username\"/>\r\n  <datalist id=\"users\">\r\n    <option *ngFor=\"let item of this.users\" [value]=\"item.username\"></option>\r\n  </datalist>\r\n\r\n  <button (click) = \"GetGamesByUser()\"></button>\r\n</div>\r\n"
+
+/***/ }),
+
+/***/ "./src/app/components/history/history.component.ts":
+/*!*********************************************************!*\
+  !*** ./src/app/components/history/history.component.ts ***!
+  \*********************************************************/
+/*! exports provided: HistoryComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HistoryComponent", function() { return HistoryComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var src_app_services_HistoryService_history_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/services/HistoryService/history.service */ "./src/app/services/HistoryService/history.service.ts");
+/* harmony import */ var src_app_viewmodels_HistoryViewModels_request_round_history_view_model__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/viewmodels/HistoryViewModels/request-round-history-view-model */ "./src/app/viewmodels/HistoryViewModels/request-round-history-view-model.ts");
+
+
+
+
+var HistoryComponent = /** @class */ (function () {
+    function HistoryComponent(service) {
+        this.service = service;
+    }
+    HistoryComponent.prototype.GetGameHistory = function (game) {
+        var _this = this;
+        for (var i = 0; i < game.roundsIds.length; i++) {
+            var request = new src_app_viewmodels_HistoryViewModels_request_round_history_view_model__WEBPACK_IMPORTED_MODULE_3__["default"](game.roundsIds[i], game.gameId);
+            this.service.GetHistoryUserRounds(request).subscribe(function (data) {
+                _this.roundResponse = data;
+                _this.gameResponse.push(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"]({}, _this.roundResponse));
+            });
+        }
+    };
+    HistoryComponent.prototype.GetGamesByUser = function () {
+        var _this = this;
+        var person = this.users.filter(function (user) { return user.username == _this.username; }).shift();
+        this.service.GetAllGameIdsByUser(person.id).subscribe(function (data) {
+            _this.games = data;
+            console.log(_this.games);
+        });
+    };
+    HistoryComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.service.GetUsersForAutocomplete().subscribe(function (data) {
+            _this.users = data;
+        });
+    };
+    HistoryComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+            selector: 'app-history',
+            template: __webpack_require__(/*! ./history.component.html */ "./src/app/components/history/history.component.html"),
+            styles: [__webpack_require__(/*! ./history.component.css */ "./src/app/components/history/history.component.css")]
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [src_app_services_HistoryService_history_service__WEBPACK_IMPORTED_MODULE_2__["HistoryService"]])
+    ], HistoryComponent);
+    return HistoryComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/components/start/start.component.css":
 /*!******************************************************!*\
   !*** ./src/app/components/start/start.component.css ***!
@@ -475,7 +564,7 @@ var GameComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "* {\r\n  padding: 0;\r\n  margin: 0;\r\n}\r\n\r\nbody, html {\r\n  height: 100%;\r\n  margin: 0;\r\n}\r\n\r\n.line {\r\n  margin-top: 10px;\r\n}\r\n\r\n.bg {\r\n  /* The image used */\r\n  background-image: url('/images/background/mainbackground.jpg');\r\n  /* Full height */\r\n  min-height: 938px;\r\n  /* Center and scale the image nicely */\r\n  background-position: center;\r\n  background-repeat: no-repeat;\r\n  background-size: cover;\r\n}\r\n\r\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9zdGFydC9zdGFydC5jb21wb25lbnQuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0UsVUFBVTtFQUNWLFNBQVM7QUFDWDs7QUFFQTtFQUNFLFlBQVk7RUFDWixTQUFTO0FBQ1g7O0FBRUE7RUFDRSxnQkFBZ0I7QUFDbEI7O0FBRUE7RUFDRSxtQkFBbUI7RUFDbkIsOERBQTZEO0VBQzdELGdCQUFnQjtFQUNoQixpQkFBaUI7RUFDakIsc0NBQXNDO0VBQ3RDLDJCQUEyQjtFQUMzQiw0QkFBNEI7RUFDNUIsc0JBQXNCO0FBQ3hCIiwiZmlsZSI6InNyYy9hcHAvY29tcG9uZW50cy9zdGFydC9zdGFydC5jb21wb25lbnQuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiKiB7XHJcbiAgcGFkZGluZzogMDtcclxuICBtYXJnaW46IDA7XHJcbn1cclxuXHJcbmJvZHksIGh0bWwge1xyXG4gIGhlaWdodDogMTAwJTtcclxuICBtYXJnaW46IDA7XHJcbn1cclxuXHJcbi5saW5lIHtcclxuICBtYXJnaW4tdG9wOiAxMHB4O1xyXG59XHJcblxyXG4uYmcge1xyXG4gIC8qIFRoZSBpbWFnZSB1c2VkICovXHJcbiAgYmFja2dyb3VuZC1pbWFnZTogdXJsKH4vaW1hZ2VzL2JhY2tncm91bmQvbWFpbmJhY2tncm91bmQuanBnKTtcclxuICAvKiBGdWxsIGhlaWdodCAqL1xyXG4gIG1pbi1oZWlnaHQ6IDkzOHB4O1xyXG4gIC8qIENlbnRlciBhbmQgc2NhbGUgdGhlIGltYWdlIG5pY2VseSAqL1xyXG4gIGJhY2tncm91bmQtcG9zaXRpb246IGNlbnRlcjtcclxuICBiYWNrZ3JvdW5kLXJlcGVhdDogbm8tcmVwZWF0O1xyXG4gIGJhY2tncm91bmQtc2l6ZTogY292ZXI7XHJcbn1cclxuIl19 */"
+module.exports = "* {\r\n  padding: 0;\r\n  margin: 0;\r\n}\r\n\r\nbody, html {\r\n  height: 100%;\r\n  margin: 0;\r\n}\r\n\r\n.line {\r\n  margin-top: 10px;\r\n}\r\n\r\n.bg {\r\n  background-image: url('/images/background/mainbackground.jpg');\r\n  min-height: 938px;\r\n  background-position: center;\r\n  background-repeat: no-repeat;\r\n  background-size: cover;\r\n}\r\n\r\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9zdGFydC9zdGFydC5jb21wb25lbnQuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0UsVUFBVTtFQUNWLFNBQVM7QUFDWDs7QUFFQTtFQUNFLFlBQVk7RUFDWixTQUFTO0FBQ1g7O0FBRUE7RUFDRSxnQkFBZ0I7QUFDbEI7O0FBRUE7RUFDRSw4REFBNkQ7RUFDN0QsaUJBQWlCO0VBQ2pCLDJCQUEyQjtFQUMzQiw0QkFBNEI7RUFDNUIsc0JBQXNCO0FBQ3hCIiwiZmlsZSI6InNyYy9hcHAvY29tcG9uZW50cy9zdGFydC9zdGFydC5jb21wb25lbnQuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiKiB7XHJcbiAgcGFkZGluZzogMDtcclxuICBtYXJnaW46IDA7XHJcbn1cclxuXHJcbmJvZHksIGh0bWwge1xyXG4gIGhlaWdodDogMTAwJTtcclxuICBtYXJnaW46IDA7XHJcbn1cclxuXHJcbi5saW5lIHtcclxuICBtYXJnaW4tdG9wOiAxMHB4O1xyXG59XHJcblxyXG4uYmcge1xyXG4gIGJhY2tncm91bmQtaW1hZ2U6IHVybCh+L2ltYWdlcy9iYWNrZ3JvdW5kL21haW5iYWNrZ3JvdW5kLmpwZyk7XHJcbiAgbWluLWhlaWdodDogOTM4cHg7XHJcbiAgYmFja2dyb3VuZC1wb3NpdGlvbjogY2VudGVyO1xyXG4gIGJhY2tncm91bmQtcmVwZWF0OiBuby1yZXBlYXQ7XHJcbiAgYmFja2dyb3VuZC1zaXplOiBjb3ZlcjtcclxufVxyXG4iXX0= */"
 
 /***/ }),
 
@@ -486,7 +575,7 @@ module.exports = "* {\r\n  padding: 0;\r\n  margin: 0;\r\n}\r\n\r\nbody, html {\
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!doctype html>\r\n<html lang=\"en\">\r\n<head>\r\n  <meta charset=\"utf-8\">\r\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\">\r\n  <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css\" integrity=\"sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm\" crossorigin=\"anonymous\">\r\n  <title>blackjack</title>\r\n</head>\r\n<body>\r\n  <div class=\"bg\">\r\n    <div class=\"container\" style=\"padding-top: 15%\">\r\n      <div class=\"row\">\r\n        <div class=\"col\"></div>\r\n        <div class=\"col\">\r\n          <div class=\"line\"></div>\r\n          <input type=\"text\" class=\"form-control\" [(ngModel)]=\"user.Nickname\" placeholder=\"Nickname\" />\r\n          <div class=\"line\"></div>\r\n          <input type=\"number\" value=\"\" min=\"1\" placeholder=\"Rate\" class=\"form-control\" [(ngModel)]=\"request.userRate\" />\r\n          <div class=\"line\"></div>\r\n          <input type=\"number\" value=\"\" min=\"1\" placeholder=\"Bot quantity\" class=\"form-control\" [(ngModel)]=\"request.botQuantity\" />\r\n          <div class=\"line\"></div>\r\n          <input type=\"number\" value=\"\" min=\"1\" placeholder=\"Round quantity\" class=\"form-control\" [(ngModel)]=\"request.roundQuantity\" />\r\n          <div class=\"line\"></div>\r\n          <button class=\"btn btn-primary\" (click)=\"CreateNewGame()\" style=\"width: 100%\">Create new game</button>\r\n        </div>\r\n        <div class=\"col\"></div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</body>\r\n</html>\r\n"
+module.exports = "<!doctype html>\r\n<html lang=\"en\">\r\n<head>\r\n  <meta charset=\"utf-8\">\r\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\">\r\n  <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css\" integrity=\"sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm\" crossorigin=\"anonymous\">\r\n  <title>blackjack</title>\r\n</head>\r\n<body>\r\n  <div class=\"bg\">\r\n    <div class=\"container\" style=\"padding-top: 15%\">\r\n      <div class=\"row\">\r\n        <div class=\"col\"></div>\r\n        <div class=\"col\">\r\n          <div class=\"line\"></div>\r\n          <input type=\"text\" class=\"form-control\" [(ngModel)]=\"user.Nickname\" placeholder=\"Nickname\" />\r\n          <div class=\"line\"></div>\r\n          <input type=\"number\" value=\"\" min=\"1\" placeholder=\"Rate\" class=\"form-control\" [(ngModel)]=\"request.userRate\" />\r\n          <div class=\"line\"></div>\r\n          <input type=\"number\" value=\"\" min=\"1\" placeholder=\"Bot quantity\" class=\"form-control\" [(ngModel)]=\"request.botQuantity\" />\r\n          <div class=\"line\"></div>\r\n          <input type=\"number\" value=\"\" min=\"1\" placeholder=\"Round quantity\" class=\"form-control\" [(ngModel)]=\"request.roundQuantity\" />\r\n          <div class=\"line\"></div>\r\n          <button class=\"btn btn-primary\" (click)=\"CreateNewGame()\" style=\"width: 100%\">Create new game</button>\r\n        </div>\r\n        <div class=\"col\"></div>\r\n      </div>\r\n    </div>\r\n    <button class=\"btn btn-primary\" (click)=\"Test()\" style=\"width: 100%\">Test</button>\r\n  </div>\r\n</body>\r\n</html>\r\n"
 
 /***/ }),
 
@@ -508,8 +597,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 /* harmony import */ var angular_webstorage_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! angular-webstorage-service */ "./node_modules/angular-webstorage-service/bundles/angular-webstorage-service.es5.js");
 /* harmony import */ var src_app_shared_enums_game_state__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! src/app/shared/enums/game-state */ "./src/app/shared/enums/game-state.ts");
-/* harmony import */ var src_app_services_AccountService_account_service_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! src/app/services/AccountService/account-service.service */ "./src/app/services/AccountService/account-service.service.ts");
-
 
 
 
@@ -519,31 +606,20 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var StartComponent = /** @class */ (function () {
-    function StartComponent(storage, startService, accountService, router) {
+    function StartComponent(storage, startService, router) {
         this.storage = storage;
         this.startService = startService;
-        this.accountService = accountService;
         this.router = router;
     }
     StartComponent.prototype.CreateNewGame = function () {
         var _this = this;
-        this.request.user = this.user;
         this.storage.set('username', this.user.Nickname);
-        var token = this.storage.get('token');
-        if (token == null) {
-            this.accountService.CreateToken(this.user.Nickname).subscribe(function (data) {
-                _this.tokenResult = data;
-                _this.storage.set('token', _this.tokenResult.accessToken);
-            });
-        }
-        if (token != null) {
-            this.startService.CreateNewGame(this.request).subscribe(function (data) {
-                _this.response = data;
-                _this.router.navigate(['game/' + data.id]);
-                _this.gameState = src_app_shared_enums_game_state__WEBPACK_IMPORTED_MODULE_7__["GameState"].StartRound;
-                _this.storage.set('key', _this.gameState);
-            });
-        }
+        this.startService.CreateNewGame(this.request).subscribe(function (data) {
+            _this.response = data;
+            _this.router.navigate(['game/' + data.id]);
+            _this.gameState = src_app_shared_enums_game_state__WEBPACK_IMPORTED_MODULE_7__["GameState"].StartRound;
+            _this.storage.set('key', _this.gameState);
+        });
     };
     StartComponent.prototype.ngOnInit = function () {
         this.user = new src_app_viewmodels_UserViewModels_request_user_view_model__WEBPACK_IMPORTED_MODULE_3__["RequestUserViewModel"]("");
@@ -556,7 +632,7 @@ var StartComponent = /** @class */ (function () {
             styles: [__webpack_require__(/*! ./start.component.css */ "./src/app/components/start/start.component.css")]
         }),
         tslib__WEBPACK_IMPORTED_MODULE_0__["__param"](0, Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Inject"])(angular_webstorage_service__WEBPACK_IMPORTED_MODULE_6__["LOCAL_STORAGE"])),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [angular_webstorage_service__WEBPACK_IMPORTED_MODULE_6__["WebStorageService"], src_app_services_StartService_start_service__WEBPACK_IMPORTED_MODULE_4__["StartService"], src_app_services_AccountService_account_service_service__WEBPACK_IMPORTED_MODULE_8__["AccountService"], _angular_router__WEBPACK_IMPORTED_MODULE_5__["Router"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [angular_webstorage_service__WEBPACK_IMPORTED_MODULE_6__["WebStorageService"], src_app_services_StartService_start_service__WEBPACK_IMPORTED_MODULE_4__["StartService"], _angular_router__WEBPACK_IMPORTED_MODULE_5__["Router"]])
     ], StartComponent);
     return StartComponent;
 }());
@@ -610,6 +686,54 @@ var GameModule = /** @class */ (function () {
         })
     ], GameModule);
     return GameModule;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/modules/history.module.ts":
+/*!*******************************************!*\
+  !*** ./src/app/modules/history.module.ts ***!
+  \*******************************************/
+/*! exports provided: HistoryModule */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HistoryModule", function() { return HistoryModule; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var _components_history_history_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../components/history/history.component */ "./src/app/components/history/history.component.ts");
+
+
+
+
+
+
+var routes = [
+    {
+        path: 'history',
+        component: _components_history_history_component__WEBPACK_IMPORTED_MODULE_5__["HistoryComponent"]
+    }
+];
+var HistoryModule = /** @class */ (function () {
+    function HistoryModule() {
+    }
+    HistoryModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["NgModule"])({
+            declarations: [_components_history_history_component__WEBPACK_IMPORTED_MODULE_5__["HistoryComponent"]],
+            imports: [
+                _angular_common__WEBPACK_IMPORTED_MODULE_2__["CommonModule"],
+                _angular_forms__WEBPACK_IMPORTED_MODULE_4__["FormsModule"],
+                _angular_router__WEBPACK_IMPORTED_MODULE_3__["RouterModule"].forChild(routes)
+            ]
+        })
+    ], HistoryModule);
+    return HistoryModule;
 }());
 
 
@@ -694,7 +818,12 @@ var AccountService = /** @class */ (function () {
         this.url = "/api/auth/";
     }
     AccountService.prototype.CreateToken = function (username) {
-        return this.http.get(this.url + "token/" + username);
+        var _this = this;
+        var token;
+        this.http.get(this.url + "token/" + username).subscribe(function (data) {
+            token = data.accessToken;
+            _this.storage.set('token', token);
+        });
     };
     AccountService.prototype.GetToken = function () {
         return this.storage.get('token');
@@ -773,6 +902,60 @@ var GameService = /** @class */ (function () {
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"]])
     ], GameService);
     return GameService;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/services/HistoryService/history.service.ts":
+/*!************************************************************!*\
+  !*** ./src/app/services/HistoryService/history.service.ts ***!
+  \************************************************************/
+/*! exports provided: HistoryService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HistoryService", function() { return HistoryService; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+
+
+
+var HistoryService = /** @class */ (function () {
+    function HistoryService(http) {
+        this.http = http;
+        this.url = "/api/history/";
+    }
+    HistoryService.prototype.GetUsersForAutocomplete = function () {
+        var result = this.http.get(this.url + "getusers");
+        return result;
+    };
+    HistoryService.prototype.GetRoundIdsByGame = function (gameId) {
+        var result = this.http.get(this.url + "roundsbygameid/" + gameId);
+        return result;
+    };
+    HistoryService.prototype.GetAllGameIdsByUser = function (userId) {
+        var result = this.http.get(this.url + "allgamesbyuser/" + userId);
+        return result;
+    };
+    HistoryService.prototype.GetHistoryUserRounds = function (request) {
+        var result = this.http.post(this.url + "roundhistory", request);
+        return result;
+    };
+    HistoryService.prototype.GetGameStatistic = function (gameId) {
+        var result = this.http.get(this.url + "gamestatistic/" + gameId);
+        return result;
+    };
+    HistoryService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
+            providedIn: 'root'
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"]])
+    ], HistoryService);
+    return HistoryService;
 }());
 
 
@@ -882,6 +1065,27 @@ var RequestGameViewModel = /** @class */ (function () {
     return RequestGameViewModel;
 }());
 /* harmony default export */ __webpack_exports__["default"] = (RequestGameViewModel);
+
+
+/***/ }),
+
+/***/ "./src/app/viewmodels/HistoryViewModels/request-round-history-view-model.ts":
+/*!**********************************************************************************!*\
+  !*** ./src/app/viewmodels/HistoryViewModels/request-round-history-view-model.ts ***!
+  \**********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+var RequestRoundHistoryViewModel = /** @class */ (function () {
+    function RequestRoundHistoryViewModel(roundId, gameId) {
+        this.roundId = roundId;
+        this.gameId = gameId;
+    }
+    return RequestRoundHistoryViewModel;
+}());
+/* harmony default export */ __webpack_exports__["default"] = (RequestRoundHistoryViewModel);
 
 
 /***/ }),

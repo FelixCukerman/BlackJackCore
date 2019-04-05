@@ -1,6 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { WebStorageService, LOCAL_STORAGE } from 'angular-webstorage-service';
+import { GetTokenViewModel } from 'src/app/viewmodels/AccountViewModels/get-token-view-model';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,12 @@ export class AccountService {
 
   public CreateToken(username: string)
   {
-    return this.http.get(this.url + "token/" + username);
+    let token: string;
+    this.http.get(this.url + "token/" + username).subscribe((data: GetTokenViewModel) =>
+    {
+      token = data.accessToken;
+      this.storage.set('token', token);
+    });
   }
 
   public GetToken()

@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using BusinessLogicLayer.Interfaces;
 using ViewModelsLayer.ViewModels.GameViewModels;
-using System.Net;
 using ViewModelsLayer.ViewModels.ReplenishCashViewModel;
 using API.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -35,7 +34,7 @@ namespace API.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex);
-                return new ObjectResult(StatusCode((int)HttpStatusCode.NotFound));
+                return NotFound();
             }
         }
 
@@ -50,7 +49,7 @@ namespace API.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex);
-                return new ObjectResult(StatusCode((int)HttpStatusCode.NotFound));
+                return NotFound();
             }
         }
 
@@ -66,7 +65,7 @@ namespace API.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex);
-                return new ObjectResult(StatusCode((int)HttpStatusCode.NotFound));
+                return NotFound();
             }
         }
         
@@ -87,7 +86,7 @@ namespace API.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex);
-                return new ObjectResult(StatusCode((int)HttpStatusCode.NotFound));
+                return NotFound();
             }
         }
 
@@ -103,7 +102,7 @@ namespace API.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex);
-                return new ObjectResult(StatusCode((int)HttpStatusCode.NotFound));
+                return NotFound();
             }
         }
 
@@ -118,7 +117,7 @@ namespace API.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex);
-                return new ObjectResult(ex.Message);
+                return NotFound();
             }
         }
 
@@ -133,7 +132,7 @@ namespace API.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex);
-                return new ObjectResult(ex.Message);
+                return NotFound();
             }
         }
 
@@ -148,7 +147,7 @@ namespace API.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex);
-                return new ObjectResult(ex.Message);
+                return NotFound();
             }
         }
 
@@ -163,7 +162,7 @@ namespace API.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex);
-                return new ObjectResult(ex.Message);
+                return NotFound();
             }
         }
     }

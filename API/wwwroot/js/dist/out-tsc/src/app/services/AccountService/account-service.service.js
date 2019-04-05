@@ -9,7 +9,12 @@ var AccountService = /** @class */ (function () {
         this.url = "/api/auth/";
     }
     AccountService.prototype.CreateToken = function (username) {
-        return this.http.get(this.url + "token/" + username);
+        var _this = this;
+        var token;
+        this.http.get(this.url + "token/" + username).subscribe(function (data) {
+            token = data.accessToken;
+            _this.storage.set('token', token);
+        });
     };
     AccountService.prototype.GetToken = function () {
         return this.storage.get('token');

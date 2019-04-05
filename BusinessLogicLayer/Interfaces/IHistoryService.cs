@@ -6,9 +6,8 @@ namespace BusinessLogicLayer.Interfaces
 {
     public interface IHistoryService
     {
-        Task<IEnumerable<int>> GetRoundIdsByGame(int gameId);
-        Task<IEnumerable<int>> GetAllGameIdsByUser(int userId);
-        Task<List<HistoryUserRoundViewModel>> GetHistoryUserRounds(RequestHistoryUserRoundViewModel request);
-        Task<List<HistoryUserDetailsViewModel>> GetHistoryUserDetails(int gameId);
+        Task<ResponseGameDetailsViewModel> GetGameDetails(int gameId);
+        Task<List<ResponseUserForAutocompleteView>> GetUsersForAutocomplete();
+        Task<List<ResponseGamesByUserViewModel>> GetGamesByUser(int userId);
     }
 }

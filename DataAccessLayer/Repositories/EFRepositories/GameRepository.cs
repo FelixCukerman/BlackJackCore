@@ -1,5 +1,9 @@
 ﻿using EntitiesLayer.Entities;
 using DataAccessLayer.Interfaces;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace DataAccessLayer.Repositories
 {

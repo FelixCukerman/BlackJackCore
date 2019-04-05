@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Net;
 using System.Threading.Tasks;
 using API.Interfaces;
 using BusinessLogicLayer.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using ViewModelsLayer.ViewModels.HistoryViewModels;
 
 namespace API.Controllers
 {
@@ -22,66 +20,50 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        [Route("allgamesbyuser/{userId}")]
-        public async Task<ObjectResult> GetAllGameIdsByUser(int userId)
+        [Route("gamedetails/{gameId}")]
+        public async Task<IActionResult> GetGameDetails(int gameId)
         {
             try
             {
-                var result = await _service.GetAllGameIdsByUser(userId);
+                var result = await _service.GetGameDetails(gameId);
                 return new ObjectResult(result);
             }
-            catch (NullReferenceException ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex);
-                return new ObjectResult(StatusCode((int)HttpStatusCode.NotFound));
+                return NotFound();
             }
         }
 
         [HttpGet]
-        [Route("roundsbygameid/{gameId}")]
-        public async Task<ObjectResult> GetRoundsByGameId(int gameId)
+        [Route("getpersons")]
+        public async Task<IActionResult> GetUsersForAutocomplete()
         {
             try
             {
-                var result = await _service.GetRoundIdsByGame(gameId);
+                var result = await _service.GetUsersForAutocomplete();
                 return new ObjectResult(result);
             }
-            catch (NullReferenceException ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex);
-                return new ObjectResult(StatusCode((int)HttpStatusCode.NotFound));
+                return NotFound();
             }
         }
 
         [HttpGet]
-        [Route("historyuserrounds")]
-        public async Task<ObjectResult> GetHistoryUserRounds([FromBody]RequestHistoryUserRoundViewModel request)
+        [Route("gamedetails/{userId}")]
+        public async Task<IActionResult> GetGamesByUser(int userId)
         {
             try
             {
-                var result = await _service.GetHistoryUserRounds(request);
+                var result = await _service.GetGamesByUser(userId);
                 return new ObjectResult(result);
             }
-            catch (NullReferenceException ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex);
-                return new ObjectResult(StatusCode((int)HttpStatusCode.NotFound));
-            }
-        }
-
-        [HttpGet]
-        [Route("usergamedetails/{gameId}")]
-        public async Task<ObjectResult> GetHistoryUserDetails(int gameId)
-        {
-            try
-            {
-                var result = await _service.GetHistoryUserDetails(gameId);
-                return new ObjectResult(result);
-            }
-            catch (NullReferenceException ex)
-            {
-                _logger.LogError(ex);
-                return new ObjectResult(StatusCode((int)HttpStatusCode.NotFound));
+                return NotFound();
             }
         }
     }

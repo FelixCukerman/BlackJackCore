@@ -45,5 +45,12 @@ namespace DataAccessLayer.Repositories
 
             return result;
         }
+
+        public async Task<List<User>> GetAllPersons()
+        {
+            List<User> result = await _data.Users.Where(user => user.UserRole == UserRoleType.People).ToListAsync();
+
+            return result;
+        }
     }
 }

@@ -10,5 +10,6 @@ namespace DataAccessLayer.Interfaces
         Task<List<User>> Get(IEnumerable<int> userIds);
         Task<List<User>> GetBotsByQuantity(int requestQuantity);
         Task<User> Get(string username);
+        Task<List<User>> GetAllPersons();
     }
 }

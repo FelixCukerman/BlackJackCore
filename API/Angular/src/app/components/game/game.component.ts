@@ -4,7 +4,6 @@ import { GameService } from 'src/app/services/GameService/game.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ResponseUserViewModel } from 'src/app/viewmodels/UserViewModels/response-user-view-model';
 import { UserRole } from 'src/app/shared/enums/user-role';
-import { ResponseCardViewModel } from 'src/app/viewmodels/CardViewModels/response-card-view-model';
 import { __await } from 'tslib';
 import { ResponseUserRoundViewModel } from 'src/app/viewmodels/UserRoundViewModels/response-user-round-view-model';
 import { RequestReplenishCashViewModel } from 'src/app/viewmodels/ReplenishCashViewModels/request-replenish-cash-view-model';
@@ -12,7 +11,6 @@ import { GameState } from 'src/app/shared/enums/game-state';
 import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
 import { ResponseUserGameViewModel } from 'src/app/viewmodels/UserGameViewModels/response-user-game-view-models';
 import { ResponseGameOverViewModel } from 'src/app/viewmodels/GameOverViewModels/response-game-over-view-model';
-import { debug } from 'util';
 
 @Component({
   selector: 'app-game',

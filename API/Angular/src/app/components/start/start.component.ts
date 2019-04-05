@@ -18,38 +18,24 @@ import { debug } from 'util';
 export class StartComponent implements OnInit
 {
   public response: ResponseGameViewModel;
-  public tokenResult: GetTokenViewModel;
   public request: RequestGameViewModel;
   public user: RequestUserViewModel;
   private gameState: GameState;
 
-  constructor(@Inject(LOCAL_STORAGE) private storage: WebStorageService, private startService: StartService, private accountService: AccountService,  private router: Router)
+  constructor(@Inject(LOCAL_STORAGE) private storage: WebStorageService, private startService: StartService, private router: Router)
   {
   }
 
   CreateNewGame()
   {
-    this.request.user = this.user;
     this.storage.set('username', this.user.Nickname);
 
-    let token = this.storage.get('token');
-
-    if (token == null) {
-      this.accountService.CreateToken(this.user.Nickname).subscribe((data: GetTokenViewModel) =>
-      {
-        this.tokenResult = data;
-        this.storage.set('token', this.tokenResult.accessToken);
-      });
-    }
-
-    if (token != null) {
-      this.startService.CreateNewGame(this.request).subscribe((data: ResponseGameViewModel) => {
-        this.response = data;
-        this.router.navigate(['game/' + data.id]);
-        this.gameState = GameState.StartRound;
-        this.storage.set('key', this.gameState);
-      });
-    }
+    this.startService.CreateNewGame(this.request).subscribe((data: ResponseGameViewModel) => {
+      this.response = data;
+      this.router.navigate(['game/' + data.id]);
+      this.gameState = GameState.StartRound;
+      this.storage.set('key', this.gameState);
+    });
   }
 
   ngOnInit()

@@ -6,33 +6,21 @@ import { StartService } from 'src/app/services/StartService/start.service';
 import { Router } from '@angular/router';
 import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
 import { GameState } from 'src/app/shared/enums/game-state';
-import { AccountService } from 'src/app/services/AccountService/account-service.service';
 var StartComponent = /** @class */ (function () {
-    function StartComponent(storage, startService, accountService, router) {
+    function StartComponent(storage, startService, router) {
         this.storage = storage;
         this.startService = startService;
-        this.accountService = accountService;
         this.router = router;
     }
     StartComponent.prototype.CreateNewGame = function () {
         var _this = this;
-        this.request.user = this.user;
         this.storage.set('username', this.user.Nickname);
-        var token = this.storage.get('token');
-        if (token == null) {
-            this.accountService.CreateToken(this.user.Nickname).subscribe(function (data) {
-                _this.tokenResult = data;
-                _this.storage.set('token', _this.tokenResult.accessToken);
-            });
-        }
-        if (token != null) {
-            this.startService.CreateNewGame(this.request).subscribe(function (data) {
-                _this.response = data;
-                _this.router.navigate(['game/' + data.id]);
-                _this.gameState = GameState.StartRound;
-                _this.storage.set('key', _this.gameState);
-            });
-        }
+        this.startService.CreateNewGame(this.request).subscribe(function (data) {
+            _this.response = data;
+            _this.router.navigate(['game/' + data.id]);
+            _this.gameState = GameState.StartRound;
+            _this.storage.set('key', _this.gameState);
+        });
     };
     StartComponent.prototype.ngOnInit = function () {
         this.user = new RequestUserViewModel("");
@@ -45,7 +33,7 @@ var StartComponent = /** @class */ (function () {
             styleUrls: ['./start.component.css']
         }),
         tslib_1.__param(0, Inject(LOCAL_STORAGE)),
-        tslib_1.__metadata("design:paramtypes", [WebStorageService, StartService, AccountService, Router])
+        tslib_1.__metadata("design:paramtypes", [WebStorageService, StartService, Router])
     ], StartComponent);
     return StartComponent;
 }());
