@@ -6,6 +6,7 @@ using ViewModelsLayer.ViewModels.GameViewModels;
 using ViewModelsLayer.ViewModels.ReplenishCashViewModel;
 using API.Interfaces;
 using Microsoft.AspNetCore.Authorization;
+using API.Filters;
 
 namespace API.Controllers
 {
@@ -22,20 +23,13 @@ namespace API.Controllers
             _logger = logger;
         }
 
+        [GameException]
         [Authorize]
         [HttpGet("gamebyid/{gameId}")]
         public async Task<IActionResult> GameById(int gameId)
         {
-            try
-            {
-                var result = await _service.GetGameById(gameId);
-                return new ObjectResult(result);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex);
-                return NotFound();
-            }
+            ResponseGameViewModel result = await _service.GetGameById(gameId);
+            return new ObjectResult(result);
         }
 
         [HttpGet("gameover/{gameId}")]

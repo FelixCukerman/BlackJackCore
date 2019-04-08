@@ -6,13 +6,13 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
 using System.Transactions;
-using System.Linq;
 
 namespace DataAccessLayer.Repositories.DapperRepositories
 {
     public class DapperGenericRepository<T> : IRepository<T> where T : BaseEntity
     {
         protected string connectionString = null;
+
         public DapperGenericRepository(string connectionString)
         {
             this.connectionString = connectionString;

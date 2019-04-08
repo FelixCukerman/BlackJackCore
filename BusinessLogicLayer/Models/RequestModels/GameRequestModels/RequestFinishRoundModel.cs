@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using ViewModelsLayer.ViewModels.GameViewModels;
 
-namespace BusinessLogicLayer.DTOs
+namespace BusinessLogicLayer.Models.RequestModels.GameRequestModels
 {
-    public class FinishRoundDTO
+    public class RequestFinishRoundModel
     {
         public Round LastRound { get; set; }
         public List<Move> MovesToCreate { get; set; }

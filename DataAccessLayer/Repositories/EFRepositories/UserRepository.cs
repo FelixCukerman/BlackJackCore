@@ -6,7 +6,6 @@ using DataAccessLayer.Interfaces;
 using EntitiesLayer.Entities;
 using Microsoft.EntityFrameworkCore;
 using EntitiesLayer.Enums;
-using DataAccessLayer.Constants;
 
 namespace DataAccessLayer.Repositories
 {
@@ -34,7 +33,7 @@ namespace DataAccessLayer.Repositories
 
         public async Task<List<User>> GetBotsByQuantity(int requestQuantity)
         {
-            List<User> result = await _data.Users.Where(user => user.UserRole == UserRoleType.Bot).Skip(ConfigureConstant.MaxBotsCount - requestQuantity).ToListAsync();
+            List<User> result = await _data.Users.Where(user => user.UserRole == UserRoleType.Bot).Take(requestQuantity).ToListAsync();
 
             return result;
         }

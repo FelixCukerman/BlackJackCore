@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using ViewModelsLayer.ViewModels.HistoryViewModels;
 using System.Linq;
 using ViewModelsLayer.ViewModels.CardViewModels;
-using ViewModelsLayer.ViewModels.GameOverViewModel;
 using EntitiesLayer.Enums;
 using ViewModelsLayer.Enums;
 using BusinessLogicLayer.RequestModels.HistoryRequestModels;

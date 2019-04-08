@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading.Tasks;
 using DataAccessLayer.Interfaces;
-using EntitiesLayer.Abstraction;
 using EntitiesLayer.Interfaces;
 using Microsoft.EntityFrameworkCore;
 

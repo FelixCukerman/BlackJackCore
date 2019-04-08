@@ -17,6 +17,7 @@ using BusinessLogicLayer.Constants;
 using ViewModelsLayer.ViewModels.UserRoundViewModels;
 using ViewModelsLayer.ViewModels.UserGameViewModels;
 using ViewModelsLayer.ViewModels.GameOverViewModel;
+using BusinessLogicLayer.Models.RequestModels.GameRequestModels;
 
 namespace BusinessLogicLayer.Services
 {
@@ -426,7 +427,7 @@ namespace BusinessLogicLayer.Services
             _handCardsProvider.Add(handCards);
         }
 
-        private void DealTwoCards(DealTwoCardsDTO request)
+        private void DealTwoCards(RequestDealTwoCardsModel request)
         {
             HandCards userHand = _handCardsProvider.Get(request.User);
             Deck deckFromCache = _deckProvider.Get(request.GameId);
@@ -448,7 +449,7 @@ namespace BusinessLogicLayer.Services
             _deckProvider.Update(deckFromCache, request.GameId);
         }
 
-        private void UpdateCache(UpdateCacheDTO request)
+        private void UpdateCache(RequestUpdateCacheModel request)
         {
             HandCards requestHand = request.HandCards;
 
@@ -468,7 +469,7 @@ namespace BusinessLogicLayer.Services
             _deckProvider.Update(requestDeck, gameId);
         }
 
-        private List<Move> DealCardsToBot(DealCardsToBotDTO request)
+        private List<Move> DealCardsToBot(RequestDealCardsToBotModel request)
         {
             int gameId = request.GameId;
 
@@ -515,7 +516,7 @@ namespace BusinessLogicLayer.Services
 
                 userRoundIsChange = true;
 
-                var updateRequest = new UpdateCacheDTO { Card = cardToUser, Deck = deckFromCache, GameId = gameId, HandCards = handCardsFromCache };
+                var updateRequest = new RequestUpdateCacheModel { Card = cardToUser, Deck = deckFromCache, GameId = gameId, HandCards = handCardsFromCache };
                 UpdateCache(updateRequest);
             }
 
@@ -527,7 +528,7 @@ namespace BusinessLogicLayer.Services
             return moves;
         }
 
-        private async Task<ResponseGameViewModel> FinishRound(FinishRoundDTO request)
+        private async Task<ResponseGameViewModel> FinishRound(RequestFinishRoundModel request)
         {
             Round lastRound = request.LastRound;
             List<Move> movesToCreate = request.MovesToCreate;
@@ -676,7 +677,7 @@ namespace BusinessLogicLayer.Services
             ResponseGameViewModel result = await GameResponse(gameId);
             List<ResponseUserViewModel> usersResult = result.Users;
 
-            var dealTwoCardsRequest = new DealTwoCardsDTO();
+            var dealTwoCardsRequest = new RequestDealTwoCardsModel();
 
             IEnumerable<Card> cardToUser;
 
@@ -700,7 +701,7 @@ namespace BusinessLogicLayer.Services
 
             foreach(User user in usersExceptDealer)
             {
-                dealTwoCardsRequest = new DealTwoCardsDTO { GameId = gameId, Moves = moves, RoundId = lastRoundId, User = user };
+                dealTwoCardsRequest = new RequestDealTwoCardsModel { GameId = gameId, Moves = moves, RoundId = lastRoundId, User = user };
                 DealTwoCards(dealTwoCardsRequest);
                 cardToUser = _handCardsProvider.Get(user).Cards;
 
@@ -764,7 +765,7 @@ namespace BusinessLogicLayer.Services
 
             userRound.Points += cardToUser.CardValue;
 
-            var updateRequest = new UpdateCacheDTO { Card = cardToUser, Deck = deckFromCache, GameId = gameId, HandCards = handCardsFromCache };
+            var updateRequest = new RequestUpdateCacheModel { Card = cardToUser, Deck = deckFromCache, GameId = gameId, HandCards = handCardsFromCache };
             UpdateCache(updateRequest);
 
             await _userRoundRepository.Update(userRound);
@@ -819,13 +820,13 @@ namespace BusinessLogicLayer.Services
 
                 userRound.Points += cardToUser.CardValue;
 
-                var updateRequest = new UpdateCacheDTO { Card = cardToUser, Deck = deckFromCache, GameId = gameId, HandCards = handCardsFromCache };
+                var updateRequest = new RequestUpdateCacheModel { Card = cardToUser, Deck = deckFromCache, GameId = gameId, HandCards = handCardsFromCache };
                 UpdateCache(updateRequest);
             }
 
             await _userRoundRepository.Update(userRound);
 
-            var requestFinishRound = new FinishRoundDTO { LastRound = lastRound, MovesToCreate = movesToCreate, GameResult = result };
+            var requestFinishRound = new RequestFinishRoundModel { LastRound = lastRound, MovesToCreate = movesToCreate, GameResult = result };
             result = await FinishRound(requestFinishRound);
 
             if(result.IsOver)
@@ -862,7 +863,7 @@ namespace BusinessLogicLayer.Services
 
                 UserRound roundOnTheCurrentBot = botsRounds.FirstOrDefault(item => item.UserId == bot.Id);
 
-                var dealCardsRequest = new DealCardsToBotDTO();
+                var dealCardsRequest = new RequestDealCardsToBotModel();
 
                 dealCardsRequest.GameId = gameId;
                 dealCardsRequest.Bot = bot;

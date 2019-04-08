@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using EntitiesLayer.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using EntitiesLayer.Enums;
 using Microsoft.AspNetCore.Identity;
 using DataAccessLayer.Interfaces;
 

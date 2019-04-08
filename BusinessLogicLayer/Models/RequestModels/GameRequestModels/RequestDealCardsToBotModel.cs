@@ -1,9 +1,9 @@
 ﻿using EntitiesLayer.Entities;
 using System.Collections.Generic;
 
-namespace BusinessLogicLayer.DTOs
+namespace BusinessLogicLayer.Models.RequestModels.GameRequestModels
 {
-    public class DealCardsToBotDTO
+    public class RequestDealCardsToBotModel
     {
         public int GameId { get; set; }
         public User Bot { get; set; }

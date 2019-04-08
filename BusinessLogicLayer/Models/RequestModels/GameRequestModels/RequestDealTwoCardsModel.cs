@@ -1,9 +1,9 @@
 ﻿using EntitiesLayer.Entities;
 using System.Collections.Generic;
 
-namespace BusinessLogicLayer.DTOs
+namespace BusinessLogicLayer.Models.RequestModels.GameRequestModels
 {
-    public class DealTwoCardsDTO
+    public class RequestDealTwoCardsModel
     {
         public List<Move> Moves { get; set; }
         public User User { get; set; }

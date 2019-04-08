@@ -1,8 +1,9 @@
-﻿using EntitiesLayer.Entities;
+﻿using BusinessLogicLayer.DTOs;
+using EntitiesLayer.Entities;
 
-namespace BusinessLogicLayer.DTOs
+namespace BusinessLogicLayer.Models.RequestModels.GameRequestModels
 {
-    public class UpdateCacheDTO
+    public class RequestUpdateCacheModel
     {
         public HandCards HandCards { get; set; }
         public Card Card { get; set; }
