@@ -18,6 +18,7 @@ using BusinessLogicLayer.Helpers;
 using System.IdentityModel.Tokens.Jwt;
 using System;
 using BusinessLogicLayer.Providers;
+using API.Filters;
 
 namespace API
 {
@@ -63,7 +64,10 @@ namespace API
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc(options => 
+            {
+                options.Filters.Add(typeof(GameExceptionAttribute));
+            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddAutoMapper();
             services.AddMemoryCache();
