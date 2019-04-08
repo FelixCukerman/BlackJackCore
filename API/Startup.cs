@@ -67,7 +67,8 @@ namespace API
             services.AddMvc(options => 
             {
                 options.Filters.Add(typeof(GameExceptionAttribute));
-            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            })
+            .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddAutoMapper();
             services.AddMemoryCache();

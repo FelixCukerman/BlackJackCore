@@ -1,7 +1,5 @@
 ﻿using API.Interfaces;
-using System.Net;
-using System.Net.Http;
-using System.Web.Http.Filters;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace API.Filters
 {
@@ -14,10 +12,9 @@ namespace API.Filters
             _logger = logger;
         }
 
-        public override void OnException(HttpActionExecutedContext context)
+        public override void OnException(ExceptionContext context)
         {
             _logger.LogError(context.Exception);
-            context.Response = new HttpResponseMessage(HttpStatusCode.NotFound);
         }
     }
 }
