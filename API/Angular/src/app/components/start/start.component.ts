@@ -2,13 +2,10 @@ import { Component, OnInit, Inject } from '@angular/core';
 import RequestGameViewModel from 'src/app/viewmodels/GameViewModels/request-game-view-model';
 import { RequestUserViewModel } from 'src/app/viewmodels/UserViewModels/request-user-view-model';
 import { StartService } from 'src/app/services/StartService/start.service';
-import { Router, Data } from '@angular/router';
+import { Router } from '@angular/router';
 import ResponseGameViewModel from 'src/app/viewmodels/GameViewModels/response-game-view-model';
 import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
 import { GameState } from 'src/app/shared/enums/game-state';
-import { AccountService } from 'src/app/services/AccountService/account-service.service';
-import { GetTokenViewModel } from 'src/app/viewmodels/AccountViewModels/get-token-view-model';
-import { debug } from 'util';
 
 @Component({
   selector: 'app-start',
@@ -24,6 +21,11 @@ export class StartComponent implements OnInit
 
   constructor(@Inject(LOCAL_STORAGE) private storage: WebStorageService, private startService: StartService, private router: Router)
   {
+  }
+
+  ToHistory()
+  {
+    this.router.navigate(['game/history']);
   }
 
   CreateNewGame()

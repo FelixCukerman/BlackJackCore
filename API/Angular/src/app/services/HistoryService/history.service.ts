@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
 export class HistoryService {
 
   private url = "/api/history/";
+
   constructor(private http: HttpClient) { }
 
   public GetUsersForAutocomplete()
@@ -17,6 +18,11 @@ export class HistoryService {
 
   public GetGamesByUser(userId: number) {
     let result = this.http.get(this.url + "gamesbyuser/" + userId);
+    return result;
+  }
+
+  public GetGameDetails(gameId: number) {
+    let result = this.http.get(this.url + "gamedetails/" + gameId);
     return result;
   }
 }

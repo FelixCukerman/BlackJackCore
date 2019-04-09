@@ -17,12 +17,16 @@
     <None Remove="Angular\src\app\auth\token.interceptor.ts" />
     <None Remove="Angular\src\app\modules\history.module.ts" />
     <None Remove="Angular\src\app\shared\enums\game-state.ts" />
+    <None Remove="Angular\src\app\shared\enums\user-game-status.ts" />
     <None Remove="Angular\src\app\viewmodels\AccountViewModels\get-token-view-model.ts" />
     <None Remove="Angular\src\app\viewmodels\GameOverViewModels\response-game-over-view-model.ts" />
-    <None Remove="Angular\src\app\viewmodels\HistoryViewModels\history-game-by-user.ts" />
+    <None Remove="Angular\src\app\viewmodels\HistoryViewModels\history-game-statistic-view-model.ts" />
     <None Remove="Angular\src\app\viewmodels\HistoryViewModels\history-user-round-view-model.ts" />
-    <None Remove="Angular\src\app\viewmodels\HistoryViewModels\request-round-history-view-model.ts" />
+    <None Remove="Angular\src\app\viewmodels\HistoryViewModels\response-game-details-view-model.ts" />
+    <None Remove="Angular\src\app\viewmodels\HistoryViewModels\response-games-by-user-view-model.ts" />
+    <None Remove="Angular\src\app\viewmodels\HistoryViewModels\response-round-details-view-model.ts" />
     <None Remove="Angular\src\app\viewmodels\HistoryViewModels\response-user-for-autocomplete-view.ts" />
+    <None Remove="Angular\src\app\viewmodels\HistoryViewModels\response-user-round-details-view-model.ts" />
     <None Remove="Angular\src\app\viewmodels\ReplenishCashViewModels\request-replenish-cash-view-model.ts" />
     <None Remove="Angular\src\app\viewmodels\UserGameViewModels\response-user-game-view-models.ts" />
   </ItemGroup>
@@ -49,12 +53,16 @@
     <TypeScriptCompile Include="Angular\src\app\auth\token.interceptor.ts" />
     <TypeScriptCompile Include="Angular\src\app\modules\history.module.ts" />
     <TypeScriptCompile Include="Angular\src\app\shared\enums\game-state.ts" />
+    <TypeScriptCompile Include="Angular\src\app\shared\enums\user-game-status.ts" />
     <TypeScriptCompile Include="Angular\src\app\viewmodels\AccountViewModels\get-token-view-model.ts" />
     <TypeScriptCompile Include="Angular\src\app\viewmodels\GameOverViewModels\response-game-over-view-model.ts" />
-    <TypeScriptCompile Include="Angular\src\app\viewmodels\HistoryViewModels\history-game-by-user.ts" />
+    <TypeScriptCompile Include="Angular\src\app\viewmodels\HistoryViewModels\history-game-statistic-view-model.ts" />
     <TypeScriptCompile Include="Angular\src\app\viewmodels\HistoryViewModels\history-user-round-view-model.ts" />
-    <TypeScriptCompile Include="Angular\src\app\viewmodels\HistoryViewModels\request-round-history-view-model.ts" />
+    <TypeScriptCompile Include="Angular\src\app\viewmodels\HistoryViewModels\response-game-details-view-model.ts" />
+    <TypeScriptCompile Include="Angular\src\app\viewmodels\HistoryViewModels\response-games-by-user-view-model.ts" />
+    <TypeScriptCompile Include="Angular\src\app\viewmodels\HistoryViewModels\response-round-details-view-model.ts" />
     <TypeScriptCompile Include="Angular\src\app\viewmodels\HistoryViewModels\response-user-for-autocomplete-view.ts" />
+    <TypeScriptCompile Include="Angular\src\app\viewmodels\HistoryViewModels\response-user-round-details-view-model.ts" />
     <TypeScriptCompile Include="Angular\src\app\viewmodels\ReplenishCashViewModels\request-replenish-cash-view-model.ts" />
     <TypeScriptCompile Include="Angular\src\app\viewmodels\UserGameViewModels\response-user-game-view-models.ts" />
   </ItemGroup>

@@ -5,11 +5,26 @@ var HistoryComponent = /** @class */ (function () {
     function HistoryComponent(service) {
         this.service = service;
     }
+    HistoryComponent.prototype.GetGameDetails = function (gameId) {
+        var _this = this;
+        this.service.GetGameDetails(gameId).subscribe(function (data) {
+            _this.response = data;
+        });
+    };
+    HistoryComponent.prototype.GetGamesByUser = function () {
+        var _this = this;
+        var user = this.users.filter(function (item) { return item.username == _this.username; }).shift();
+        this.service.GetGamesByUser(user.id).subscribe(function (data) {
+            _this.games = data;
+            console.log(_this.games);
+        });
+    };
     HistoryComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.service.GetUsersForAutocomplete().subscribe(function (data) {
             _this.users = data;
         });
+        this.GetGameDetails(1);
     };
     HistoryComponent = tslib_1.__decorate([
         Component({

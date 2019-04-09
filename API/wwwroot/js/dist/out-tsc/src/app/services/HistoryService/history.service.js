@@ -14,6 +14,10 @@ var HistoryService = /** @class */ (function () {
         var result = this.http.get(this.url + "gamesbyuser/" + userId);
         return result;
     };
+    HistoryService.prototype.GetGameDetails = function (gameId) {
+        var result = this.http.get(this.url + "gamedetails/" + gameId);
+        return result;
+    };
     HistoryService = tslib_1.__decorate([
         Injectable({
             providedIn: 'root'

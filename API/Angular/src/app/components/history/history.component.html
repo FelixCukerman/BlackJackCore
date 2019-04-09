@@ -1,8 +1,13 @@
-<div class="bg">
-  <input type="text" id="userIdFirstWay" list="users" class="user-autocomplete" [(ngModel)]="username"/>
-  <datalist id="users">
-    <option *ngFor="let item of this.users" [value]="item.username"></option>
-  </datalist>
+<div class="bg" style="padding-top: 30px">
+  <div style="display:flex; justify-content:center; align-items: center">
+    <input type="text" id="userIdFirstWay" style="align-self: center" list="users" class="user-autocomplete" [(ngModel)]="username" />
+    <datalist id="users">
+      <option *ngFor="let item of this.users" [value]="item.username"></option>
+    </datalist>
 
-  <button (click) = "GetGamesByUser()"></button>
+    <button (click)="GetGamesByUser()" style="width:3%; height: 60px; background-image: url(images/icons/search.png); background-repeat: no-repeat"></button>
+  </div>
+  <div *ngIf="this.isLoad">
+    <div *ngFor="let game of games">{{this.GetGameDetails(game.gameId)}}</div>
+  </div>
 </div>

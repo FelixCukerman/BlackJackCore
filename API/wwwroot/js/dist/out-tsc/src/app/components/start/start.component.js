@@ -12,6 +12,9 @@ var StartComponent = /** @class */ (function () {
         this.startService = startService;
         this.router = router;
     }
+    StartComponent.prototype.ToHistory = function () {
+        this.router.navigate(['game/history']);
+    };
     StartComponent.prototype.CreateNewGame = function () {
         var _this = this;
         this.storage.set('username', this.user.Nickname);

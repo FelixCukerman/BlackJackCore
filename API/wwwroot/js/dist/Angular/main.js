@@ -492,7 +492,7 @@ module.exports = ".bg {\r\n  background-image: url('/images/background/mainbackg
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"bg\">\r\n  <input type=\"text\" id=\"userIdFirstWay\" list=\"users\" class=\"user-autocomplete\" [(ngModel)]=\"username\"/>\r\n  <datalist id=\"users\">\r\n    <option *ngFor=\"let item of this.users\" [value]=\"item.username\"></option>\r\n  </datalist>\r\n\r\n  <button (click) = \"GetGamesByUser()\"></button>\r\n</div>\r\n"
+module.exports = "<div class=\"bg\" style=\"padding-top: 30px\">\r\n  <div style=\"display:flex; justify-content:center; align-items: center\">\r\n    <input type=\"text\" id=\"userIdFirstWay\" style=\"align-self: center\" list=\"users\" class=\"user-autocomplete\" [(ngModel)]=\"username\" />\r\n    <datalist id=\"users\">\r\n      <option *ngFor=\"let item of this.users\" [value]=\"item.username\"></option>\r\n    </datalist>\r\n\r\n    <button (click)=\"GetGamesByUser()\" style=\"width:3%; height: 60px; background-image: url(images/icons/search.png); background-repeat: no-repeat\"></button>\r\n  </div>\r\n  <div *ngIf=\"this.isLoad\">\r\n    <div *ngFor=\"let game of games\">{{this.GetGameDetails(game.gameId)}}</div>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -516,10 +516,27 @@ var HistoryComponent = /** @class */ (function () {
     function HistoryComponent(service) {
         this.service = service;
     }
+    HistoryComponent.prototype.GetGameDetails = function (gameId) {
+        var _this = this;
+        this.service.GetGameDetails(gameId).subscribe(function (data) {
+            _this.response = data;
+            console.log(_this.response);
+            debugger;
+        });
+    };
+    HistoryComponent.prototype.GetGamesByUser = function () {
+        var _this = this;
+        var user = this.users.filter(function (item) { return item.username == _this.username; }).shift();
+        this.service.GetGamesByUser(user.id).subscribe(function (data) {
+            _this.games = data;
+            _this.isLoad = true;
+        });
+    };
     HistoryComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.service.GetUsersForAutocomplete().subscribe(function (data) {
             _this.users = data;
+            _this.isLoad = false;
         });
     };
     HistoryComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
@@ -555,7 +572,7 @@ module.exports = "* {\r\n  padding: 0;\r\n  margin: 0;\r\n}\r\n\r\nbody, html {\
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!doctype html>\r\n<html lang=\"en\">\r\n<head>\r\n  <meta charset=\"utf-8\">\r\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\">\r\n  <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css\" integrity=\"sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm\" crossorigin=\"anonymous\">\r\n  <title>blackjack</title>\r\n</head>\r\n<body>\r\n  <div class=\"bg\">\r\n    <div class=\"container\" style=\"padding-top: 15%\">\r\n      <div class=\"row\">\r\n        <div class=\"col\"></div>\r\n        <div class=\"col\">\r\n          <div class=\"line\"></div>\r\n          <input type=\"text\" class=\"form-control\" [(ngModel)]=\"user.Nickname\" placeholder=\"Nickname\" />\r\n          <div class=\"line\"></div>\r\n          <input type=\"number\" value=\"\" min=\"1\" placeholder=\"Rate\" class=\"form-control\" [(ngModel)]=\"request.userRate\" />\r\n          <div class=\"line\"></div>\r\n          <input type=\"number\" value=\"\" min=\"1\" placeholder=\"Bot quantity\" class=\"form-control\" [(ngModel)]=\"request.botQuantity\" />\r\n          <div class=\"line\"></div>\r\n          <input type=\"number\" value=\"\" min=\"1\" placeholder=\"Round quantity\" class=\"form-control\" [(ngModel)]=\"request.roundQuantity\" />\r\n          <div class=\"line\"></div>\r\n          <button class=\"btn btn-primary\" (click)=\"CreateNewGame()\" style=\"width: 100%\">Create new game</button>\r\n        </div>\r\n        <div class=\"col\"></div>\r\n      </div>\r\n    </div>\r\n    <button class=\"btn btn-primary\" (click)=\"Test()\" style=\"width: 100%\">Test</button>\r\n  </div>\r\n</body>\r\n</html>\r\n"
+module.exports = "<!doctype html>\r\n<html lang=\"en\">\r\n<head>\r\n  <meta charset=\"utf-8\">\r\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\">\r\n  <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css\" integrity=\"sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm\" crossorigin=\"anonymous\">\r\n  <title>blackjack</title>\r\n</head>\r\n<body>\r\n  <div class=\"bg\">\r\n    <div class=\"container\" style=\"padding-top: 15%\">\r\n      <div class=\"row\">\r\n        <div class=\"col\"></div>\r\n        <div class=\"col\">\r\n          <div class=\"line\"></div>\r\n          <input type=\"text\" class=\"form-control\" [(ngModel)]=\"user.Nickname\" placeholder=\"Nickname\" />\r\n          <div class=\"line\"></div>\r\n          <input type=\"number\" value=\"\" min=\"1\" placeholder=\"Rate\" class=\"form-control\" [(ngModel)]=\"request.userRate\" />\r\n          <div class=\"line\"></div>\r\n          <input type=\"number\" value=\"\" min=\"1\" placeholder=\"Bot quantity\" class=\"form-control\" [(ngModel)]=\"request.botQuantity\" />\r\n          <div class=\"line\"></div>\r\n          <input type=\"number\" value=\"\" min=\"1\" placeholder=\"Round quantity\" class=\"form-control\" [(ngModel)]=\"request.roundQuantity\" />\r\n          <div class=\"line\"></div>\r\n          <button class=\"btn btn-primary\" (click)=\"CreateNewGame()\" style=\"width: 100%\">Create new game</button>\r\n          <button class=\"btn btn-primary\" (click)=\"ToHistory()\" style=\"width: 100%; margin-top: 10px\">History</button>\r\n        </div>\r\n        <div class=\"col\"></div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</body>\r\n</html>\r\n"
 
 /***/ }),
 
@@ -591,6 +608,9 @@ var StartComponent = /** @class */ (function () {
         this.startService = startService;
         this.router = router;
     }
+    StartComponent.prototype.ToHistory = function () {
+        this.router.navigate(['game/history']);
+    };
     StartComponent.prototype.CreateNewGame = function () {
         var _this = this;
         this.storage.set('username', this.user.Nickname);
@@ -915,6 +935,10 @@ var HistoryService = /** @class */ (function () {
     };
     HistoryService.prototype.GetGamesByUser = function (userId) {
         var result = this.http.get(this.url + "gamesbyuser/" + userId);
+        return result;
+    };
+    HistoryService.prototype.GetGameDetails = function (gameId) {
+        var result = this.http.get(this.url + "gamedetails/" + gameId);
         return result;
     };
     HistoryService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
