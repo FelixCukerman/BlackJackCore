@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using API.Filters;
 using API.Interfaces;
 using BusinessLogicLayer.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -19,52 +20,31 @@ namespace API.Controllers
             _logger = logger;
         }
 
+        [GameException]
         [HttpGet]
         [Route("gamedetails/{gameId}")]
         public async Task<IActionResult> GetGameDetails(int gameId)
         {
-            try
-            {
-                var result = await _service.GetGameDetails(gameId);
-                return new ObjectResult(result);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex);
-                return NotFound();
-            }
+            var result = await _service.GetGameDetails(gameId);
+            return new ObjectResult(result);
         }
 
+        [GameException]
         [HttpGet]
         [Route("getpersons")]
         public async Task<IActionResult> GetUsersForAutocomplete()
         {
-            try
-            {
-                var result = await _service.GetUsersForAutocomplete();
-                return new ObjectResult(result);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex);
-                return NotFound();
-            }
+            var result = await _service.GetUsersForAutocomplete();
+            return new ObjectResult(result);
         }
 
+        [GameException]
         [HttpGet]
         [Route("gamesbyuser/{userId}")]
         public async Task<IActionResult> GetGamesByUser(int userId)
         {
-            try
-            {
-                var result = await _service.GetGamesByUser(userId);
-                return new ObjectResult(result);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex);
-                return NotFound();
-            }
+            var result = await _service.GetGamesByUser(userId);
+            return new ObjectResult(result);
         }
     }
 }

@@ -11,7 +11,7 @@ var HistoryService = /** @class */ (function () {
         return result;
     };
     HistoryService.prototype.GetGamesByUser = function (userId) {
-        var result = this.http.get(this.url + "gamedetails/" + userId);
+        var result = this.http.get(this.url + "gamesbyuser/" + userId);
         return result;
     };
     HistoryService = tslib_1.__decorate([
