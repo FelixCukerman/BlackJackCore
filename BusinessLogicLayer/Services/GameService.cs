@@ -432,6 +432,8 @@ namespace BusinessLogicLayer.Services
             HandCards userHand = _handCardsProvider.Get(request.User);
             Deck deckFromCache = _deckProvider.Get(request.GameId);
 
+            User requestUser = request.User;
+
             IEnumerable<Card> cardsToUser = deckFromCache.Cards.Take(BusinessLogicConstant.CardsCountAtTheStart);
             IEnumerable<int> cardsIds = cardsToUser.Select(card => card.Id);
             userHand.Cards.AddRange(cardsToUser);
@@ -441,7 +443,13 @@ namespace BusinessLogicLayer.Services
 
             foreach(Card card in cardsToUser)
             {
-                var move = new Move { RoundId = request.RoundId, UserId = request.User.Id, CardId = card.Id };
+                var move = new Move
+                {
+                    RoundId = request.RoundId,
+                    UserId = requestUser.Id,
+                    CardId = card.Id
+                };
+
                 request.Moves.Add(move);
             }
 
@@ -508,7 +516,13 @@ namespace BusinessLogicLayer.Services
                     break;
                 }
 
-                var move = new Move { RoundId = requestUserRound.RoundId, UserId = requestBot.Id, CardId = cardToUser.Id };
+                var move = new Move
+                {
+                    RoundId = requestUserRound.RoundId,
+                    UserId = requestBot.Id,
+                    CardId = cardToUser.Id
+                };
+
                 moves.Add(move);
 
                 requestUserRound.Points += cardToUser.CardValue;
@@ -516,7 +530,14 @@ namespace BusinessLogicLayer.Services
 
                 userRoundIsChange = true;
 
-                var updateRequest = new RequestUpdateCacheModel { Card = cardToUser, Deck = deckFromCache, GameId = gameId, HandCards = handCardsFromCache };
+                var updateRequest = new RequestUpdateCacheModel
+                {
+                    Card = cardToUser,
+                    Deck = deckFromCache,
+                    GameId = gameId,
+                    HandCards = handCardsFromCache
+                };
+
                 UpdateCache(updateRequest);
             }
 
@@ -630,6 +651,7 @@ namespace BusinessLogicLayer.Services
 
             await _userGamesRepository.CreateRange(userGames);
 
+            //fix
             _deckProvider.Add(new Deck { Cards = cards }, gameId); 
             await CreateNewRound(gameId);
 
@@ -701,7 +723,14 @@ namespace BusinessLogicLayer.Services
 
             foreach(User user in usersExceptDealer)
             {
-                dealTwoCardsRequest = new RequestDealTwoCardsModel { GameId = gameId, Moves = moves, RoundId = lastRoundId, User = user };
+                dealTwoCardsRequest = new RequestDealTwoCardsModel
+                {
+                    GameId = gameId,
+                    Moves = moves,
+                    RoundId = lastRoundId,
+                    User = user
+                };
+
                 DealTwoCards(dealTwoCardsRequest);
                 cardToUser = _handCardsProvider.Get(user).Cards;
 
@@ -765,7 +794,14 @@ namespace BusinessLogicLayer.Services
 
             userRound.Points += cardToUser.CardValue;
 
-            var updateRequest = new RequestUpdateCacheModel { Card = cardToUser, Deck = deckFromCache, GameId = gameId, HandCards = handCardsFromCache };
+            var updateRequest = new RequestUpdateCacheModel
+            {
+                Card = cardToUser,
+                Deck = deckFromCache,
+                GameId = gameId,
+                HandCards = handCardsFromCache
+            };
+
             UpdateCache(updateRequest);
 
             await _userRoundRepository.Update(userRound);
@@ -815,18 +851,37 @@ namespace BusinessLogicLayer.Services
                     break;
                 }
 
-                move = new Move { UserId = dealerId, RoundId = lastRoundId, CardId = cardToUser.Id };
+                move = new Move
+                {
+                    UserId = dealerId,
+                    RoundId = lastRoundId,
+                    CardId = cardToUser.Id
+                };
+
                 movesToCreate.Add(move);
 
                 userRound.Points += cardToUser.CardValue;
 
-                var updateRequest = new RequestUpdateCacheModel { Card = cardToUser, Deck = deckFromCache, GameId = gameId, HandCards = handCardsFromCache };
+                var updateRequest = new RequestUpdateCacheModel
+                {
+                    Card = cardToUser,
+                    Deck = deckFromCache,
+                    GameId = gameId,
+                    HandCards = handCardsFromCache
+                };
+
                 UpdateCache(updateRequest);
             }
 
             await _userRoundRepository.Update(userRound);
 
-            var requestFinishRound = new RequestFinishRoundModel { LastRound = lastRound, MovesToCreate = movesToCreate, GameResult = result };
+            var requestFinishRound = new RequestFinishRoundModel
+            {
+                LastRound = lastRound,
+                MovesToCreate = movesToCreate,
+                GameResult = result
+            };
+
             result = await FinishRound(requestFinishRound);
 
             if(result.IsOver)
