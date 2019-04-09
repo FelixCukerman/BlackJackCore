@@ -43,7 +43,13 @@ namespace DataAccessLayer
 
                 foreach(KeyValuePair<CardNameType, int> face in faces)
                 {
-                    cards.Add(new Card { Id = id, Suit = suit, CardName = face.Key, CardValue = face.Value });
+                    var card = new Card();
+                    card.Id = id;
+                    card.Suit = suit;
+                    card.CardName = face.Key;
+                    card.CardValue = face.Value;
+
+                    cards.Add(card);
                     id++;
                 }
             }
