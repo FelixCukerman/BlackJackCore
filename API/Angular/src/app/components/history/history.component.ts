@@ -20,29 +20,6 @@ export class HistoryComponent implements OnInit {
 
   constructor(private service: HistoryService) { }
 
-  private GetGameHistory(game: HistoryGameByUser)
-  {
-    for (let i = 0; i < game.roundsIds.length; i++)
-    {
-      let request: RequestRoundHistoryViewModel = new RequestRoundHistoryViewModel(game.roundsIds[i], game.gameId);
-
-      this.service.GetHistoryUserRounds(request).subscribe((data: Array<HistoryUserRoundViewModel>) => {
-        this.roundResponse = data;
-        this.gameResponse.push({ ...this.roundResponse });
-      });
-    }
-  }
-
-  public GetGamesByUser()
-  {
-    let person = this.users.filter(user => user.username == this.username).shift();
-
-    this.service.GetAllGameIdsByUser(person.id).subscribe((data: Array<HistoryGameByUser>) => {
-      this.games = data;
-      console.log(this.games);
-    });
-  }
-
   ngOnInit()
   {
     this.service.GetUsersForAutocomplete().subscribe((data: Array<ResponseUserForAutocompleteView>) =>

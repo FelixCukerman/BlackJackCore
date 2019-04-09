@@ -32,37 +32,24 @@ namespace API.Controllers
             return new ObjectResult(result);
         }
 
+        [GameException]
         [HttpGet("gameover/{gameId}")]
         public async Task<IActionResult> GameOver(int gameId)
         {
-            try
-            {
-                var result = await _service.GameOver(gameId);
-                return new ObjectResult(result);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex);
-                return NotFound();
-            }
+            var result = await _service.GameOver(gameId);
+            return new ObjectResult(result);
         }
 
+        [GameException]
         [Authorize]
         [HttpPost("replenishcash")]
         public async Task<IActionResult> ReplenishCash([FromBody]RequestReplenishCashViewModel request)
         {
-            try
-            {
-                var result = await _service.ReplenishCash(request);
-                return new ObjectResult(result);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex);
-                return NotFound();
-            }
+            var result = await _service.ReplenishCash(request);
+            return new ObjectResult(result);
         }
-        
+
+        [GameException]
         [Authorize]
         [HttpPost("create")]
         public async Task<IActionResult> CreateNewGame(RequestGameViewModel request)
@@ -72,92 +59,49 @@ namespace API.Controllers
                 return Unauthorized();
             }
 
-            try
-            {
-                var result = await _service.CreateNewGame(request);
-                return new ObjectResult(result);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex);
-                return NotFound();
-            }
+            var result = await _service.CreateNewGame(request);
+            return new ObjectResult(result);
         }
 
+        [GameException]
         [Authorize]
         [HttpPost("createround/{gameId}")]
         public async Task<IActionResult> CreateNewRound(int gameId)
         {
-            try
-            {
-                var result = await _service.CreateNewRound(gameId);
-                return new ObjectResult(result);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex);
-                return NotFound();
-            }
+            var result = await _service.CreateNewRound(gameId);
+            return new ObjectResult(result);
         }
 
+        [GameException]
         [HttpPost("dealcards/{gameId}")]
         public async Task<IActionResult> DealCards(int gameId)
         {
-            try
-            {
-                var result = await _service.DealCards(gameId);
-                return new ObjectResult(result);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex);
-                return NotFound();
-            }
+            var result = await _service.DealCards(gameId);
+            return new ObjectResult(result);
         }
 
+        [GameException]
         [HttpPost("dealcardstoplayer/{gameId}")]
         public async Task<IActionResult> DealCardsToPlayer(int gameId)
         {
-            try
-            {
-                var result = await _service.DealCardToPlayer(gameId);
-                return new ObjectResult(result);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex);
-                return NotFound();
-            }
+            var result = await _service.DealCardToPlayer(gameId);
+            return new ObjectResult(result);
         }
 
+        [GameException]
         [HttpPost("dealcardstobots/{gameId}")]
         public async Task<IActionResult> DealCardsToBots(int gameId)
         {
-            try
-            {
-                var result = await _service.DealCardsToAllBots(gameId);
-                return new ObjectResult(result);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex);
-                return NotFound();
-            }
+            var result = await _service.DealCardsToAllBots(gameId);
+            return new ObjectResult(result);
         }
 
+        [GameException]
         [HttpPost("dealcardstodealer/{gameId}")]
         public async Task<IActionResult> DealCardsToDealer(int gameId)
         {
-            try
-            {
-                var result = await _service.DealCardToDealer(gameId);
-                return new ObjectResult(result);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex);
-                return NotFound();
-            }
+            var result = await _service.DealCardToDealer(gameId);
+            return new ObjectResult(result);
         }
     }
 }

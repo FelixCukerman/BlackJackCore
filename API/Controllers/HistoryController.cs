@@ -52,7 +52,7 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        [Route("gamedetails/{userId}")]
+        [Route("gamesbyuser/{userId}")]
         public async Task<IActionResult> GetGamesByUser(int userId)
         {
             try

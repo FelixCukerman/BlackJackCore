@@ -509,8 +509,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var src_app_services_HistoryService_history_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/services/HistoryService/history.service */ "./src/app/services/HistoryService/history.service.ts");
-/* harmony import */ var src_app_viewmodels_HistoryViewModels_request_round_history_view_model__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/viewmodels/HistoryViewModels/request-round-history-view-model */ "./src/app/viewmodels/HistoryViewModels/request-round-history-view-model.ts");
-
 
 
 
@@ -518,24 +516,6 @@ var HistoryComponent = /** @class */ (function () {
     function HistoryComponent(service) {
         this.service = service;
     }
-    HistoryComponent.prototype.GetGameHistory = function (game) {
-        var _this = this;
-        for (var i = 0; i < game.roundsIds.length; i++) {
-            var request = new src_app_viewmodels_HistoryViewModels_request_round_history_view_model__WEBPACK_IMPORTED_MODULE_3__["default"](game.roundsIds[i], game.gameId);
-            this.service.GetHistoryUserRounds(request).subscribe(function (data) {
-                _this.roundResponse = data;
-                _this.gameResponse.push(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"]({}, _this.roundResponse));
-            });
-        }
-    };
-    HistoryComponent.prototype.GetGamesByUser = function () {
-        var _this = this;
-        var person = this.users.filter(function (user) { return user.username == _this.username; }).shift();
-        this.service.GetAllGameIdsByUser(person.id).subscribe(function (data) {
-            _this.games = data;
-            console.log(_this.games);
-        });
-    };
     HistoryComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.service.GetUsersForAutocomplete().subscribe(function (data) {
@@ -930,23 +910,11 @@ var HistoryService = /** @class */ (function () {
         this.url = "/api/history/";
     }
     HistoryService.prototype.GetUsersForAutocomplete = function () {
-        var result = this.http.get(this.url + "getusers");
+        var result = this.http.get(this.url + "getpersons");
         return result;
     };
-    HistoryService.prototype.GetRoundIdsByGame = function (gameId) {
-        var result = this.http.get(this.url + "roundsbygameid/" + gameId);
-        return result;
-    };
-    HistoryService.prototype.GetAllGameIdsByUser = function (userId) {
-        var result = this.http.get(this.url + "allgamesbyuser/" + userId);
-        return result;
-    };
-    HistoryService.prototype.GetHistoryUserRounds = function (request) {
-        var result = this.http.post(this.url + "roundhistory", request);
-        return result;
-    };
-    HistoryService.prototype.GetGameStatistic = function (gameId) {
-        var result = this.http.get(this.url + "gamestatistic/" + gameId);
+    HistoryService.prototype.GetGamesByUser = function (userId) {
+        var result = this.http.get(this.url + "gamesbyuser/" + userId);
         return result;
     };
     HistoryService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
@@ -1065,27 +1033,6 @@ var RequestGameViewModel = /** @class */ (function () {
     return RequestGameViewModel;
 }());
 /* harmony default export */ __webpack_exports__["default"] = (RequestGameViewModel);
-
-
-/***/ }),
-
-/***/ "./src/app/viewmodels/HistoryViewModels/request-round-history-view-model.ts":
-/*!**********************************************************************************!*\
-  !*** ./src/app/viewmodels/HistoryViewModels/request-round-history-view-model.ts ***!
-  \**********************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-var RequestRoundHistoryViewModel = /** @class */ (function () {
-    function RequestRoundHistoryViewModel(roundId, gameId) {
-        this.roundId = roundId;
-        this.gameId = gameId;
-    }
-    return RequestRoundHistoryViewModel;
-}());
-/* harmony default export */ __webpack_exports__["default"] = (RequestRoundHistoryViewModel);
 
 
 /***/ }),

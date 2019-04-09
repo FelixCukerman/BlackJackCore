@@ -7,23 +7,11 @@ var HistoryService = /** @class */ (function () {
         this.url = "/api/history/";
     }
     HistoryService.prototype.GetUsersForAutocomplete = function () {
-        var result = this.http.get(this.url + "getusers");
+        var result = this.http.get(this.url + "getpersons");
         return result;
     };
-    HistoryService.prototype.GetRoundIdsByGame = function (gameId) {
-        var result = this.http.get(this.url + "roundsbygameid/" + gameId);
-        return result;
-    };
-    HistoryService.prototype.GetAllGameIdsByUser = function (userId) {
-        var result = this.http.get(this.url + "allgamesbyuser/" + userId);
-        return result;
-    };
-    HistoryService.prototype.GetHistoryUserRounds = function (request) {
-        var result = this.http.post(this.url + "roundhistory", request);
-        return result;
-    };
-    HistoryService.prototype.GetGameStatistic = function (gameId) {
-        var result = this.http.get(this.url + "gamestatistic/" + gameId);
+    HistoryService.prototype.GetGamesByUser = function (userId) {
+        var result = this.http.get(this.url + "gamedetails/" + userId);
         return result;
     };
     HistoryService = tslib_1.__decorate([
