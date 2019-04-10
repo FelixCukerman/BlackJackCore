@@ -9,6 +9,8 @@ var HistoryComponent = /** @class */ (function () {
         var _this = this;
         this.service.GetGameDetails(gameId).subscribe(function (data) {
             _this.response = data;
+            console.log(_this.response);
+            debugger;
         });
     };
     HistoryComponent.prototype.GetGamesByUser = function () {
@@ -16,15 +18,15 @@ var HistoryComponent = /** @class */ (function () {
         var user = this.users.filter(function (item) { return item.username == _this.username; }).shift();
         this.service.GetGamesByUser(user.id).subscribe(function (data) {
             _this.games = data;
-            console.log(_this.games);
+            _this.isLoad = true;
         });
     };
     HistoryComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.service.GetUsersForAutocomplete().subscribe(function (data) {
             _this.users = data;
+            _this.isLoad = false;
         });
-        this.GetGameDetails(1);
     };
     HistoryComponent = tslib_1.__decorate([
         Component({

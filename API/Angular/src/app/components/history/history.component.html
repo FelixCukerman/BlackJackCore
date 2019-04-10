@@ -7,7 +7,4 @@
 
     <button (click)="GetGamesByUser()" style="width:3%; height: 60px; background-image: url(images/icons/search.png); background-repeat: no-repeat"></button>
   </div>
-  <div *ngIf="this.isLoad">
-    <div *ngFor="let game of games">{{this.GetGameDetails(game.gameId)}}</div>
-  </div>
 </div>

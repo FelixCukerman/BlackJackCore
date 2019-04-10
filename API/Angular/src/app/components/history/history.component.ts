@@ -3,6 +3,7 @@ import { HistoryService } from 'src/app/services/HistoryService/history.service'
 import ResponseUserForAutocompleteView from 'src/app/viewmodels/HistoryViewModels/response-user-for-autocomplete-view';
 import ResponseGamesByUserViewModel from 'src/app/viewmodels/HistoryViewModels/response-games-by-user-view-model';
 import ResponseGameDetailsViewModel from 'src/app/viewmodels/HistoryViewModels/response-game-details-view-model';
+import { log } from 'util';
 
 @Component({
   selector: 'app-history',
@@ -12,20 +13,20 @@ import ResponseGameDetailsViewModel from 'src/app/viewmodels/HistoryViewModels/r
 export class HistoryComponent implements OnInit {
 
   private username: string;
-  private isLoad: boolean;
-  private response: ResponseGameDetailsViewModel;
+  private response: Array<ResponseGameDetailsViewModel>;
   private games: Array<ResponseGamesByUserViewModel>;
   private users: Array<ResponseUserForAutocompleteView>;
 
-  constructor(private service: HistoryService) { }
+  constructor(private service: HistoryService)
+  {
+    this.response = new Array<ResponseGameDetailsViewModel>();
+  }
 
   GetGameDetails(gameId: number)
   {
     this.service.GetGameDetails(gameId).subscribe((data: ResponseGameDetailsViewModel) =>
     {
-      this.response = data;
-      console.log(this.response);
-      debugger;
+      this.response.push({ ...data });
     });
   }
 
@@ -36,7 +37,10 @@ export class HistoryComponent implements OnInit {
     this.service.GetGamesByUser(user.id).subscribe((data: Array<ResponseGamesByUserViewModel>) =>
     {
       this.games = data;
-      this.isLoad = true;
+      for (let i = 0; i < this.games.length; i++)
+      {
+        this.GetGameDetails(this.games[i].gameId);
+      }
     });
   }
 
@@ -45,7 +49,6 @@ export class HistoryComponent implements OnInit {
     this.service.GetUsersForAutocomplete().subscribe((data: Array<ResponseUserForAutocompleteView>) =>
     {
       this.users = data;
-      this.isLoad = false;
     });
   }
 }

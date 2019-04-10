@@ -492,7 +492,7 @@ module.exports = ".bg {\r\n  background-image: url('/images/background/mainbackg
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"bg\" style=\"padding-top: 30px\">\r\n  <div style=\"display:flex; justify-content:center; align-items: center\">\r\n    <input type=\"text\" id=\"userIdFirstWay\" style=\"align-self: center\" list=\"users\" class=\"user-autocomplete\" [(ngModel)]=\"username\" />\r\n    <datalist id=\"users\">\r\n      <option *ngFor=\"let item of this.users\" [value]=\"item.username\"></option>\r\n    </datalist>\r\n\r\n    <button (click)=\"GetGamesByUser()\" style=\"width:3%; height: 60px; background-image: url(images/icons/search.png); background-repeat: no-repeat\"></button>\r\n  </div>\r\n  <div *ngIf=\"this.isLoad\">\r\n    <div *ngFor=\"let game of games\">{{this.GetGameDetails(game.gameId)}}</div>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<div class=\"bg\" style=\"padding-top: 30px\">\r\n  <div style=\"display:flex; justify-content:center; align-items: center\">\r\n    <input type=\"text\" id=\"userIdFirstWay\" style=\"align-self: center\" list=\"users\" class=\"user-autocomplete\" [(ngModel)]=\"username\" />\r\n    <datalist id=\"users\">\r\n      <option *ngFor=\"let item of this.users\" [value]=\"item.username\"></option>\r\n    </datalist>\r\n\r\n    <button (click)=\"GetGamesByUser()\" style=\"width:3%; height: 60px; background-image: url(images/icons/search.png); background-repeat: no-repeat\"></button>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -515,13 +515,12 @@ __webpack_require__.r(__webpack_exports__);
 var HistoryComponent = /** @class */ (function () {
     function HistoryComponent(service) {
         this.service = service;
+        this.response = new Array();
     }
     HistoryComponent.prototype.GetGameDetails = function (gameId) {
         var _this = this;
         this.service.GetGameDetails(gameId).subscribe(function (data) {
-            _this.response = data;
-            console.log(_this.response);
-            debugger;
+            _this.response.push(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"]({}, data));
         });
     };
     HistoryComponent.prototype.GetGamesByUser = function () {
@@ -529,14 +528,15 @@ var HistoryComponent = /** @class */ (function () {
         var user = this.users.filter(function (item) { return item.username == _this.username; }).shift();
         this.service.GetGamesByUser(user.id).subscribe(function (data) {
             _this.games = data;
-            _this.isLoad = true;
+            for (var i = 0; i < _this.games.length; i++) {
+                _this.GetGameDetails(_this.games[i].gameId);
+            }
         });
     };
     HistoryComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.service.GetUsersForAutocomplete().subscribe(function (data) {
             _this.users = data;
-            _this.isLoad = false;
         });
     };
     HistoryComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
