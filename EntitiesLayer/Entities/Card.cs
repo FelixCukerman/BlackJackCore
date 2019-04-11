@@ -13,10 +13,5 @@ namespace EntitiesLayer.Entities
         public int CardValue { get; set; }
         [Required]
         public CardNameType CardName { get; set; }
-
-        public Card()
-        {
-            DateOfCreation = DateTime.Now;
-        }
     }
 }

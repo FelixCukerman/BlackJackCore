@@ -1,5 +1,4 @@
-﻿using System;
-using EntitiesLayer.Abstraction;
+﻿using EntitiesLayer.Abstraction;
 using System.ComponentModel.DataAnnotations.Schema;
 using Dapper.Contrib.Extensions;
 using EntitiesLayer.Enums;
@@ -21,10 +20,5 @@ namespace EntitiesLayer.Entities
         public RoundStatusType RoundStatus { get; set; }
         public CardCombinationType CardCombination { get; set; }
         public int Points { get; set; }
-
-        public UserRound()
-        {
-            DateOfCreation = DateTime.Now;
-        }
     }
 }

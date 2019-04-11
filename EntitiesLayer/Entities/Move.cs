@@ -22,10 +22,5 @@ namespace EntitiesLayer.Entities
         [Write(false)]
         [Computed]
         public Card Card { get; set; }
-
-        public Move()
-        {
-            DateOfCreation = DateTime.Now;
-        }
     }
 }

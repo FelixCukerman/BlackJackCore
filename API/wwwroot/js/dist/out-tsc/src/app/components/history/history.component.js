@@ -4,13 +4,18 @@ import { HistoryService } from 'src/app/services/HistoryService/history.service'
 var HistoryComponent = /** @class */ (function () {
     function HistoryComponent(service) {
         this.service = service;
+        this.response = new Array();
     }
+    HistoryComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.service.GetUsersForAutocomplete().subscribe(function (data) {
+            _this.users = data;
+        });
+    };
     HistoryComponent.prototype.GetGameDetails = function (gameId) {
         var _this = this;
         this.service.GetGameDetails(gameId).subscribe(function (data) {
-            _this.response = data;
-            console.log(_this.response);
-            debugger;
+            _this.response.push(tslib_1.__assign({}, data));
         });
     };
     HistoryComponent.prototype.GetGamesByUser = function () {
@@ -18,14 +23,9 @@ var HistoryComponent = /** @class */ (function () {
         var user = this.users.filter(function (item) { return item.username == _this.username; }).shift();
         this.service.GetGamesByUser(user.id).subscribe(function (data) {
             _this.games = data;
-            _this.isLoad = true;
-        });
-    };
-    HistoryComponent.prototype.ngOnInit = function () {
-        var _this = this;
-        this.service.GetUsersForAutocomplete().subscribe(function (data) {
-            _this.users = data;
-            _this.isLoad = false;
+            for (var i = 0; i < _this.games.length; i++) {
+                _this.GetGameDetails(_this.games[i].gameId);
+            }
         });
     };
     HistoryComponent = tslib_1.__decorate([

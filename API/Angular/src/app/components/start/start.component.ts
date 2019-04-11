@@ -19,30 +19,31 @@ export class StartComponent implements OnInit
   public user: RequestUserViewModel;
   private gameState: GameState;
 
-  constructor(@Inject(LOCAL_STORAGE) private storage: WebStorageService, private startService: StartService, private router: Router)
+  constructor(@Inject(LOCAL_STORAGE) private storage: WebStorageService, private startService: StartService, private router: Router) { }
+
+  ngOnInit(): void
   {
+    this.user = new RequestUserViewModel("");
+    this.request = new RequestGameViewModel(this.user, 0, 0, 0);
   }
 
-  ToHistory()
+  ToHistory(): void
   {
     this.router.navigate(['game/history']);
   }
 
-  CreateNewGame()
+  CreateNewGame(): void
   {
     this.storage.set('username', this.user.Nickname);
 
-    this.startService.CreateNewGame(this.request).subscribe((data: ResponseGameViewModel) => {
+    this.startService.CreateNewGame(this.request).subscribe((data: ResponseGameViewModel) =>
+    {
       this.response = data;
+
       this.router.navigate(['game/' + data.id]);
+
       this.gameState = GameState.StartRound;
       this.storage.set('key', this.gameState);
     });
-  }
-
-  ngOnInit()
-  {
-    this.user = new RequestUserViewModel("");
-    this.request = new RequestGameViewModel(this.user, 0, 0, 0);
   }
 }

@@ -12,5 +12,10 @@ namespace EntitiesLayer.Abstraction
         public int Id { get; set; }
         [Required]
         public DateTime DateOfCreation { get; set; }
+
+        public BaseEntity()
+        {
+            DateOfCreation = DateTime.UtcNow;
+        }
     }
 }

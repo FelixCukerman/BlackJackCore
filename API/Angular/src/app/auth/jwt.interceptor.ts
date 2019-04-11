@@ -7,18 +7,23 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class JwtInterceptor implements HttpInterceptor {
+export class JwtInterceptor implements HttpInterceptor
+{
   constructor(private accountService: AccountService) { }
-  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
+  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>>
+  {
     return next.handle(request).do((event: HttpEvent<any>) =>
     {
-      if (event instanceof HttpResponse) {
-      }
-    }, (error: any) => {
-      if (error instanceof HttpErrorResponse) {
-        if (error.status === 401) {
+      if (event instanceof HttpResponse) { }
+    }, (error: any) =>
+    {
+      if (error instanceof HttpErrorResponse)
+      {
+        if (error.status === 401)
+        {
           let username: string = this.accountService.GetCurrentUsername();
+
           this.accountService.CreateToken(username);
         }
       }

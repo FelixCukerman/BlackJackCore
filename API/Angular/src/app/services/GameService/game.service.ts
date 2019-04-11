@@ -1,55 +1,71 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { RequestReplenishCashViewModel } from '../../viewmodels/ReplenishCashViewModels/request-replenish-cash-view-model';
+import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GameService
 {
-  private url = "/api/game/";
+  private url = environment.gameUrl;
+
   constructor(private http: HttpClient) { }
 
-  public GameById(id: number)
+  public GameById(id: number): Observable<Object>
   {
-    return this.http.get(this.url + "gamebyid/" + id);
+    let result = this.http.get(this.url + "gamebyid/" + id);
+
+    return result;
   }
 
-  public DealCards(id: number)
+  public DealCards(id: number): Observable<Object>
   {
-    return this.http.post(this.url + "dealcards/" + id, id);
+    let result = this.http.post(this.url + "dealcards/" + id, id);
+
+    return result;
   }
 
-  public DealCardToPlayer(id: number)
+  public DealCardToPlayer(id: number): Observable<Object>
   {
-    return this.http.post(this.url + "dealcardstoplayer/" + id, id)
+    let result = this.http.post(this.url + "dealcardstoplayer/" + id, id);
+
+    return result;
   }
 
-  public ReplenishCash(request: RequestReplenishCashViewModel)
+  public ReplenishCash(request: RequestReplenishCashViewModel): Observable<Object>
   {
     let result = this.http.post(this.url + "replenishcash", request);
+
     return result;
   }
 
-  public DealCardsToBots(gameId: number)
+  public DealCardsToBots(gameId: number): Observable<Object>
   {
     let result = this.http.post(this.url + "dealcardstobots/" + gameId, gameId);
+
     return result;
   }
 
-  public DealCardsToDealer(id: number)
+  public DealCardsToDealer(id: number): Observable<Object>
   {
     let result = this.http.post(this.url + "dealcardstodealer/" + id, id);
+
     return result;
   }
 
-  public CreateNewRound(id: number) {
+  public CreateNewRound(id: number): Observable<Object>
+  {
     let result = this.http.post(this.url + "createround/" + id, id);
+
     return result;
   }
 
-  public GameOver(id: number) {
+  public GameOver(id: number): Observable<Object>
+  {
     let result = this.http.get(this.url + "gameover/" + id);
+
     return result;
   }
 }

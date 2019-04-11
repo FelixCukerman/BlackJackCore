@@ -12,7 +12,6 @@ namespace EntitiesLayer.Entities
 
         public Game()
         {
-            DateOfCreation = DateTime.Now;
             RoundQuantity = EntitiesConstants.DefaultRoundQuantity;
         }
     }

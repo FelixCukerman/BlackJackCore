@@ -1,4 +1,4 @@
-import { Component, OnInit, SimpleChanges, Inject } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import ResponseGameViewModel from 'src/app/viewmodels/GameViewModels/response-game-view-model';
 import { GameService } from 'src/app/services/GameService/game.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -33,88 +33,131 @@ export class GameComponent implements OnInit
   public gameIsOver: boolean;
   public gameProcess: string;
 
-  constructor(@Inject(LOCAL_STORAGE) private storage: WebStorageService, private service: GameService, private router: Router, private currentRoute: ActivatedRoute)
-  {
+  constructor(@Inject(LOCAL_STORAGE) private storage: WebStorageService, private service: GameService, private router: Router, private currentRoute: ActivatedRoute) { }
+
+  ngOnInit(): void {
+    this.gameProcess = this.storage.get('gameProcess');
+    this.gameState = this.storage.get('key');
+
+    this.requestReplenishCash = new RequestReplenishCashViewModel(0, 0);
+    this.bots = new Array<ResponseUserViewModel>();
+
+    this.service.GameById(this.currentRoute.snapshot.params['id']).subscribe((data: ResponseGameViewModel) => {
+      this.response = data;
+
+      this.InitializeUsers();
+
+      if (this.response.isOver && this.gameState == GameState.GameIsOver) {
+        this.GameOver();
+      }
+    });
   }
 
-  InitializeUsers()
+  InitializeUsers(): void
   {
     this.users = this.response.users.filter(user => user.userRole != UserRole.Dealer);
+
     this.dealer = this.response.users.filter(user => user.userRole == UserRole.Dealer).shift();
-    this.userRounds = this.response.rounds[this.response.rounds.length - 1].userRound;
-    this.userGames = this.response.userGames;
     this.person = this.users.filter(user => user.userRole == UserRole.PeoplePlayer).shift();
+
+    this.userRounds = this.response.rounds[this.response.rounds.length - 1].userRound;
+
+    this.userGames = this.response.userGames;
   }
 
-  CreateNewRound() {
+  CreateNewRound(): void
+  {
     this.service.CreateNewRound(this.currentRoute.snapshot.params['id']).subscribe((data: ResponseGameViewModel) =>
-
     {
       this.DealCards();
     });
   }
 
-  ReplenishCash() {
+  ReplenishCash(): void
+  {
     this.requestReplenishCash.userId = this.person.id;
-    console.log(1);
+
     this.service.ReplenishCash(this.requestReplenishCash).subscribe((data: number) => { this.person.cash = data; });
   }
 
-  DealCardToPlayer() {
+  DealCardToPlayer(): void
+  {
     this.gameProcess = "Your turn";
+
     this.storage.set('gameProcess', this.gameProcess);
-    this.service.DealCardToPlayer(this.currentRoute.snapshot.params['id']).subscribe((data: ResponseGameViewModel) => {
+
+    this.service.DealCardToPlayer(this.currentRoute.snapshot.params['id']).subscribe((data: ResponseGameViewModel) =>
+    {
       this.response = data;
+
       this.InitializeUsers();
     });
   }
 
-  DealCardsToBots() {
+  DealCardsToBots(): void
+  {
     this.gameState = GameState.BotsMove;
     this.storage.set('key', this.gameState);
+
     this.gameProcess = "Bots draw cards";
     this.storage.set('gameProcess', this.gameProcess);
 
     let gameId = this.currentRoute.snapshot.params['id'];
 
-    this.service.DealCardsToBots(gameId).subscribe((data: ResponseGameViewModel) => {
+    this.service.DealCardsToBots(gameId).subscribe((data: ResponseGameViewModel) =>
+    {
       this.response = data;
+
       this.InitializeUsers();
+
       setTimeout(() => { this.DealCardsToDealer(); }, 4000);
     });
   }
 
-  GameOver() {
+  GameOver(): void
+  {
     this.gameState = GameState.GameIsOver;
     this.storage.set('key', this.gameState);
+
     this.gameProcess = "Game is over";
     this.storage.set('gameProcess', this.gameProcess);
 
     this.service.GameOver(this.currentRoute.snapshot.params['id']).subscribe((data: Array<ResponseGameOverViewModel>) =>
     {
       this.responseGameOver = data;
+
       this.InitializeWinners();
     });
   }
 
-  InitializeWinners() {
+  InitializeWinners(): void
+  {
     let firstWinner = this.responseGameOver.sort((item1, item2) => item2.winsQuantity - item1.winsQuantity)[0];
-    if (firstWinner.winsQuantity != 0) {
+
+    if (firstWinner.winsQuantity != 0)
+    {
       this.winners = this.responseGameOver.filter(user => user.winsQuantity == firstWinner.winsQuantity);
     }
   }
 
-  async DealCardsToDealer() {
+  async DealCardsToDealer(): Promise<void>
+  {
     this.gameState = GameState.DealerMove;
     this.storage.set('key', this.gameState);
+
     this.gameProcess = "Dealer draw cards";
     this.storage.set('gameProcess', this.gameProcess);
+
     this.service.DealCardsToDealer(this.currentRoute.snapshot.params['id']).subscribe((data: ResponseGameViewModel) =>
     {
       this.response = data;
+
       this.InitializeUsers();
+
       this.gameIsOver = this.response.isOver;
-      if (this.gameIsOver) {
+
+      if (this.gameIsOver)
+      {
         setTimeout(() =>
         {
           this.GameOver();
@@ -123,34 +166,27 @@ export class GameComponent implements OnInit
     });
   }
 
-  SkipCard() {
-    setTimeout(() => { this.DealCardsToBots(); }, 4000);
+  SkipCard(): void
+  {
+    setTimeout(() =>
+    {
+      this.DealCardsToBots();
+    }, 4000);
   }
 
-  DealCards() {
+  DealCards(): void
+  {
     this.gameProcess = "New round";
     this.storage.set('gameProcess', this.gameProcess);
+
     this.gameState = GameState.PeopleMove;
     this.storage.set('key', this.gameState);
-    this.service.DealCards(this.currentRoute.snapshot.params['id']).subscribe((data: ResponseGameViewModel) => {
-      this.response = data;
-      this.InitializeUsers();
-      console.log(this.response);
-    });
-  }
 
-  ngOnInit()
-  {
-    this.gameProcess = this.storage.get('gameProcess');
-    this.requestReplenishCash = new RequestReplenishCashViewModel(0, 0);
-    this.bots = new Array<ResponseUserViewModel>();
-    this.gameState = this.storage.get('key');
-    this.service.GameById(this.currentRoute.snapshot.params['id']).subscribe((data: ResponseGameViewModel) => {
+    this.service.DealCards(this.currentRoute.snapshot.params['id']).subscribe((data: ResponseGameViewModel) =>
+    {
       this.response = data;
+
       this.InitializeUsers();
-      if (this.response.isOver && this.gameState == GameState.GameIsOver) {
-        this.GameOver();
-      }
     });
   }
 }

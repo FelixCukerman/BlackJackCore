@@ -1,10 +1,11 @@
 import * as tslib_1 from "tslib";
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 var HistoryService = /** @class */ (function () {
     function HistoryService(http) {
         this.http = http;
-        this.url = "/api/history/";
+        this.url = environment.historyUrl;
     }
     HistoryService.prototype.GetUsersForAutocomplete = function () {
         var result = this.http.get(this.url + "getpersons");

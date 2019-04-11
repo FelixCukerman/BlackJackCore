@@ -2,18 +2,21 @@ import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { WebStorageService, LOCAL_STORAGE } from 'angular-webstorage-service';
 import { GetTokenViewModel } from 'src/app/viewmodels/AccountViewModels/get-token-view-model';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AccountService {
 
-  private url = "/api/auth/";
+  private url = environment.authUrl;
+
   constructor(private http: HttpClient, @Inject(LOCAL_STORAGE) private storage: WebStorageService) { }
 
-  public CreateToken(username: string)
+  public CreateToken(username: string): void
   {
     let token: string;
+
     this.http.get(this.url + "token/" + username).subscribe((data: GetTokenViewModel) =>
     {
       token = data.accessToken;
@@ -21,12 +24,17 @@ export class AccountService {
     });
   }
 
-  public GetToken()
+  public GetToken(): string
   {
-    return this.storage.get('token');
+    let token: string = this.storage.get('token');
+
+    return token;
   }
 
-  public GetCurrentUsername(): string {
-    return this.storage.get('username');
+  public GetCurrentUsername(): string
+  {
+    let username: string = this.storage.get('username');
+
+    return username;
   }
 }

@@ -1,19 +1,23 @@
 import * as tslib_1 from "tslib";
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 var GameService = /** @class */ (function () {
     function GameService(http) {
         this.http = http;
-        this.url = "/api/game/";
+        this.url = environment.gameUrl;
     }
     GameService.prototype.GameById = function (id) {
-        return this.http.get(this.url + "gamebyid/" + id);
+        var result = this.http.get(this.url + "gamebyid/" + id);
+        return result;
     };
     GameService.prototype.DealCards = function (id) {
-        return this.http.post(this.url + "dealcards/" + id, id);
+        var result = this.http.post(this.url + "dealcards/" + id, id);
+        return result;
     };
     GameService.prototype.DealCardToPlayer = function (id) {
-        return this.http.post(this.url + "dealcardstoplayer/" + id, id);
+        var result = this.http.post(this.url + "dealcardstoplayer/" + id, id);
+        return result;
     };
     GameService.prototype.ReplenishCash = function (request) {
         var result = this.http.post(this.url + "replenishcash", request);

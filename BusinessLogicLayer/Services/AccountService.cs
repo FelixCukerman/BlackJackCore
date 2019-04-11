@@ -31,22 +31,22 @@ namespace BusinessLogicLayer.Services
         {
             User person = await _userRepository.Get(username);
 
-            if (person != null)
+            if (person == null)
             {
-                var claims = new List<Claim>
-                {
-                    new Claim(ClaimsIdentity.DefaultNameClaimType, person.UserName),
-                    new Claim(ClaimsIdentity.DefaultRoleClaimType, person.UserRole.ToString())
-                };
-
-                ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, ConfigureConstant.AuthenticationType, 
-                    ClaimsIdentity.DefaultNameClaimType,
-                    ClaimsIdentity.DefaultRoleClaimType);
-
-                return claimsIdentity;
+                return null;
             }
-            
-            return null;
+
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimsIdentity.DefaultNameClaimType, person.UserName),
+                new Claim(ClaimsIdentity.DefaultRoleClaimType, person.UserRole.ToString())
+            };
+
+            ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, ConfigureConstant.AuthenticationType,
+                ClaimsIdentity.DefaultNameClaimType,
+                ClaimsIdentity.DefaultRoleClaimType);
+
+            return claimsIdentity;
         }
 
         public async Task<GetTokenViewModel> GetToken(string username)

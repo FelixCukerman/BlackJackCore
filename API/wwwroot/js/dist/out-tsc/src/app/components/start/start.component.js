@@ -12,6 +12,10 @@ var StartComponent = /** @class */ (function () {
         this.startService = startService;
         this.router = router;
     }
+    StartComponent.prototype.ngOnInit = function () {
+        this.user = new RequestUserViewModel("");
+        this.request = new RequestGameViewModel(this.user, 0, 0, 0);
+    };
     StartComponent.prototype.ToHistory = function () {
         this.router.navigate(['game/history']);
     };
@@ -24,10 +28,6 @@ var StartComponent = /** @class */ (function () {
             _this.gameState = GameState.StartRound;
             _this.storage.set('key', _this.gameState);
         });
-    };
-    StartComponent.prototype.ngOnInit = function () {
-        this.user = new RequestUserViewModel("");
-        this.request = new RequestGameViewModel(this.user, 0, 0, 0);
     };
     StartComponent = tslib_1.__decorate([
         Component({

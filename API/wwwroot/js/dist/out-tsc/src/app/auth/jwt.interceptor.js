@@ -10,8 +10,7 @@ var JwtInterceptor = /** @class */ (function () {
     JwtInterceptor.prototype.intercept = function (request, next) {
         var _this = this;
         return next.handle(request).do(function (event) {
-            if (event instanceof HttpResponse) {
-            }
+            if (event instanceof HttpResponse) { }
         }, function (error) {
             if (error instanceof HttpErrorResponse) {
                 if (error.status === 401) {

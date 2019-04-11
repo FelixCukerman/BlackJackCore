@@ -12,10 +12,5 @@ namespace EntitiesLayer.Entities
         [Write(false)]
         [Computed]
         public Game Game { get; set; }
-
-        public Round()
-        {
-            DateOfCreation = DateTime.Now;
-        }
     }
 }

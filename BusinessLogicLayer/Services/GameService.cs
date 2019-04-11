@@ -75,18 +75,20 @@ namespace BusinessLogicLayer.Services
             int deckCardsCount = deckCards.Count;
             int deckDiscardPileCount = deckDiscardPile.Count;
 
-            if (deckCardsCount < BusinessLogicConstant.MinDeckSize)
+            if (deckCardsCount > BusinessLogicConstant.MinDeckSize)
             {
-                deckCards.AddRange(deckDiscardPile);
-                deckDiscardPile.RemoveRange(BusinessLogicConstant.StartPosition, deckDiscardPileCount);
-                Reshuffle(deckCards);
-
-                var deckToUpdate = new Deck();
-                deckToUpdate.Cards = deckCards;
-                deckToUpdate.DiscardPile = deckDiscardPile;
-
-                _deckProvider.Update(deckToUpdate, gameId);
+                return;
             }
+
+            deckCards.AddRange(deckDiscardPile);
+            deckDiscardPile.RemoveRange(BusinessLogicConstant.StartPosition, deckDiscardPileCount);
+            Reshuffle(deckCards);
+
+            var deckToUpdate = new Deck();
+            deckToUpdate.Cards = deckCards;
+            deckToUpdate.DiscardPile = deckDiscardPile;
+
+            _deckProvider.Update(deckToUpdate, gameId);
         }
 
         private bool CheckBlackJackPoint(User user)

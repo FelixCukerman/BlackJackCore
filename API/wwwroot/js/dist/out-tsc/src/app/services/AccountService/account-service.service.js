@@ -2,11 +2,12 @@ import * as tslib_1 from "tslib";
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { WebStorageService, LOCAL_STORAGE } from 'angular-webstorage-service';
+import { environment } from 'src/environments/environment';
 var AccountService = /** @class */ (function () {
     function AccountService(http, storage) {
         this.http = http;
         this.storage = storage;
-        this.url = "/api/auth/";
+        this.url = environment.authUrl;
     }
     AccountService.prototype.CreateToken = function (username) {
         var _this = this;
@@ -17,10 +18,12 @@ var AccountService = /** @class */ (function () {
         });
     };
     AccountService.prototype.GetToken = function () {
-        return this.storage.get('token');
+        var token = this.storage.get('token');
+        return token;
     };
     AccountService.prototype.GetCurrentUsername = function () {
-        return this.storage.get('username');
+        var username = this.storage.get('username');
+        return username;
     };
     AccountService = tslib_1.__decorate([
         Injectable({
