@@ -15,7 +15,6 @@
   <ItemGroup>
     <None Remove="Angular\src\app\auth\jwt.interceptor.ts" />
     <None Remove="Angular\src\app\auth\token.interceptor.ts" />
-    <None Remove="Angular\src\app\modules\history.module.ts" />
     <None Remove="Angular\src\app\shared\enums\game-state.ts" />
     <None Remove="Angular\src\app\shared\enums\user-game-status.ts" />
     <None Remove="Angular\src\app\viewmodels\AccountViewModels\get-token-view-model.ts" />
@@ -51,7 +50,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="Angular\src\app\auth\jwt.interceptor.ts" />
     <TypeScriptCompile Include="Angular\src\app\auth\token.interceptor.ts" />
-    <TypeScriptCompile Include="Angular\src\app\modules\history.module.ts" />
+    <TypeScriptCompile Include="Angular\src\app\components\history\history.module.ts" />
     <TypeScriptCompile Include="Angular\src\app\shared\enums\game-state.ts" />
     <TypeScriptCompile Include="Angular\src\app\shared\enums\user-game-status.ts" />
     <TypeScriptCompile Include="Angular\src\app\viewmodels\AccountViewModels\get-token-view-model.ts" />

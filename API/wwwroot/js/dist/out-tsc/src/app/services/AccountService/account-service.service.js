@@ -11,9 +11,8 @@ var AccountService = /** @class */ (function () {
     }
     AccountService.prototype.CreateToken = function (username) {
         var _this = this;
-        var token;
         this.http.get(this.url + "token/" + username).subscribe(function (data) {
-            token = data.accessToken;
+            var token = data.accessToken;
             _this.storage.set('token', token);
         });
     };

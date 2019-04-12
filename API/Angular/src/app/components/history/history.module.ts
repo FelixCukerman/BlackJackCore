@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { HistoryComponent } from '../components/history/history.component';
+import { HistoryComponent } from '../history/history.component';
 
 const routes: Routes =
   [

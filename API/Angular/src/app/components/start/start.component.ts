@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import ResponseGameViewModel from 'src/app/viewmodels/GameViewModels/response-game-view-model';
 import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
 import { GameState } from 'src/app/shared/enums/game-state';
+import { AccountService } from 'src/app/services/AccountService/account-service.service';
 
 @Component({
   selector: 'app-start',
@@ -18,13 +19,15 @@ export class StartComponent implements OnInit
   public request: RequestGameViewModel;
   public user: RequestUserViewModel;
   private gameState: GameState;
+  private tokenIsExist: boolean;
 
-  constructor(@Inject(LOCAL_STORAGE) private storage: WebStorageService, private startService: StartService, private router: Router) { }
+  constructor(@Inject(LOCAL_STORAGE) private storage: WebStorageService, private startService: StartService, private router: Router, private authService: AccountService) { }
 
   ngOnInit(): void
   {
     this.user = new RequestUserViewModel("");
     this.request = new RequestGameViewModel(this.user, 0, 0, 0);
+    this.tokenIsExist = false;
   }
 
   ToHistory(): void
@@ -36,6 +39,13 @@ export class StartComponent implements OnInit
   {
     this.storage.set('username', this.user.Nickname);
 
+    this.tokenIsExist = this.CheckTokenExist();
+
+    if (!this.tokenIsExist)
+    {
+      return; 
+    }
+
     this.startService.CreateNewGame(this.request).subscribe((data: ResponseGameViewModel) =>
     {
       this.response = data;
@@ -45,5 +55,18 @@ export class StartComponent implements OnInit
       this.gameState = GameState.StartRound;
       this.storage.set('key', this.gameState);
     });
+  }
+
+  CheckTokenExist(): boolean
+  {
+    let token: string = this.authService.GetToken();
+
+    if (!token)
+    {
+      this.authService.CreateToken(this.user.Nickname);
+      return false;
+    }
+
+    return true;
   }
 }

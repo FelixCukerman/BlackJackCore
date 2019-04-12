@@ -1,7 +1,7 @@
 import * as tslib_1 from "tslib";
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GameComponent } from '../components/game/game.component';
+import { GameComponent } from '../game/game.component';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { StorageServiceModule } from 'angular-webstorage-service';

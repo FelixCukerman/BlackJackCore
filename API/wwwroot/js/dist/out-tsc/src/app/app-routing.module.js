@@ -1,9 +1,9 @@
 import * as tslib_1 from "tslib";
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { StartModule } from './modules/start.module';
-import { GameModule } from './modules/game.module';
-import { HistoryModule } from './modules/history.module';
+import { StartModule } from './components/start/start.module';
+import { GameModule } from './components/game/game.module';
+import { HistoryModule } from './components/history/history.module';
 var routes = [
     {
         path: '',
