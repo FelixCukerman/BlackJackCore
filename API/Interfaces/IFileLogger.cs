@@ -1,9 +1,7 @@
-﻿using System;
-
-namespace API.Interfaces
+﻿namespace API.Interfaces
 {
     public interface IFileLogger
     {
-        void LogError(Exception ex);
+        void LogError(string error);
     }
 }

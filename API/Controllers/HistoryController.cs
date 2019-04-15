@@ -19,8 +19,7 @@ namespace API.Controllers
             _service = service;
             _logger = logger;
         }
-
-        [GameException]
+        
         [HttpGet]
         [Route("gamedetails/{gameId}")]
         public async Task<IActionResult> GetGameDetails(int gameId)
@@ -28,8 +27,7 @@ namespace API.Controllers
             var result = await _service.GetGameDetails(gameId);
             return new ObjectResult(result);
         }
-
-        [GameException]
+        
         [HttpGet]
         [Route("getpersons")]
         public async Task<IActionResult> GetUsersForAutocomplete()
@@ -37,8 +35,7 @@ namespace API.Controllers
             var result = await _service.GetUsersForAutocomplete();
             return new ObjectResult(result);
         }
-
-        [GameException]
+        
         [HttpGet]
         [Route("gamesbyuser/{userId}")]
         public async Task<IActionResult> GetGamesByUser(int userId)

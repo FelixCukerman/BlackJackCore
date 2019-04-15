@@ -43,7 +43,7 @@ export class StartComponent implements OnInit
 
     if (!this.tokenIsExist)
     {
-      return; 
+      return;
     }
 
     this.startService.CreateNewGame(this.request).subscribe((data: ResponseGameViewModel) =>

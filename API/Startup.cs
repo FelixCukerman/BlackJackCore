@@ -19,6 +19,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System;
 using BusinessLogicLayer.Providers;
 using API.Filters;
+using API.Extensions;
 
 namespace API
 {
@@ -82,12 +83,15 @@ namespace API
             services.AddTransient<IDeckProvider, DeckProvider>();
         }
         
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IFileLogger logger)
         {
             app.UseDeveloperExceptionPage();
             app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseAuthentication();
+
+            app.ConfigureExceptionHandler(logger);
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute("start", "game/start", new { controller = "Home", action = "Index" });
