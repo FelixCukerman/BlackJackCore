@@ -60,13 +60,13 @@ export class StartComponent implements OnInit
   CheckTokenExist(): boolean
   {
     let token: string = this.authService.GetToken();
+    let tokenIsMissing: boolean = token == null;
 
-    if (!token)
+    if (tokenIsMissing)
     {
       this.authService.CreateToken(this.user.Nickname);
-      return false;
     }
 
-    return true;
+    return tokenIsMissing;
   }
 }

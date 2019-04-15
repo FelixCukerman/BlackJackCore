@@ -733,11 +733,11 @@ var StartComponent = /** @class */ (function () {
     };
     StartComponent.prototype.CheckTokenExist = function () {
         var token = this.authService.GetToken();
-        if (!token) {
+        var tokenIsMissing = token == null;
+        if (tokenIsMissing) {
             this.authService.CreateToken(this.user.Nickname);
-            return false;
         }
-        return true;
+        return tokenIsMissing;
     };
     StartComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({

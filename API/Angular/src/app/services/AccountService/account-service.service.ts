@@ -13,7 +13,7 @@ export class AccountService {
 
   constructor(private http: HttpClient, @Inject(LOCAL_STORAGE) private storage: WebStorageService) { }
 
-  public CreateToken(username: string)
+  public CreateToken(username: string): void
   {
     this.http.get(this.url + "token/" + username).subscribe((data: GetTokenViewModel) =>
     {
