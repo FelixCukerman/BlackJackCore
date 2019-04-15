@@ -6,7 +6,6 @@ using ViewModelsLayer.ViewModels.GameViewModels;
 using ViewModelsLayer.ViewModels.ReplenishCashViewModel;
 using API.Interfaces;
 using Microsoft.AspNetCore.Authorization;
-using API.Filters;
 
 namespace API.Controllers
 {

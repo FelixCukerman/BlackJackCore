@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using API.Filters;
 using API.Interfaces;
 using BusinessLogicLayer.Interfaces;
 using Microsoft.AspNetCore.Mvc;

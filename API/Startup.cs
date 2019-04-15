@@ -18,8 +18,8 @@ using BusinessLogicLayer.Helpers;
 using System.IdentityModel.Tokens.Jwt;
 using System;
 using BusinessLogicLayer.Providers;
-using API.Filters;
 using API.Extensions;
+using Microsoft.AspNetCore.SpaServices.AngularCli;
 
 namespace API
 {
@@ -34,6 +34,14 @@ namespace API
         
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy("EnableCORS", builder =>
+                {
+                    builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowCredentials().Build();
+                });
+            });
+
             services.AddIdentity<User, IdentityRole<int>>()
             .AddEntityFrameworkStores<GameContext>()
             .AddDefaultTokenProviders();
@@ -65,11 +73,13 @@ namespace API
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddMvc(options => 
+            services.AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.AddSpaStaticFiles(configuration =>
             {
-                options.Filters.Add(typeof(GameExceptionAttribute));
-            })
-            .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+                configuration.RootPath = "Angular/dist";
+            });
 
             services.AddAutoMapper();
             services.AddMemoryCache();
@@ -89,17 +99,25 @@ namespace API
             app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseAuthentication();
+            app.UseCors("EnableCORS");
 
             app.ConfigureExceptionHandler(logger);
 
             app.UseMvc(routes =>
             {
-                routes.MapRoute("start", "game/start", new { controller = "Home", action = "Index" });
-                routes.MapRoute("history", "game/history", new { controller = "Home", action = "Index" });
-                routes.MapRoute("game", "game/{id}", new { controller = "Home", action = "Index" });
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+            });
+
+            app.UseSpa(spa =>
+            {
+                spa.Options.SourcePath = "Angular";
+
+                if (env.IsDevelopment())
+                {
+                    spa.UseAngularCliServer(npmScript: "start");
+                }
             });
         }
     }
