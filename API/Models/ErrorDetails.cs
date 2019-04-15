@@ -1,10 +1,11 @@
 ﻿using Newtonsoft.Json;
+using System.Net;
 
 namespace API.Models
 {
     public class ErrorDetails
     {
-        public int StatusCode { get; set; }
+        public HttpStatusCode StatusCode { get; set; }
         public string Message { get; set; }
 
 
