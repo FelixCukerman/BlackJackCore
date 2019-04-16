@@ -7,12 +7,21 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TokenInterceptor } from './auth/token.interceptor';
 import { StorageServiceModule } from 'angular-webstorage-service';
 import { JwtInterceptor } from './auth/jwt.interceptor';
+import { AuthGuard } from './auth/auth-guard.service';
+import { JwtModule } from '@auth0/angular-jwt';
 
 @NgModule({
   declarations: [
     AppComponent
   ],
   imports: [
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: function tokenGetter() {
+          return localStorage.getItem('token');
+        }
+      }
+    }),
     StorageServiceModule,
     HttpClientModule,
     BrowserModule,
@@ -20,6 +29,7 @@ import { JwtInterceptor } from './auth/jwt.interceptor';
     NgbModule.forRoot()
   ],
   providers: [
+    AuthGuard,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
@@ -31,7 +41,8 @@ import { JwtInterceptor } from './auth/jwt.interceptor';
       multi: true
     },
     AppComponent,
-    HttpClientModule],
+    HttpClientModule
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

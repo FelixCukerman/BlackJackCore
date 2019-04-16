@@ -1,14 +1,21 @@
 import * as tslib_1 from "tslib";
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { AccountService } from '../services/AccountService/account-service.service';
 var TokenInterceptor = /** @class */ (function () {
     function TokenInterceptor(_auth) {
         this._auth = _auth;
     }
     TokenInterceptor.prototype.intercept = function (request, next) {
+        var token = this._auth.getToken();
+        if (!token) {
+            var username = this._auth.getCurrentUsername();
+            this._auth.createToken(username);
+            return Observable.create();
+        }
         request = request.clone({
             setHeaders: {
-                Authorization: "Bearer " + this._auth.getToken()
+                Authorization: "Bearer " + token
             }
         });
         return next.handle(request);

@@ -1,6 +1,6 @@
 var RequestUserViewModel = /** @class */ (function () {
-    function RequestUserViewModel(Nickname) {
-        this.Nickname = Nickname;
+    function RequestUserViewModel(nickname) {
+        this.nickname = nickname;
     }
     return RequestUserViewModel;
 }());

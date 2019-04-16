@@ -4,14 +4,15 @@ import { RouterModule } from '@angular/router';
 import { StartModule } from './components/start/start.module';
 import { GameModule } from './components/game/game.module';
 import { HistoryModule } from './components/history/history.module';
+import { AuthGuard } from './auth/auth-guard.service';
 var routes = [
     {
         path: '',
         pathMatch: 'full',
-        redirectTo: 'game/start'
+        redirectTo: 'start'
     },
     {
-        path: 'game',
+        path: '',
         loadChildren: function () { return StartModule; }
     },
     {
@@ -20,7 +21,8 @@ var routes = [
     },
     {
         path: 'game',
-        loadChildren: function () { return GameModule; }
+        loadChildren: function () { return GameModule; },
+        canActivate: [AuthGuard]
     }
 ];
 var AppRoutingModule = /** @class */ (function () {

@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpBackend } from '@angular/common/http';
 import { WebStorageService, LOCAL_STORAGE } from 'angular-webstorage-service';
 import { GetTokenViewModel } from 'src/app/viewmodels/AccountViewModels/get-token-view-model';
 import { environment } from 'src/environments/environment';
@@ -9,13 +9,17 @@ import { environment } from 'src/environments/environment';
 })
 export class AccountService {
 
-  private url = environment.authUrl;
+  private _url = environment.authUrl;
 
-  constructor(private _http: HttpClient, @Inject(LOCAL_STORAGE) private _storage: WebStorageService) { }
+  constructor(private _http: HttpClient, private _handler: HttpBackend, @Inject(LOCAL_STORAGE) private _storage: WebStorageService)
+  {
+    this._http = new HttpClient(_handler);
+  }
 
+  //#region Public Methods
   public createToken(username: string): void
   {
-    this._http.get(this.url + "token/" + username).subscribe((data: GetTokenViewModel) =>
+    this._http.get(this._url + "token/" + username).subscribe((data: GetTokenViewModel) =>
     {
       let token: string = data.accessToken;
       this._storage.set('token', token);
@@ -35,4 +39,14 @@ export class AccountService {
 
     return username;
   }
+
+  public checkAuthenticated(): boolean
+  {
+    let token: string = this._storage.get('token');
+
+    let tokenExist: boolean = token != null;
+
+    return tokenExist;
+  }
+  //#endregion
 }

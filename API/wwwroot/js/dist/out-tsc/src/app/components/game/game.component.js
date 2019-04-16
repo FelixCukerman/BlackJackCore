@@ -12,6 +12,7 @@ var GameComponent = /** @class */ (function () {
         this._service = _service;
         this._currentRoute = _currentRoute;
     }
+    //#region ngCallbacks
     GameComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.gameProcess = this._storage.get('gameProcess');
@@ -26,13 +27,8 @@ var GameComponent = /** @class */ (function () {
             }
         });
     };
-    GameComponent.prototype.initializeUsers = function () {
-        this.users = this.response.users.filter(function (user) { return user.userRole != UserRole.Dealer; });
-        this.dealer = this.response.users.filter(function (user) { return user.userRole == UserRole.Dealer; }).shift();
-        this.person = this.users.filter(function (user) { return user.userRole == UserRole.PeoplePlayer; }).shift();
-        this.userRounds = this.response.rounds[this.response.rounds.length - 1].userRound;
-        this.userGames = this.response.userGames;
-    };
+    //#endregion
+    //#region Public Methods
     GameComponent.prototype.createNewRound = function () {
         var _this = this;
         this._service.createNewRound(this._currentRoute.snapshot.params['id']).subscribe(function (data) {
@@ -42,7 +38,9 @@ var GameComponent = /** @class */ (function () {
     GameComponent.prototype.replenishCash = function () {
         var _this = this;
         this.requestReplenishCash.userId = this.person.id;
-        this._service.replenishCash(this.requestReplenishCash).subscribe(function (data) { _this.person.cash = data; });
+        this._service.replenishCash(this.requestReplenishCash).subscribe(function (data) {
+            _this.person.cash = data;
+        });
     };
     GameComponent.prototype.dealCardToPlayer = function () {
         var _this = this;
@@ -63,25 +61,10 @@ var GameComponent = /** @class */ (function () {
         this._service.dealCardsToBots(gameId).subscribe(function (data) {
             _this.response = data;
             _this.initializeUsers();
-            setTimeout(function () { _this.dealCardsToDealer(); }, 4000);
+            setTimeout(function () {
+                _this.dealCardsToDealer();
+            }, 4000);
         });
-    };
-    GameComponent.prototype.gameOver = function () {
-        var _this = this;
-        this.gameState = GameState.GameIsOver;
-        this._storage.set('key', this.gameState);
-        this.gameProcess = "Game is over";
-        this._storage.set('gameProcess', this.gameProcess);
-        this._service.gameOver(this._currentRoute.snapshot.params['id']).subscribe(function (data) {
-            _this.responseGameOver = data;
-            _this.initializeWinners();
-        });
-    };
-    GameComponent.prototype.initializeWinners = function () {
-        var firstWinner = this.responseGameOver.sort(function (item1, item2) { return item2.winsQuantity - item1.winsQuantity; })[0];
-        if (firstWinner.winsQuantity != 0) {
-            this.winners = this.responseGameOver.filter(function (user) { return user.winsQuantity == firstWinner.winsQuantity; });
-        }
     };
     GameComponent.prototype.dealCardsToDealer = function () {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
@@ -111,6 +94,21 @@ var GameComponent = /** @class */ (function () {
             _this.dealCardsToBots();
         }, 4000);
     };
+    //#endregion
+    //#region Private Methods
+    GameComponent.prototype.initializeUsers = function () {
+        this.users = this.response.users.filter(function (user) { return user.userRole != UserRole.Dealer; });
+        this.dealer = this.response.users.filter(function (user) { return user.userRole == UserRole.Dealer; }).shift();
+        this.person = this.users.filter(function (user) { return user.userRole == UserRole.PeoplePlayer; }).shift();
+        this.userRounds = this.response.rounds[this.response.rounds.length - 1].userRound;
+        this.userGames = this.response.userGames;
+    };
+    GameComponent.prototype.initializeWinners = function () {
+        var firstWinner = this.responseGameOver.sort(function (item1, item2) { return item2.winsQuantity - item1.winsQuantity; })[0];
+        if (firstWinner.winsQuantity != 0) {
+            this.winners = this.responseGameOver.filter(function (user) { return user.winsQuantity == firstWinner.winsQuantity; });
+        }
+    };
     GameComponent.prototype.dealCards = function () {
         var _this = this;
         this.gameProcess = "New round";
@@ -120,6 +118,17 @@ var GameComponent = /** @class */ (function () {
         this._service.dealCards(this._currentRoute.snapshot.params['id']).subscribe(function (data) {
             _this.response = data;
             _this.initializeUsers();
+        });
+    };
+    GameComponent.prototype.gameOver = function () {
+        var _this = this;
+        this.gameState = GameState.GameIsOver;
+        this._storage.set('key', this.gameState);
+        this.gameProcess = "Game is over";
+        this._storage.set('gameProcess', this.gameProcess);
+        this._service.gameOver(this._currentRoute.snapshot.params['id']).subscribe(function (data) {
+            _this.responseGameOver = data;
+            _this.initializeWinners();
         });
     };
     GameComponent = tslib_1.__decorate([

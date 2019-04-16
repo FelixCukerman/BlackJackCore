@@ -5,18 +5,18 @@ import { environment } from 'src/environments/environment';
 var HistoryService = /** @class */ (function () {
     function HistoryService(_http) {
         this._http = _http;
-        this.url = environment.historyUrl;
+        this._url = environment.historyUrl;
     }
     HistoryService.prototype.getUsersForAutocomplete = function () {
-        var result = this._http.get(this.url + "getpersons");
+        var result = this._http.get(this._url + "getpersons");
         return result;
     };
     HistoryService.prototype.getGamesByUser = function (userId) {
-        var result = this._http.get(this.url + "gamesbyuser/" + userId);
+        var result = this._http.get(this._url + "gamesbyuser/" + userId);
         return result;
     };
     HistoryService.prototype.getGameDetails = function (gameId) {
-        var result = this._http.get(this.url + "gamedetails/" + gameId);
+        var result = this._http.get(this._url + "gamedetails/" + gameId);
         return result;
     };
     HistoryService = tslib_1.__decorate([

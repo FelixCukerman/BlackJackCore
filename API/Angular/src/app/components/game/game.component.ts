@@ -35,6 +35,7 @@ export class GameComponent implements OnInit
 
   constructor(@Inject(LOCAL_STORAGE) private _storage: WebStorageService, private _service: GameService, private _currentRoute: ActivatedRoute) { }
 
+  //#region ngCallbacks
   public ngOnInit(): void
   {
     this.gameProcess = this._storage.get('gameProcess');
@@ -43,29 +44,21 @@ export class GameComponent implements OnInit
     this.requestReplenishCash = new RequestReplenishCashViewModel(0, 0);
     this.bots = new Array<ResponseUserViewModel>();
 
-    this._service.gameById(this._currentRoute.snapshot.params['id']).subscribe((data: ResponseGameViewModel) => {
+    this._service.gameById(this._currentRoute.snapshot.params['id']).subscribe((data: ResponseGameViewModel) =>
+    {
       this.response = data;
 
       this.initializeUsers();
 
-      if (this.response.isOver && this.gameState == GameState.GameIsOver) {
+      if (this.response.isOver && this.gameState == GameState.GameIsOver)
+      {
         this.gameOver();
       }
     });
   }
+  //#endregion
 
-  private initializeUsers(): void
-  {
-    this.users = this.response.users.filter(user => user.userRole != UserRole.Dealer);
-
-    this.dealer = this.response.users.filter(user => user.userRole == UserRole.Dealer).shift();
-    this.person = this.users.filter(user => user.userRole == UserRole.PeoplePlayer).shift();
-
-    this.userRounds = this.response.rounds[this.response.rounds.length - 1].userRound;
-
-    this.userGames = this.response.userGames;
-  }
-
+  //#region Public Methods
   public createNewRound(): void
   {
     this._service.createNewRound(this._currentRoute.snapshot.params['id']).subscribe((data: ResponseGameViewModel) =>
@@ -78,7 +71,10 @@ export class GameComponent implements OnInit
   {
     this.requestReplenishCash.userId = this.person.id;
 
-    this._service.replenishCash(this.requestReplenishCash).subscribe((data: number) => { this.person.cash = data; });
+    this._service.replenishCash(this.requestReplenishCash).subscribe((data: number) =>
+    {
+      this.person.cash = data;
+    });
   }
 
   public dealCardToPlayer(): void
@@ -103,7 +99,7 @@ export class GameComponent implements OnInit
     this.gameProcess = "Bots draw cards";
     this._storage.set('gameProcess', this.gameProcess);
 
-    let gameId = this._currentRoute.snapshot.params['id'];
+    let gameId: number = this._currentRoute.snapshot.params['id'];
 
     this._service.dealCardsToBots(gameId).subscribe((data: ResponseGameViewModel) =>
     {
@@ -111,34 +107,11 @@ export class GameComponent implements OnInit
 
       this.initializeUsers();
 
-      setTimeout(() => { this.dealCardsToDealer(); }, 4000);
+      setTimeout(() =>
+      {
+        this.dealCardsToDealer();
+      }, 4000);
     });
-  }
-
-  public gameOver(): void
-  {
-    this.gameState = GameState.GameIsOver;
-    this._storage.set('key', this.gameState);
-
-    this.gameProcess = "Game is over";
-    this._storage.set('gameProcess', this.gameProcess);
-
-    this._service.gameOver(this._currentRoute.snapshot.params['id']).subscribe((data: Array<ResponseGameOverViewModel>) =>
-    {
-      this.responseGameOver = data;
-
-      this.initializeWinners();
-    });
-  }
-
-  private initializeWinners(): void
-  {
-    let firstWinner = this.responseGameOver.sort((item1, item2) => item2.winsQuantity - item1.winsQuantity)[0];
-
-    if (firstWinner.winsQuantity != 0)
-    {
-      this.winners = this.responseGameOver.filter(user => user.winsQuantity == firstWinner.winsQuantity);
-    }
   }
 
   public async dealCardsToDealer(): Promise<void>
@@ -174,9 +147,31 @@ export class GameComponent implements OnInit
       this.dealCardsToBots();
     }, 4000);
   }
+  //#endregion
 
-  public dealCards(): void
+  //#region Private Methods
+  private initializeUsers(): void {
+    this.users = this.response.users.filter(user => user.userRole != UserRole.Dealer);
+
+    this.dealer = this.response.users.filter(user => user.userRole == UserRole.Dealer).shift();
+    this.person = this.users.filter(user => user.userRole == UserRole.PeoplePlayer).shift();
+
+    this.userRounds = this.response.rounds[this.response.rounds.length - 1].userRound;
+
+    this.userGames = this.response.userGames;
+  }
+
+  private initializeWinners(): void
   {
+    let firstWinner: ResponseGameOverViewModel = this.responseGameOver.sort((item1, item2) => item2.winsQuantity - item1.winsQuantity)[0];
+
+    if (firstWinner.winsQuantity != 0)
+    {
+      this.winners = this.responseGameOver.filter(user => user.winsQuantity == firstWinner.winsQuantity);
+    }
+  }
+
+  private dealCards(): void {
     this.gameProcess = "New round";
     this._storage.set('gameProcess', this.gameProcess);
 
@@ -190,4 +185,21 @@ export class GameComponent implements OnInit
       this.initializeUsers();
     });
   }
+
+  public gameOver(): void
+  {
+    this.gameState = GameState.GameIsOver;
+    this._storage.set('key', this.gameState);
+
+    this.gameProcess = "Game is over";
+    this._storage.set('gameProcess', this.gameProcess);
+
+    this._service.gameOver(this._currentRoute.snapshot.params['id']).subscribe((data: Array<ResponseGameOverViewModel>) =>
+    {
+      this.responseGameOver = data;
+
+      this.initializeWinners();
+    });
+  }
+  //#endregion
 }

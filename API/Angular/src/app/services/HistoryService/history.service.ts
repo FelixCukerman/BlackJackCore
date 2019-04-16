@@ -8,27 +8,27 @@ import { environment } from 'src/environments/environment';
 })
 export class HistoryService {
 
-  private url = environment.historyUrl;
+  private _url = environment.historyUrl;
 
   constructor(private _http: HttpClient) { }
 
   public getUsersForAutocomplete(): Observable<Object>
   {
-    let result = this._http.get(this.url + "getpersons");
+    let result: Observable<Object> = this._http.get(this._url + "getpersons");
 
     return result;
   }
 
   public getGamesByUser(userId: number): Observable<Object>
   {
-    let result = this._http.get(this.url + "gamesbyuser/" + userId);
+    let result: Observable<Object> = this._http.get(this._url + "gamesbyuser/" + userId);
 
     return result;
   }
 
   public getGameDetails(gameId: number): Observable<Object>
   {
-    let result = this._http.get(this.url + "gamedetails/" + gameId);
+    let result: Observable<Object> = this._http.get(this._url + "gamedetails/" + gameId);
 
     return result;
   }

@@ -5,10 +5,10 @@ import { environment } from 'src/environments/environment';
 var StartService = /** @class */ (function () {
     function StartService(_http) {
         this._http = _http;
-        this.url = environment.gameUrl;
+        this._url = environment.gameUrl;
     }
     StartService.prototype.createNewGame = function (request) {
-        var result = this._http.post(this.url + "/create", request);
+        var result = this._http.post(this._url + "create", request);
         return result;
     };
     StartService = tslib_1.__decorate([

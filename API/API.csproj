@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Angular\src\app\auth\auth-guard.service.ts" />
     <None Remove="Angular\src\app\auth\jwt.interceptor.ts" />
     <None Remove="Angular\src\app\auth\token.interceptor.ts" />
     <None Remove="Angular\src\app\shared\enums\game-state.ts" />
@@ -48,6 +49,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="Angular\src\app\auth\auth-guard.service.ts" />
     <TypeScriptCompile Include="Angular\src\app\auth\jwt.interceptor.ts" />
     <TypeScriptCompile Include="Angular\src\app\auth\token.interceptor.ts" />
     <TypeScriptCompile Include="Angular\src\app\components\history\history.module.ts" />

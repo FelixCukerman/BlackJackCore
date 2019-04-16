@@ -37,6 +37,11 @@ namespace DataAccessLayer
 
             foreach (SuitType suit in suits)
             {
+                if(suit == SuitType.None)
+                {
+                    continue;
+                }
+
                 foreach(KeyValuePair<CardNameType, int> face in faces)
                 {
                     var card = new Card();

@@ -11,17 +11,17 @@ import ResponseGameDetailsViewModel from 'src/app/viewmodels/HistoryViewModels/r
 })
 export class HistoryComponent implements OnInit
 {
-
-  private username: string;
-  private response: Array<ResponseGameDetailsViewModel>;
-  private games: Array<ResponseGamesByUserViewModel>;
-  private users: Array<ResponseUserForAutocompleteView>;
+  public username: string;
+  public response: Array<ResponseGameDetailsViewModel>;
+  public games: Array<ResponseGamesByUserViewModel>;
+  public users: Array<ResponseUserForAutocompleteView>;
 
   constructor(private _service: HistoryService)
   {
     this.response = new Array<ResponseGameDetailsViewModel>();
   }
 
+  //#region ngCallbacks
   public ngOnInit(): void
   {
     this._service.getUsersForAutocomplete().subscribe((data: Array<ResponseUserForAutocompleteView>) =>
@@ -29,7 +29,9 @@ export class HistoryComponent implements OnInit
       this.users = data;
     });
   }
+  //#endregion
 
+  //#region Public Methods
   public getGameDetails(gameId: number): void
   {
     this._service.getGameDetails(gameId).subscribe((data: ResponseGameDetailsViewModel) =>
@@ -52,4 +54,5 @@ export class HistoryComponent implements OnInit
       }
     });
   }
+  //#endregion
 }

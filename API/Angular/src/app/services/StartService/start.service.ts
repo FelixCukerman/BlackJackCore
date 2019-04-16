@@ -9,13 +9,13 @@ import { environment } from 'src/environments/environment';
 })
 export class StartService
 {
-  private url = environment.gameUrl;
+  private _url = environment.gameUrl;
 
   constructor(private _http: HttpClient) { }
 
   public createNewGame(request: RequestGameViewModel): Observable<Object>
   {
-    let result = this._http.post(this.url + "create", request);
+    let result: Observable<Object> = this._http.post(this._url + "create", request);
 
     return result;
   }

@@ -39,6 +39,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_start_start_module__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/start/start.module */ "./src/app/components/start/start.module.ts");
 /* harmony import */ var _components_game_game_module__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/game/game.module */ "./src/app/components/game/game.module.ts");
 /* harmony import */ var _components_history_history_module__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/history/history.module */ "./src/app/components/history/history.module.ts");
+/* harmony import */ var _auth_auth_guard_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./auth/auth-guard.service */ "./src/app/auth/auth-guard.service.ts");
+
 
 
 
@@ -61,7 +63,8 @@ var routes = [
     },
     {
         path: 'game',
-        loadChildren: function () { return _components_game_game_module__WEBPACK_IMPORTED_MODULE_4__["GameModule"]; }
+        loadChildren: function () { return _components_game_game_module__WEBPACK_IMPORTED_MODULE_4__["GameModule"]; },
+        canActivate: [_auth_auth_guard_service__WEBPACK_IMPORTED_MODULE_6__["AuthGuard"]]
     }
 ];
 var AppRoutingModule = /** @class */ (function () {
@@ -154,6 +157,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _auth_token_interceptor__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./auth/token.interceptor */ "./src/app/auth/token.interceptor.ts");
 /* harmony import */ var angular_webstorage_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! angular-webstorage-service */ "./node_modules/angular-webstorage-service/bundles/angular-webstorage-service.es5.js");
 /* harmony import */ var _auth_jwt_interceptor__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./auth/jwt.interceptor */ "./src/app/auth/jwt.interceptor.ts");
+/* harmony import */ var _auth_auth_guard_service__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./auth/auth-guard.service */ "./src/app/auth/auth-guard.service.ts");
+/* harmony import */ var _auth0_angular_jwt__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @auth0/angular-jwt */ "./node_modules/@auth0/angular-jwt/index.js");
+
+
 
 
 
@@ -173,6 +180,13 @@ var AppModule = /** @class */ (function () {
                 _app_component__WEBPACK_IMPORTED_MODULE_4__["AppComponent"]
             ],
             imports: [
+                _auth0_angular_jwt__WEBPACK_IMPORTED_MODULE_11__["JwtModule"].forRoot({
+                    config: {
+                        tokenGetter: function tokenGetter() {
+                            return localStorage.getItem('token');
+                        }
+                    }
+                }),
                 angular_webstorage_service__WEBPACK_IMPORTED_MODULE_8__["StorageServiceModule"],
                 _angular_common_http__WEBPACK_IMPORTED_MODULE_5__["HttpClientModule"],
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["BrowserModule"],
@@ -180,6 +194,7 @@ var AppModule = /** @class */ (function () {
                 _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_6__["NgbModule"].forRoot()
             ],
             providers: [
+                _auth_auth_guard_service__WEBPACK_IMPORTED_MODULE_10__["AuthGuard"],
                 {
                     provide: _angular_common_http__WEBPACK_IMPORTED_MODULE_5__["HTTP_INTERCEPTORS"],
                     useClass: _auth_token_interceptor__WEBPACK_IMPORTED_MODULE_7__["TokenInterceptor"],
@@ -197,6 +212,46 @@ var AppModule = /** @class */ (function () {
         })
     ], AppModule);
     return AppModule;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/auth/auth-guard.service.ts":
+/*!********************************************!*\
+  !*** ./src/app/auth/auth-guard.service.ts ***!
+  \********************************************/
+/*! exports provided: AuthGuard */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AuthGuard", function() { return AuthGuard; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _services_AccountService_account_service_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../services/AccountService/account-service.service */ "./src/app/services/AccountService/account-service.service.ts");
+
+
+
+
+var AuthGuard = /** @class */ (function () {
+    function AuthGuard(_auth, _router) {
+        this._auth = _auth;
+        this._router = _router;
+    }
+    AuthGuard.prototype.canActivate = function () {
+        if (!this._auth.checkAuthenticated()) {
+            this._router.navigate(['start']);
+        }
+        return this._auth.checkAuthenticated();
+    };
+    AuthGuard = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])(),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_services_AccountService_account_service_service__WEBPACK_IMPORTED_MODULE_3__["AccountService"], _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"]])
+    ], AuthGuard);
+    return AuthGuard;
 }());
 
 
@@ -265,7 +320,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TokenInterceptor", function() { return TokenInterceptor; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _services_AccountService_account_service_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../services/AccountService/account-service.service */ "./src/app/services/AccountService/account-service.service.ts");
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm5/index.js");
+/* harmony import */ var _services_AccountService_account_service_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../services/AccountService/account-service.service */ "./src/app/services/AccountService/account-service.service.ts");
+
 
 
 
@@ -274,16 +331,22 @@ var TokenInterceptor = /** @class */ (function () {
         this._auth = _auth;
     }
     TokenInterceptor.prototype.intercept = function (request, next) {
+        var token = this._auth.getToken();
+        if (!token) {
+            var username = this._auth.getCurrentUsername();
+            this._auth.createToken(username);
+            return rxjs__WEBPACK_IMPORTED_MODULE_2__["Observable"].create();
+        }
         request = request.clone({
             setHeaders: {
-                Authorization: "Bearer " + this._auth.getToken()
+                Authorization: "Bearer " + token
             }
         });
         return next.handle(request);
     };
     TokenInterceptor = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])(),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_services_AccountService_account_service_service__WEBPACK_IMPORTED_MODULE_2__["AccountService"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_services_AccountService_account_service_service__WEBPACK_IMPORTED_MODULE_3__["AccountService"]])
     ], TokenInterceptor);
     return TokenInterceptor;
 }());
@@ -346,6 +409,7 @@ var GameComponent = /** @class */ (function () {
         this._service = _service;
         this._currentRoute = _currentRoute;
     }
+    //#region ngCallbacks
     GameComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.gameProcess = this._storage.get('gameProcess');
@@ -360,13 +424,8 @@ var GameComponent = /** @class */ (function () {
             }
         });
     };
-    GameComponent.prototype.initializeUsers = function () {
-        this.users = this.response.users.filter(function (user) { return user.userRole != src_app_shared_enums_user_role__WEBPACK_IMPORTED_MODULE_4__["UserRole"].Dealer; });
-        this.dealer = this.response.users.filter(function (user) { return user.userRole == src_app_shared_enums_user_role__WEBPACK_IMPORTED_MODULE_4__["UserRole"].Dealer; }).shift();
-        this.person = this.users.filter(function (user) { return user.userRole == src_app_shared_enums_user_role__WEBPACK_IMPORTED_MODULE_4__["UserRole"].PeoplePlayer; }).shift();
-        this.userRounds = this.response.rounds[this.response.rounds.length - 1].userRound;
-        this.userGames = this.response.userGames;
-    };
+    //#endregion
+    //#region Public Methods
     GameComponent.prototype.createNewRound = function () {
         var _this = this;
         this._service.createNewRound(this._currentRoute.snapshot.params['id']).subscribe(function (data) {
@@ -376,7 +435,9 @@ var GameComponent = /** @class */ (function () {
     GameComponent.prototype.replenishCash = function () {
         var _this = this;
         this.requestReplenishCash.userId = this.person.id;
-        this._service.replenishCash(this.requestReplenishCash).subscribe(function (data) { _this.person.cash = data; });
+        this._service.replenishCash(this.requestReplenishCash).subscribe(function (data) {
+            _this.person.cash = data;
+        });
     };
     GameComponent.prototype.dealCardToPlayer = function () {
         var _this = this;
@@ -397,25 +458,10 @@ var GameComponent = /** @class */ (function () {
         this._service.dealCardsToBots(gameId).subscribe(function (data) {
             _this.response = data;
             _this.initializeUsers();
-            setTimeout(function () { _this.dealCardsToDealer(); }, 4000);
+            setTimeout(function () {
+                _this.dealCardsToDealer();
+            }, 4000);
         });
-    };
-    GameComponent.prototype.gameOver = function () {
-        var _this = this;
-        this.gameState = src_app_shared_enums_game_state__WEBPACK_IMPORTED_MODULE_6__["GameState"].GameIsOver;
-        this._storage.set('key', this.gameState);
-        this.gameProcess = "Game is over";
-        this._storage.set('gameProcess', this.gameProcess);
-        this._service.gameOver(this._currentRoute.snapshot.params['id']).subscribe(function (data) {
-            _this.responseGameOver = data;
-            _this.initializeWinners();
-        });
-    };
-    GameComponent.prototype.initializeWinners = function () {
-        var firstWinner = this.responseGameOver.sort(function (item1, item2) { return item2.winsQuantity - item1.winsQuantity; })[0];
-        if (firstWinner.winsQuantity != 0) {
-            this.winners = this.responseGameOver.filter(function (user) { return user.winsQuantity == firstWinner.winsQuantity; });
-        }
     };
     GameComponent.prototype.dealCardsToDealer = function () {
         return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](this, void 0, void 0, function () {
@@ -445,6 +491,21 @@ var GameComponent = /** @class */ (function () {
             _this.dealCardsToBots();
         }, 4000);
     };
+    //#endregion
+    //#region Private Methods
+    GameComponent.prototype.initializeUsers = function () {
+        this.users = this.response.users.filter(function (user) { return user.userRole != src_app_shared_enums_user_role__WEBPACK_IMPORTED_MODULE_4__["UserRole"].Dealer; });
+        this.dealer = this.response.users.filter(function (user) { return user.userRole == src_app_shared_enums_user_role__WEBPACK_IMPORTED_MODULE_4__["UserRole"].Dealer; }).shift();
+        this.person = this.users.filter(function (user) { return user.userRole == src_app_shared_enums_user_role__WEBPACK_IMPORTED_MODULE_4__["UserRole"].PeoplePlayer; }).shift();
+        this.userRounds = this.response.rounds[this.response.rounds.length - 1].userRound;
+        this.userGames = this.response.userGames;
+    };
+    GameComponent.prototype.initializeWinners = function () {
+        var firstWinner = this.responseGameOver.sort(function (item1, item2) { return item2.winsQuantity - item1.winsQuantity; })[0];
+        if (firstWinner.winsQuantity != 0) {
+            this.winners = this.responseGameOver.filter(function (user) { return user.winsQuantity == firstWinner.winsQuantity; });
+        }
+    };
     GameComponent.prototype.dealCards = function () {
         var _this = this;
         this.gameProcess = "New round";
@@ -454,6 +515,17 @@ var GameComponent = /** @class */ (function () {
         this._service.dealCards(this._currentRoute.snapshot.params['id']).subscribe(function (data) {
             _this.response = data;
             _this.initializeUsers();
+        });
+    };
+    GameComponent.prototype.gameOver = function () {
+        var _this = this;
+        this.gameState = src_app_shared_enums_game_state__WEBPACK_IMPORTED_MODULE_6__["GameState"].GameIsOver;
+        this._storage.set('key', this.gameState);
+        this.gameProcess = "Game is over";
+        this._storage.set('gameProcess', this.gameProcess);
+        this._service.gameOver(this._currentRoute.snapshot.params['id']).subscribe(function (data) {
+            _this.responseGameOver = data;
+            _this.initializeWinners();
         });
     };
     GameComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
@@ -541,7 +613,7 @@ module.exports = ".bg {\r\n  background-image: url('/images/background/mainbackg
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"bg\" style=\"padding-top: 30px\">\r\n  <div style=\"display:flex; justify-content:center; align-items: center\">\r\n    <input type=\"text\" id=\"userIdFirstWay\" style=\"align-self: center\" list=\"users\" class=\"user-autocomplete\" [(ngModel)]=\"username\" />\r\n    <datalist id=\"users\">\r\n      <option *ngFor=\"let item of this.users\" [value]=\"item.username\"></option>\r\n    </datalist>\r\n\r\n    <button (click)=\"GetGamesByUser()\" style=\"width:3%; height: 60px; background-image: url(images/icons/search.png); background-repeat: no-repeat\"></button>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<div class=\"bg\" style=\"padding-top: 30px\">\r\n  <div style=\"display:flex; justify-content:center; align-items: center\">\r\n    <input type=\"text\" id=\"userIdFirstWay\" style=\"align-self: center\" list=\"users\" class=\"user-autocomplete\" [(ngModel)]=\"username\" />\r\n    <datalist id=\"users\">\r\n      <option *ngFor=\"let item of this.users\" [value]=\"item.username\"></option>\r\n    </datalist>\r\n\r\n    <button (click)=\"getGamesByUser()\" style=\"width:3%; height: 60px; background-image: url(images/icons/search.png); background-repeat: no-repeat\"></button>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -566,12 +638,15 @@ var HistoryComponent = /** @class */ (function () {
         this._service = _service;
         this.response = new Array();
     }
+    //#region ngCallbacks
     HistoryComponent.prototype.ngOnInit = function () {
         var _this = this;
         this._service.getUsersForAutocomplete().subscribe(function (data) {
             _this.users = data;
         });
     };
+    //#endregion
+    //#region Public Methods
     HistoryComponent.prototype.getGameDetails = function (gameId) {
         var _this = this;
         this._service.getGameDetails(gameId).subscribe(function (data) {
@@ -669,7 +744,7 @@ module.exports = ".line {\r\n  margin-top: 10px;\r\n}\r\n\r\n.bg {\r\n  backgrou
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!doctype html>\r\n<html lang=\"en\">\r\n<head>\r\n  <meta charset=\"utf-8\">\r\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\">\r\n  <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css\" integrity=\"sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm\" crossorigin=\"anonymous\">\r\n  <title>blackjack</title>\r\n</head>\r\n<body>\r\n  <div class=\"bg\">\r\n    <div class=\"container\" style=\"padding-top: 15%\">\r\n      <div class=\"row\">\r\n        <div class=\"col\"></div>\r\n        <div class=\"col\">\r\n          <div class=\"line\"></div>\r\n          <input type=\"text\" class=\"form-control\" [(ngModel)]=\"user.Nickname\" placeholder=\"Nickname\" />\r\n          <div class=\"line\"></div>\r\n          <input type=\"number\" value=\"\" min=\"1\" placeholder=\"Rate\" class=\"form-control\" [(ngModel)]=\"request.userRate\" />\r\n          <div class=\"line\"></div>\r\n          <input type=\"number\" value=\"\" min=\"1\" placeholder=\"Bot quantity\" class=\"form-control\" [(ngModel)]=\"request.botQuantity\" />\r\n          <div class=\"line\"></div>\r\n          <input type=\"number\" value=\"\" min=\"1\" placeholder=\"Round quantity\" class=\"form-control\" [(ngModel)]=\"request.roundQuantity\" />\r\n          <div class=\"line\"></div>\r\n          <button class=\"btn btn-primary\" (click)=\"createNewGame()\" style=\"width: 100%\">Create new game</button>\r\n          <button class=\"btn btn-primary\" (click)=\"toHistory()\" style=\"width: 100%; margin-top: 10px\">History</button>\r\n        </div>\r\n        <div class=\"col\"></div>\r\n      </div>\r\n    </div>\r\n\r\n    <div *ngIf = \"this.tokenIsExist\" class=\"modal fade\" id=\"exampleModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">\r\n      <div class=\"modal-dialog\" role=\"document\">\r\n        <div class=\"modal-content\">\r\n          <div class=\"modal-header\">\r\n            <h5 class=\"modal-title\" id=\"exampleModalLabel\">Modal title</h5>\r\n            <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n              <span aria-hidden=\"true\">&times;</span>\r\n            </button>\r\n          </div>\r\n          <div class=\"modal-body\">\r\n            ...\r\n          </div>\r\n          <div class=\"modal-footer\">\r\n            <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button>\r\n            <button type=\"button\" class=\"btn btn-primary\">Save changes</button>\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</body>\r\n</html>\r\n"
+module.exports = "<!doctype html>\r\n<html lang=\"en\">\r\n<head>\r\n  <meta charset=\"utf-8\">\r\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\">\r\n  <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css\" integrity=\"sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm\" crossorigin=\"anonymous\">\r\n  <title>blackjack</title>\r\n</head>\r\n<body>\r\n  <div class=\"bg\">\r\n    <div class=\"container\" style=\"padding-top: 15%\">\r\n      <div class=\"row\">\r\n        <div class=\"col\"></div>\r\n        <div class=\"col\">\r\n          <div class=\"line\"></div>\r\n          <input type=\"text\" class=\"form-control\" [(ngModel)]=\"user.nickname\" placeholder=\"Nickname\" />\r\n          <div class=\"line\"></div>\r\n          <input type=\"number\" value=\"\" min=\"1\" placeholder=\"Rate\" class=\"form-control\" [(ngModel)]=\"request.userRate\" />\r\n          <div class=\"line\"></div>\r\n          <input type=\"number\" value=\"\" min=\"1\" placeholder=\"Bot quantity\" class=\"form-control\" [(ngModel)]=\"request.botQuantity\" />\r\n          <div class=\"line\"></div>\r\n          <input type=\"number\" value=\"\" min=\"1\" placeholder=\"Round quantity\" class=\"form-control\" [(ngModel)]=\"request.roundQuantity\" />\r\n          <div class=\"line\"></div>\r\n          <button class=\"btn btn-primary\" (click)=\"createNewGame()\" style=\"width: 100%\">Create new game</button>\r\n          <button class=\"btn btn-primary\" (click)=\"toHistory()\" style=\"width: 100%; margin-top: 10px\">History</button>\r\n        </div>\r\n        <div class=\"col\"></div>\r\n      </div>\r\n    </div>\r\n\r\n    <div *ngIf = \"this.tokenIsExist\" class=\"modal fade\" id=\"exampleModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">\r\n      <div class=\"modal-dialog\" role=\"document\">\r\n        <div class=\"modal-content\">\r\n          <div class=\"modal-header\">\r\n            <h5 class=\"modal-title\" id=\"exampleModalLabel\">Modal title</h5>\r\n            <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n              <span aria-hidden=\"true\">&times;</span>\r\n            </button>\r\n          </div>\r\n          <div class=\"modal-body\">\r\n            ...\r\n          </div>\r\n          <div class=\"modal-footer\">\r\n            <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button>\r\n            <button type=\"button\" class=\"btn btn-primary\">Save changes</button>\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</body>\r\n</html>\r\n"
 
 /***/ }),
 
@@ -691,8 +766,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 /* harmony import */ var angular_webstorage_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! angular-webstorage-service */ "./node_modules/angular-webstorage-service/bundles/angular-webstorage-service.es5.js");
 /* harmony import */ var src_app_shared_enums_game_state__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! src/app/shared/enums/game-state */ "./src/app/shared/enums/game-state.ts");
-/* harmony import */ var src_app_services_AccountService_account_service_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! src/app/services/AccountService/account-service.service */ "./src/app/services/AccountService/account-service.service.ts");
-
 
 
 
@@ -702,41 +775,30 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var StartComponent = /** @class */ (function () {
-    function StartComponent(_storage, _startService, _router, _authService) {
+    function StartComponent(_storage, _startService, _router) {
         this._storage = _storage;
         this._startService = _startService;
         this._router = _router;
-        this._authService = _authService;
     }
+    //#region ngCallbacks
     StartComponent.prototype.ngOnInit = function () {
         this.user = new src_app_viewmodels_UserViewModels_request_user_view_model__WEBPACK_IMPORTED_MODULE_3__["RequestUserViewModel"]("");
         this.request = new src_app_viewmodels_GameViewModels_request_game_view_model__WEBPACK_IMPORTED_MODULE_2__["default"](this.user, 0, 0, 0);
-        this.tokenIsExist = false;
     };
+    //#endregion
+    //#region Public Methods
     StartComponent.prototype.toHistory = function () {
         this._router.navigate(['history']);
     };
     StartComponent.prototype.createNewGame = function () {
         var _this = this;
-        this._storage.set('username', this.user.Nickname);
-        this.tokenIsExist = this.checkTokenExist();
-        if (!this.tokenIsExist) {
-            return;
-        }
+        this._storage.set('username', this.user.nickname);
         this._startService.createNewGame(this.request).subscribe(function (data) {
             _this.response = data;
             _this._router.navigate(['game/' + data.id]);
-            _this.gameState = src_app_shared_enums_game_state__WEBPACK_IMPORTED_MODULE_7__["GameState"].StartRound;
-            _this._storage.set('key', _this.gameState);
+            _this._gameState = src_app_shared_enums_game_state__WEBPACK_IMPORTED_MODULE_7__["GameState"].StartRound;
+            _this._storage.set('key', _this._gameState);
         });
-    };
-    StartComponent.prototype.checkTokenExist = function () {
-        var token = this._authService.getToken();
-        var tokenIsMissing = token == null;
-        if (tokenIsMissing) {
-            this._authService.createToken(this.user.Nickname);
-        }
-        return tokenIsMissing;
     };
     StartComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -745,7 +807,7 @@ var StartComponent = /** @class */ (function () {
             styles: [__webpack_require__(/*! ./start.component.css */ "./src/app/components/start/start.component.css")]
         }),
         tslib__WEBPACK_IMPORTED_MODULE_0__["__param"](0, Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Inject"])(angular_webstorage_service__WEBPACK_IMPORTED_MODULE_6__["LOCAL_STORAGE"])),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [angular_webstorage_service__WEBPACK_IMPORTED_MODULE_6__["WebStorageService"], src_app_services_StartService_start_service__WEBPACK_IMPORTED_MODULE_4__["StartService"], _angular_router__WEBPACK_IMPORTED_MODULE_5__["Router"], src_app_services_AccountService_account_service_service__WEBPACK_IMPORTED_MODULE_8__["AccountService"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [angular_webstorage_service__WEBPACK_IMPORTED_MODULE_6__["WebStorageService"], src_app_services_StartService_start_service__WEBPACK_IMPORTED_MODULE_4__["StartService"], _angular_router__WEBPACK_IMPORTED_MODULE_5__["Router"]])
     ], StartComponent);
     return StartComponent;
 }());
@@ -828,14 +890,17 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var AccountService = /** @class */ (function () {
-    function AccountService(_http, _storage) {
+    function AccountService(_http, _handler, _storage) {
         this._http = _http;
+        this._handler = _handler;
         this._storage = _storage;
-        this.url = src_environments_environment__WEBPACK_IMPORTED_MODULE_4__["environment"].authUrl;
+        this._url = src_environments_environment__WEBPACK_IMPORTED_MODULE_4__["environment"].authUrl;
+        this._http = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"](_handler);
     }
+    //#region Public Methods
     AccountService.prototype.createToken = function (username) {
         var _this = this;
-        this._http.get(this.url + "token/" + username).subscribe(function (data) {
+        this._http.get(this._url + "token/" + username).subscribe(function (data) {
             var token = data.accessToken;
             _this._storage.set('token', token);
         });
@@ -848,12 +913,17 @@ var AccountService = /** @class */ (function () {
         var username = this._storage.get('username');
         return username;
     };
+    AccountService.prototype.checkAuthenticated = function () {
+        var token = this._storage.get('token');
+        var tokenExist = token != null;
+        return tokenExist;
+    };
     AccountService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
             providedIn: 'root'
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__param"](1, Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Inject"])(angular_webstorage_service__WEBPACK_IMPORTED_MODULE_3__["LOCAL_STORAGE"])),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"], angular_webstorage_service__WEBPACK_IMPORTED_MODULE_3__["WebStorageService"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__param"](2, Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Inject"])(angular_webstorage_service__WEBPACK_IMPORTED_MODULE_3__["LOCAL_STORAGE"])),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"], _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpBackend"], angular_webstorage_service__WEBPACK_IMPORTED_MODULE_3__["WebStorageService"]])
     ], AccountService);
     return AccountService;
 }());
@@ -883,38 +953,39 @@ __webpack_require__.r(__webpack_exports__);
 var GameService = /** @class */ (function () {
     function GameService(_http) {
         this._http = _http;
-        this.url = src_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].gameUrl;
+        this._url = src_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].gameUrl;
     }
+    //#region Public Methods
     GameService.prototype.gameById = function (id) {
-        var result = this._http.get(this.url + "gamebyid/" + id);
+        var result = this._http.get(this._url + "gamebyid/" + id);
         return result;
     };
     GameService.prototype.dealCards = function (id) {
-        var result = this._http.post(this.url + "dealcards/" + id, id);
+        var result = this._http.post(this._url + "dealcards/" + id, id);
         return result;
     };
     GameService.prototype.dealCardToPlayer = function (id) {
-        var result = this._http.post(this.url + "dealcardstoplayer/" + id, id);
+        var result = this._http.post(this._url + "dealcardstoplayer/" + id, id);
         return result;
     };
     GameService.prototype.replenishCash = function (request) {
-        var result = this._http.post(this.url + "replenishcash", request);
+        var result = this._http.post(this._url + "replenishcash", request);
         return result;
     };
     GameService.prototype.dealCardsToBots = function (gameId) {
-        var result = this._http.post(this.url + "dealcardstobots/" + gameId, gameId);
+        var result = this._http.post(this._url + "dealcardstobots/" + gameId, gameId);
         return result;
     };
     GameService.prototype.dealCardsToDealer = function (id) {
-        var result = this._http.post(this.url + "dealcardstodealer/" + id, id);
+        var result = this._http.post(this._url + "dealcardstodealer/" + id, id);
         return result;
     };
     GameService.prototype.createNewRound = function (id) {
-        var result = this._http.post(this.url + "createround/" + id, id);
+        var result = this._http.post(this._url + "createround/" + id, id);
         return result;
     };
     GameService.prototype.gameOver = function (id) {
-        var result = this._http.get(this.url + "gameover/" + id);
+        var result = this._http.get(this._url + "gameover/" + id);
         return result;
     };
     GameService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
@@ -951,18 +1022,18 @@ __webpack_require__.r(__webpack_exports__);
 var HistoryService = /** @class */ (function () {
     function HistoryService(_http) {
         this._http = _http;
-        this.url = src_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].historyUrl;
+        this._url = src_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].historyUrl;
     }
     HistoryService.prototype.getUsersForAutocomplete = function () {
-        var result = this._http.get(this.url + "getpersons");
+        var result = this._http.get(this._url + "getpersons");
         return result;
     };
     HistoryService.prototype.getGamesByUser = function (userId) {
-        var result = this._http.get(this.url + "gamesbyuser/" + userId);
+        var result = this._http.get(this._url + "gamesbyuser/" + userId);
         return result;
     };
     HistoryService.prototype.getGameDetails = function (gameId) {
-        var result = this._http.get(this.url + "gamedetails/" + gameId);
+        var result = this._http.get(this._url + "gamedetails/" + gameId);
         return result;
     };
     HistoryService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
@@ -999,10 +1070,10 @@ __webpack_require__.r(__webpack_exports__);
 var StartService = /** @class */ (function () {
     function StartService(_http) {
         this._http = _http;
-        this.url = src_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].gameUrl;
+        this._url = src_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].gameUrl;
     }
     StartService.prototype.createNewGame = function (request) {
-        var result = this._http.post(this.url + "create", request);
+        var result = this._http.post(this._url + "create", request);
         return result;
     };
     StartService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
@@ -1120,8 +1191,8 @@ var RequestReplenishCashViewModel = /** @class */ (function () {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RequestUserViewModel", function() { return RequestUserViewModel; });
 var RequestUserViewModel = /** @class */ (function () {
-    function RequestUserViewModel(Nickname) {
-        this.Nickname = Nickname;
+    function RequestUserViewModel(nickname) {
+        this.nickname = nickname;
     }
     return RequestUserViewModel;
 }());
