@@ -78,7 +78,7 @@ namespace API
 
             services.AddSpaStaticFiles(configuration =>
             {
-                configuration.RootPath = "Angular/dist";
+                configuration.RootPath = "Angular/dist/Angular";
             });
 
             services.AddAutoMapper();
@@ -103,12 +103,7 @@ namespace API
 
             app.ConfigureExceptionHandler(logger);
 
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-            });
+            app.UseMvc();
 
             app.UseSpa(spa =>
             {

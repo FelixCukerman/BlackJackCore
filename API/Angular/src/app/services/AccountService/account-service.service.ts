@@ -11,27 +11,27 @@ export class AccountService {
 
   private url = environment.authUrl;
 
-  constructor(private http: HttpClient, @Inject(LOCAL_STORAGE) private storage: WebStorageService) { }
+  constructor(private _http: HttpClient, @Inject(LOCAL_STORAGE) private _storage: WebStorageService) { }
 
-  public CreateToken(username: string): void
+  public createToken(username: string): void
   {
-    this.http.get(this.url + "token/" + username).subscribe((data: GetTokenViewModel) =>
+    this._http.get(this.url + "token/" + username).subscribe((data: GetTokenViewModel) =>
     {
       let token: string = data.accessToken;
-      this.storage.set('token', token);
+      this._storage.set('token', token);
     });
   }
 
-  public GetToken(): string
+  public getToken(): string
   {
-    let token: string = this.storage.get('token');
+    let token: string = this._storage.get('token');
 
     return token;
   }
 
-  public GetCurrentUsername(): string
+  public getCurrentUsername(): string
   {
-    let username: string = this.storage.get('username');
+    let username: string = this._storage.get('username');
 
     return username;
   }

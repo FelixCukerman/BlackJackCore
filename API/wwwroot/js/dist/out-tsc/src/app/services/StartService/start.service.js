@@ -3,12 +3,12 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 var StartService = /** @class */ (function () {
-    function StartService(http) {
-        this.http = http;
+    function StartService(_http) {
+        this._http = _http;
         this.url = environment.gameUrl;
     }
-    StartService.prototype.CreateNewGame = function (request) {
-        var result = this.http.post(this.url + "/create", request);
+    StartService.prototype.createNewGame = function (request) {
+        var result = this._http.post(this.url + "/create", request);
         return result;
     };
     StartService = tslib_1.__decorate([

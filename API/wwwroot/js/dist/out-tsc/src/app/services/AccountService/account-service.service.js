@@ -4,24 +4,24 @@ import { HttpClient } from '@angular/common/http';
 import { WebStorageService, LOCAL_STORAGE } from 'angular-webstorage-service';
 import { environment } from 'src/environments/environment';
 var AccountService = /** @class */ (function () {
-    function AccountService(http, storage) {
-        this.http = http;
-        this.storage = storage;
+    function AccountService(_http, _storage) {
+        this._http = _http;
+        this._storage = _storage;
         this.url = environment.authUrl;
     }
-    AccountService.prototype.CreateToken = function (username) {
+    AccountService.prototype.createToken = function (username) {
         var _this = this;
-        this.http.get(this.url + "token/" + username).subscribe(function (data) {
+        this._http.get(this.url + "token/" + username).subscribe(function (data) {
             var token = data.accessToken;
-            _this.storage.set('token', token);
+            _this._storage.set('token', token);
         });
     };
-    AccountService.prototype.GetToken = function () {
-        var token = this.storage.get('token');
+    AccountService.prototype.getToken = function () {
+        var token = this._storage.get('token');
         return token;
     };
-    AccountService.prototype.GetCurrentUsername = function () {
-        var username = this.storage.get('username');
+    AccountService.prototype.getCurrentUsername = function () {
+        var username = this._storage.get('username');
         return username;
     };
     AccountService = tslib_1.__decorate([

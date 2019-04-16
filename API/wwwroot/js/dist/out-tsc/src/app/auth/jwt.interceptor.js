@@ -4,8 +4,8 @@ import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { AccountService } from '../services/AccountService/account-service.service';
 import { Injectable } from '@angular/core';
 var JwtInterceptor = /** @class */ (function () {
-    function JwtInterceptor(accountService) {
-        this.accountService = accountService;
+    function JwtInterceptor(_accountService) {
+        this._accountService = _accountService;
     }
     JwtInterceptor.prototype.intercept = function (request, next) {
         var _this = this;
@@ -14,8 +14,8 @@ var JwtInterceptor = /** @class */ (function () {
         }, function (error) {
             if (error instanceof HttpErrorResponse) {
                 if (error.status === 401) {
-                    var username = _this.accountService.GetCurrentUsername();
-                    _this.accountService.CreateToken(username);
+                    var username = _this._accountService.getCurrentUsername();
+                    _this._accountService.createToken(username);
                 }
             }
         });

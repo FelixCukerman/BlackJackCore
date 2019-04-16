@@ -32,10 +32,8 @@ namespace DataAccessLayer
                 { CardNameType.King, 10 },
                 { CardNameType.Ace, 11 }
             };
-
-            Array suitsArray = Enum.GetValues(typeof(SuitType));
-
-            IEnumerable<SuitType> suits = ((SuitType[])suitsArray).Where(item => item != SuitType.None);
+            
+            IEnumerable<SuitType> suits = Enum.GetValues(typeof(SuitType)).Cast<SuitType>();
 
             foreach (SuitType suit in suits)
             {

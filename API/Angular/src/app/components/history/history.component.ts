@@ -17,38 +17,38 @@ export class HistoryComponent implements OnInit
   private games: Array<ResponseGamesByUserViewModel>;
   private users: Array<ResponseUserForAutocompleteView>;
 
-  constructor(private service: HistoryService)
+  constructor(private _service: HistoryService)
   {
     this.response = new Array<ResponseGameDetailsViewModel>();
   }
 
-  ngOnInit(): void
+  public ngOnInit(): void
   {
-    this.service.GetUsersForAutocomplete().subscribe((data: Array<ResponseUserForAutocompleteView>) =>
+    this._service.getUsersForAutocomplete().subscribe((data: Array<ResponseUserForAutocompleteView>) =>
     {
       this.users = data;
     });
   }
 
-  GetGameDetails(gameId: number): void
+  public getGameDetails(gameId: number): void
   {
-    this.service.GetGameDetails(gameId).subscribe((data: ResponseGameDetailsViewModel) =>
+    this._service.getGameDetails(gameId).subscribe((data: ResponseGameDetailsViewModel) =>
     {
       this.response.push({ ...data });
     });
   }
 
-  GetGamesByUser(): void
+  public getGamesByUser(): void
   {
     let user: ResponseUserForAutocompleteView = this.users.filter(item => item.username == this.username).shift();
 
-    this.service.GetGamesByUser(user.id).subscribe((data: Array<ResponseGamesByUserViewModel>) =>
+    this._service.getGamesByUser(user.id).subscribe((data: Array<ResponseGamesByUserViewModel>) =>
     {
       this.games = data;
 
       for (let i = 0; i < this.games.length; i++)
       {
-        this.GetGameDetails(this.games[i].gameId);
+        this.getGameDetails(this.games[i].gameId);
       }
     });
   }

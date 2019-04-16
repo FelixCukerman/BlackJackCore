@@ -49,14 +49,14 @@ var routes = [
     {
         path: '',
         pathMatch: 'full',
-        redirectTo: 'game/start'
+        redirectTo: 'start'
     },
     {
-        path: 'game',
+        path: '',
         loadChildren: function () { return _components_start_start_module__WEBPACK_IMPORTED_MODULE_3__["StartModule"]; }
     },
     {
-        path: 'game',
+        path: '',
         loadChildren: function () { return _components_history_history_module__WEBPACK_IMPORTED_MODULE_5__["HistoryModule"]; }
     },
     {
@@ -224,8 +224,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var JwtInterceptor = /** @class */ (function () {
-    function JwtInterceptor(accountService) {
-        this.accountService = accountService;
+    function JwtInterceptor(_accountService) {
+        this._accountService = _accountService;
     }
     JwtInterceptor.prototype.intercept = function (request, next) {
         var _this = this;
@@ -234,8 +234,8 @@ var JwtInterceptor = /** @class */ (function () {
         }, function (error) {
             if (error instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpErrorResponse"]) {
                 if (error.status === 401) {
-                    var username = _this.accountService.GetCurrentUsername();
-                    _this.accountService.CreateToken(username);
+                    var username = _this._accountService.getCurrentUsername();
+                    _this._accountService.createToken(username);
                 }
             }
         });
@@ -270,13 +270,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var TokenInterceptor = /** @class */ (function () {
-    function TokenInterceptor(auth) {
-        this.auth = auth;
+    function TokenInterceptor(_auth) {
+        this._auth = _auth;
     }
     TokenInterceptor.prototype.intercept = function (request, next) {
         request = request.clone({
             setHeaders: {
-                Authorization: "Bearer " + this.auth.GetToken()
+                Authorization: "Bearer " + this._auth.getToken()
             }
         });
         return next.handle(request);
@@ -310,7 +310,7 @@ module.exports = ".bg {\r\n  background-image: url('/images/background/mainbackg
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!doctype html>\r\n<html lang=\"en\">\r\n<head>\r\n  <meta charset=\"utf-8\">\r\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\">\r\n  <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css\" integrity=\"sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm\" crossorigin=\"anonymous\">\r\n  <title>Hello, world!</title>\r\n</head>\r\n<body>\r\n  <div class=\"bg\">\r\n    <div class=\"startround\" *ngIf=\"this.gameState == 1\">\r\n      <button type=\"button\" class=\"btn btn-primary btn-lg\" style=\"width: 25%; height: 100px; font-size: 24pt\" (click)=\"DealCards()\">Start new round</button>\r\n    </div>\r\n\r\n    <div *ngIf=\"(this.gameState == 2 || this.gameState == 3 || this.gameState == 4) && this.response\">\r\n      <div class=\"dealerarea\">\r\n        <div class=\"cards\">\r\n          <div class=\"card\" *ngFor=\"let usercard of dealer.cards\"><img src=\"images/cards/{{usercard.suit}}-{{usercard.cardName}}.png\"></div>\r\n        </div>\r\n      </div>\r\n      <div class=\"dealernickname\">Dealer</div>\r\n      <div class=\"gamearea\">\r\n        <div class=\"playerpoints\">\r\n          <div class=\"nicknames\">\r\n            <div *ngFor=\"let userRound of userRounds\">{{userRound.nickname}}</div>\r\n          </div>\r\n          <div class=\"points\">\r\n            <div *ngFor=\"let userRound of userRounds\">{{userRound.points}}</div>\r\n          </div>\r\n          <div class=\"separator\"></div>\r\n        </div>\r\n        <div class=\"gameprocess-block\">\r\n          <div class=\"roundstate\">Round#{{this.response.rounds.length}}</div>\r\n          <div class=\"gameprocess\">\r\n            <div class=\"gameprocess-animation\">\r\n              {{this.gameProcess}}\r\n              <div class=\"spinner-grow\" style=\"width: 4rem; height: 4rem; margin-left: 3%; margin-top: 2%\" role=\"status\">\r\n                <span class=\"sr-only\">Loading...</span>\r\n              </div>\r\n            </div>\r\n          </div>\r\n        </div>\r\n        <div class=\"separator\" style=\"width: 2%; background-color: rgba(0, 0, 0, 0.38)\"></div>\r\n        <div class=\"peopleplayer-block\">\r\n          <div class=\"total-cash\">Total cash: {{this.person.cash}}$</div>\r\n          <div class=\"action-block\">\r\n            <div *ngIf=\"this.gameState == 2\">\r\n              <button type=\"button\" class=\"btn btn-success btn-lg btn-block\" (click)=\"DealCardToPlayer()\">Take a card</button>\r\n              <button type=\"button\" class=\"btn btn-danger btn-lg btn-block\" (click)=\"SkipCard()\">Skip a card</button>\r\n              <button type=\"button\" class=\"btn btn-info btn-lg btn-block\" data-toggle=\"modal\" data-target=\"#exampleModal\">Replenish a cash</button>\r\n            </div>\r\n            <div *ngIf=\"this.gameState == 3 || this.gameState == 4\">\r\n              <button type=\"button\" class=\"btn btn-success btn-lg btn-block disabled\" aria-disabled=\"true\">Take a card</button>\r\n              <button type=\"button\" class=\"btn btn-danger btn-lg btn-block disabled\" aria-disabled=\"true\">Skip a card</button>\r\n              <button type=\"button\" class=\"btn btn-info btn-lg btn-block\" data-toggle=\"modal\" data-target=\"#exampleModal\">Replenish a cash</button>\r\n            </div>\r\n            <div *ngIf=\"this.gameState == 4\">\r\n              <button type=\"button\" class=\"btn btn-info btn-lg btn-block\" (click)=\"CreateNewRound()\" style=\"margin-top: 3%\">New Round</button>\r\n            </div>\r\n            <div class=\"modal fade\" id=\"exampleModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">\r\n              <div class=\"modal-dialog\" role=\"document\">\r\n                <div class=\"modal-content\">\r\n                  <div class=\"modal-header\">\r\n                    <h5 class=\"modal-title\" id=\"exampleModalLabel\">Replenish a cash</h5>\r\n                    <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n                      <span aria-hidden=\"true\">&times;</span>\r\n                    </button>\r\n                  </div>\r\n                  <div class=\"modal-body\">\r\n                    <input type=\"number\" min=\"1\" class=\"form-control\" placeholder=\"cash\" aria-label=\"Username\" aria-describedby=\"basic-addon1\" [(ngModel)]=\"requestReplenishCash.cash\">\r\n                  </div>\r\n                  <div class=\"modal-footer\">\r\n                    <button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\" (click)=\"ReplenishCash()\">Send</button>\r\n                  </div>\r\n                </div>\r\n              </div>\r\n            </div>\r\n          </div>\r\n        </div>\r\n      </div>\r\n      <div class=\"playerarea\">\r\n        <div class=\"cards\" *ngFor=\"let user of users\">\r\n          <div class=\"card\" *ngFor=\"let usercard of user.cards\"><img src=\"images/cards/{{usercard.suit}}-{{usercard.cardName}}.png\"></div>\r\n        </div>\r\n      </div>\r\n      <div class=\"playerinfo\" *ngFor=\"let user of users\">{{user.nickname}}</div>\r\n    </div>\r\n    <div *ngIf=\"this.gameState == 5\">\r\n      <div class=\"row\" style=\"color:aliceblue; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 22pt; text-align:center; width: 100%\">\r\n        <div class=\"col-sm\" *ngFor=\"let user of this.responseGameOver\" style=\"border-right: #ddd dashed 1px;border-left: #ddd dashed 1px;\">\r\n          <div>{{user.username}}</div>\r\n          <div>{{user.winsQuantity}} wins</div>\r\n        </div>\r\n      </div>\r\n      <div class=\"dotted-line-top\"></div>\r\n      <div style=\"font-size: 24pt; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align:center; color:aliceblue; margin-top: 20px;\">Winners: </div>\r\n      <div class=\"winners-area\">\r\n        <div *ngIf=\"this.winners\">\r\n          <div class=\"winner\" *ngFor=\"let user of winners\">{{user.username}}</div>\r\n        </div>\r\n        <div *ngIf=\"!this.winners\">\r\n          <div class=\"winner\">All players lose</div>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</body>\r\n</html>\r\n"
+module.exports = "<!doctype html>\r\n<html lang=\"en\">\r\n<head>\r\n  <meta charset=\"utf-8\">\r\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\">\r\n  <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css\" integrity=\"sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm\" crossorigin=\"anonymous\">\r\n  <title>Hello, world!</title>\r\n</head>\r\n<body>\r\n  <div class=\"bg\">\r\n    <div class=\"startround\" *ngIf=\"this.gameState == 1\">\r\n      <button type=\"button\" class=\"btn btn-primary btn-lg\" style=\"width: 25%; height: 100px; font-size: 24pt\" (click)=\"dealCards()\">Start new round</button>\r\n    </div>\r\n\r\n    <div *ngIf=\"(this.gameState == 2 || this.gameState == 3 || this.gameState == 4) && this.response\">\r\n      <div class=\"dealerarea\">\r\n        <div class=\"cards\">\r\n          <div class=\"card\" *ngFor=\"let usercard of dealer.cards\"><img src=\"images/cards/{{usercard.suit}}-{{usercard.cardName}}.png\"></div>\r\n        </div>\r\n      </div>\r\n      <div class=\"dealernickname\">Dealer</div>\r\n      <div class=\"gamearea\">\r\n        <div class=\"playerpoints\">\r\n          <div class=\"nicknames\">\r\n            <div *ngFor=\"let userRound of userRounds\">{{userRound.nickname}}</div>\r\n          </div>\r\n          <div class=\"points\">\r\n            <div *ngFor=\"let userRound of userRounds\">{{userRound.points}}</div>\r\n          </div>\r\n          <div class=\"separator\"></div>\r\n        </div>\r\n        <div class=\"gameprocess-block\">\r\n          <div class=\"roundstate\">Round#{{this.response.rounds.length}}</div>\r\n          <div class=\"gameprocess\">\r\n            <div class=\"gameprocess-animation\">\r\n              {{this.gameProcess}}\r\n              <div class=\"spinner-grow\" style=\"width: 4rem; height: 4rem; margin-left: 3%; margin-top: 2%\" role=\"status\">\r\n                <span class=\"sr-only\">Loading...</span>\r\n              </div>\r\n            </div>\r\n          </div>\r\n        </div>\r\n        <div class=\"separator\" style=\"width: 2%; background-color: rgba(0, 0, 0, 0.38)\"></div>\r\n        <div class=\"peopleplayer-block\">\r\n          <div class=\"total-cash\">Total cash: {{this.person.cash}}$</div>\r\n          <div class=\"action-block\">\r\n            <div *ngIf=\"this.gameState == 2\">\r\n              <button type=\"button\" class=\"btn btn-success btn-lg btn-block\" (click)=\"dealCardToPlayer()\">Take a card</button>\r\n              <button type=\"button\" class=\"btn btn-danger btn-lg btn-block\" (click)=\"skipCard()\">Skip a card</button>\r\n              <button type=\"button\" class=\"btn btn-info btn-lg btn-block\" data-toggle=\"modal\" data-target=\"#exampleModal\">Replenish a cash</button>\r\n            </div>\r\n            <div *ngIf=\"this.gameState == 3 || this.gameState == 4\">\r\n              <button type=\"button\" class=\"btn btn-success btn-lg btn-block disabled\" aria-disabled=\"true\">Take a card</button>\r\n              <button type=\"button\" class=\"btn btn-danger btn-lg btn-block disabled\" aria-disabled=\"true\">Skip a card</button>\r\n              <button type=\"button\" class=\"btn btn-info btn-lg btn-block\" data-toggle=\"modal\" data-target=\"#exampleModal\">Replenish a cash</button>\r\n            </div>\r\n            <div *ngIf=\"this.gameState == 4\">\r\n              <button type=\"button\" class=\"btn btn-info btn-lg btn-block\" (click)=\"createNewRound()\" style=\"margin-top: 3%\">New Round</button>\r\n            </div>\r\n            <div class=\"modal fade\" id=\"exampleModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">\r\n              <div class=\"modal-dialog\" role=\"document\">\r\n                <div class=\"modal-content\">\r\n                  <div class=\"modal-header\">\r\n                    <h5 class=\"modal-title\" id=\"exampleModalLabel\">Replenish a cash</h5>\r\n                    <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n                      <span aria-hidden=\"true\">&times;</span>\r\n                    </button>\r\n                  </div>\r\n                  <div class=\"modal-body\">\r\n                    <input type=\"number\" min=\"1\" class=\"form-control\" placeholder=\"cash\" aria-label=\"Username\" aria-describedby=\"basic-addon1\" [(ngModel)]=\"requestReplenishCash.cash\">\r\n                  </div>\r\n                  <div class=\"modal-footer\">\r\n                    <button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\" (click)=\"replenishCash()\">Send</button>\r\n                  </div>\r\n                </div>\r\n              </div>\r\n            </div>\r\n          </div>\r\n        </div>\r\n      </div>\r\n      <div class=\"playerarea\">\r\n        <div class=\"cards\" *ngFor=\"let user of users\">\r\n          <div class=\"card\" *ngFor=\"let usercard of user.cards\"><img src=\"images/cards/{{usercard.suit}}-{{usercard.cardName}}.png\"></div>\r\n        </div>\r\n      </div>\r\n      <div class=\"playerinfo\" *ngFor=\"let user of users\">{{user.nickname}}</div>\r\n    </div>\r\n    <div *ngIf=\"this.gameState == 5\">\r\n      <div class=\"row\" style=\"color:aliceblue; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 22pt; text-align:center; width: 100%\">\r\n        <div class=\"col-sm\" *ngFor=\"let user of this.responseGameOver\" style=\"border-right: #ddd dashed 1px;border-left: #ddd dashed 1px;\">\r\n          <div>{{user.username}}</div>\r\n          <div>{{user.winsQuantity}} wins</div>\r\n        </div>\r\n      </div>\r\n      <div class=\"dotted-line-top\"></div>\r\n      <div style=\"font-size: 24pt; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align:center; color:aliceblue; margin-top: 20px;\">Winners: </div>\r\n      <div class=\"winners-area\">\r\n        <div *ngIf=\"this.winners\">\r\n          <div class=\"winner\" *ngFor=\"let user of winners\">{{user.username}}</div>\r\n        </div>\r\n        <div *ngIf=\"!this.winners\">\r\n          <div class=\"winner\">All players lose</div>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</body>\r\n</html>\r\n"
 
 /***/ }),
 
@@ -341,98 +341,97 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var GameComponent = /** @class */ (function () {
-    function GameComponent(storage, service, router, currentRoute) {
-        this.storage = storage;
-        this.service = service;
-        this.router = router;
-        this.currentRoute = currentRoute;
+    function GameComponent(_storage, _service, _currentRoute) {
+        this._storage = _storage;
+        this._service = _service;
+        this._currentRoute = _currentRoute;
     }
     GameComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.gameProcess = this.storage.get('gameProcess');
-        this.gameState = this.storage.get('key');
+        this.gameProcess = this._storage.get('gameProcess');
+        this.gameState = this._storage.get('key');
         this.requestReplenishCash = new src_app_viewmodels_ReplenishCashViewModels_request_replenish_cash_view_model__WEBPACK_IMPORTED_MODULE_5__["RequestReplenishCashViewModel"](0, 0);
         this.bots = new Array();
-        this.service.GameById(this.currentRoute.snapshot.params['id']).subscribe(function (data) {
+        this._service.gameById(this._currentRoute.snapshot.params['id']).subscribe(function (data) {
             _this.response = data;
-            _this.InitializeUsers();
+            _this.initializeUsers();
             if (_this.response.isOver && _this.gameState == src_app_shared_enums_game_state__WEBPACK_IMPORTED_MODULE_6__["GameState"].GameIsOver) {
-                _this.GameOver();
+                _this.gameOver();
             }
         });
     };
-    GameComponent.prototype.InitializeUsers = function () {
+    GameComponent.prototype.initializeUsers = function () {
         this.users = this.response.users.filter(function (user) { return user.userRole != src_app_shared_enums_user_role__WEBPACK_IMPORTED_MODULE_4__["UserRole"].Dealer; });
         this.dealer = this.response.users.filter(function (user) { return user.userRole == src_app_shared_enums_user_role__WEBPACK_IMPORTED_MODULE_4__["UserRole"].Dealer; }).shift();
         this.person = this.users.filter(function (user) { return user.userRole == src_app_shared_enums_user_role__WEBPACK_IMPORTED_MODULE_4__["UserRole"].PeoplePlayer; }).shift();
         this.userRounds = this.response.rounds[this.response.rounds.length - 1].userRound;
         this.userGames = this.response.userGames;
     };
-    GameComponent.prototype.CreateNewRound = function () {
+    GameComponent.prototype.createNewRound = function () {
         var _this = this;
-        this.service.CreateNewRound(this.currentRoute.snapshot.params['id']).subscribe(function (data) {
-            _this.DealCards();
+        this._service.createNewRound(this._currentRoute.snapshot.params['id']).subscribe(function (data) {
+            _this.dealCards();
         });
     };
-    GameComponent.prototype.ReplenishCash = function () {
+    GameComponent.prototype.replenishCash = function () {
         var _this = this;
         this.requestReplenishCash.userId = this.person.id;
-        this.service.ReplenishCash(this.requestReplenishCash).subscribe(function (data) { _this.person.cash = data; });
+        this._service.replenishCash(this.requestReplenishCash).subscribe(function (data) { _this.person.cash = data; });
     };
-    GameComponent.prototype.DealCardToPlayer = function () {
+    GameComponent.prototype.dealCardToPlayer = function () {
         var _this = this;
         this.gameProcess = "Your turn";
-        this.storage.set('gameProcess', this.gameProcess);
-        this.service.DealCardToPlayer(this.currentRoute.snapshot.params['id']).subscribe(function (data) {
+        this._storage.set('gameProcess', this.gameProcess);
+        this._service.dealCardToPlayer(this._currentRoute.snapshot.params['id']).subscribe(function (data) {
             _this.response = data;
-            _this.InitializeUsers();
+            _this.initializeUsers();
         });
     };
-    GameComponent.prototype.DealCardsToBots = function () {
+    GameComponent.prototype.dealCardsToBots = function () {
         var _this = this;
         this.gameState = src_app_shared_enums_game_state__WEBPACK_IMPORTED_MODULE_6__["GameState"].BotsMove;
-        this.storage.set('key', this.gameState);
+        this._storage.set('key', this.gameState);
         this.gameProcess = "Bots draw cards";
-        this.storage.set('gameProcess', this.gameProcess);
-        var gameId = this.currentRoute.snapshot.params['id'];
-        this.service.DealCardsToBots(gameId).subscribe(function (data) {
+        this._storage.set('gameProcess', this.gameProcess);
+        var gameId = this._currentRoute.snapshot.params['id'];
+        this._service.dealCardsToBots(gameId).subscribe(function (data) {
             _this.response = data;
-            _this.InitializeUsers();
-            setTimeout(function () { _this.DealCardsToDealer(); }, 4000);
+            _this.initializeUsers();
+            setTimeout(function () { _this.dealCardsToDealer(); }, 4000);
         });
     };
-    GameComponent.prototype.GameOver = function () {
+    GameComponent.prototype.gameOver = function () {
         var _this = this;
         this.gameState = src_app_shared_enums_game_state__WEBPACK_IMPORTED_MODULE_6__["GameState"].GameIsOver;
-        this.storage.set('key', this.gameState);
+        this._storage.set('key', this.gameState);
         this.gameProcess = "Game is over";
-        this.storage.set('gameProcess', this.gameProcess);
-        this.service.GameOver(this.currentRoute.snapshot.params['id']).subscribe(function (data) {
+        this._storage.set('gameProcess', this.gameProcess);
+        this._service.gameOver(this._currentRoute.snapshot.params['id']).subscribe(function (data) {
             _this.responseGameOver = data;
-            _this.InitializeWinners();
+            _this.initializeWinners();
         });
     };
-    GameComponent.prototype.InitializeWinners = function () {
+    GameComponent.prototype.initializeWinners = function () {
         var firstWinner = this.responseGameOver.sort(function (item1, item2) { return item2.winsQuantity - item1.winsQuantity; })[0];
         if (firstWinner.winsQuantity != 0) {
             this.winners = this.responseGameOver.filter(function (user) { return user.winsQuantity == firstWinner.winsQuantity; });
         }
     };
-    GameComponent.prototype.DealCardsToDealer = function () {
+    GameComponent.prototype.dealCardsToDealer = function () {
         return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](this, void 0, void 0, function () {
             var _this = this;
             return tslib__WEBPACK_IMPORTED_MODULE_0__["__generator"](this, function (_a) {
                 this.gameState = src_app_shared_enums_game_state__WEBPACK_IMPORTED_MODULE_6__["GameState"].DealerMove;
-                this.storage.set('key', this.gameState);
+                this._storage.set('key', this.gameState);
                 this.gameProcess = "Dealer draw cards";
-                this.storage.set('gameProcess', this.gameProcess);
-                this.service.DealCardsToDealer(this.currentRoute.snapshot.params['id']).subscribe(function (data) {
+                this._storage.set('gameProcess', this.gameProcess);
+                this._service.dealCardsToDealer(this._currentRoute.snapshot.params['id']).subscribe(function (data) {
                     _this.response = data;
-                    _this.InitializeUsers();
+                    _this.initializeUsers();
                     _this.gameIsOver = _this.response.isOver;
                     if (_this.gameIsOver) {
                         setTimeout(function () {
-                            _this.GameOver();
+                            _this.gameOver();
                         }, 3000);
                     }
                 });
@@ -440,21 +439,21 @@ var GameComponent = /** @class */ (function () {
             });
         });
     };
-    GameComponent.prototype.SkipCard = function () {
+    GameComponent.prototype.skipCard = function () {
         var _this = this;
         setTimeout(function () {
-            _this.DealCardsToBots();
+            _this.dealCardsToBots();
         }, 4000);
     };
-    GameComponent.prototype.DealCards = function () {
+    GameComponent.prototype.dealCards = function () {
         var _this = this;
         this.gameProcess = "New round";
-        this.storage.set('gameProcess', this.gameProcess);
+        this._storage.set('gameProcess', this.gameProcess);
         this.gameState = src_app_shared_enums_game_state__WEBPACK_IMPORTED_MODULE_6__["GameState"].PeopleMove;
-        this.storage.set('key', this.gameState);
-        this.service.DealCards(this.currentRoute.snapshot.params['id']).subscribe(function (data) {
+        this._storage.set('key', this.gameState);
+        this._service.dealCards(this._currentRoute.snapshot.params['id']).subscribe(function (data) {
             _this.response = data;
-            _this.InitializeUsers();
+            _this.initializeUsers();
         });
     };
     GameComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
@@ -464,7 +463,7 @@ var GameComponent = /** @class */ (function () {
             styles: [__webpack_require__(/*! ./game.component.css */ "./src/app/components/game/game.component.css")]
         }),
         tslib__WEBPACK_IMPORTED_MODULE_0__["__param"](0, Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Inject"])(angular_webstorage_service__WEBPACK_IMPORTED_MODULE_7__["LOCAL_STORAGE"])),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [angular_webstorage_service__WEBPACK_IMPORTED_MODULE_7__["WebStorageService"], src_app_services_GameService_game_service__WEBPACK_IMPORTED_MODULE_2__["GameService"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [angular_webstorage_service__WEBPACK_IMPORTED_MODULE_7__["WebStorageService"], src_app_services_GameService_game_service__WEBPACK_IMPORTED_MODULE_2__["GameService"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"]])
     ], GameComponent);
     return GameComponent;
 }());
@@ -563,29 +562,29 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var HistoryComponent = /** @class */ (function () {
-    function HistoryComponent(service) {
-        this.service = service;
+    function HistoryComponent(_service) {
+        this._service = _service;
         this.response = new Array();
     }
     HistoryComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.service.GetUsersForAutocomplete().subscribe(function (data) {
+        this._service.getUsersForAutocomplete().subscribe(function (data) {
             _this.users = data;
         });
     };
-    HistoryComponent.prototype.GetGameDetails = function (gameId) {
+    HistoryComponent.prototype.getGameDetails = function (gameId) {
         var _this = this;
-        this.service.GetGameDetails(gameId).subscribe(function (data) {
+        this._service.getGameDetails(gameId).subscribe(function (data) {
             _this.response.push(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"]({}, data));
         });
     };
-    HistoryComponent.prototype.GetGamesByUser = function () {
+    HistoryComponent.prototype.getGamesByUser = function () {
         var _this = this;
         var user = this.users.filter(function (item) { return item.username == _this.username; }).shift();
-        this.service.GetGamesByUser(user.id).subscribe(function (data) {
+        this._service.getGamesByUser(user.id).subscribe(function (data) {
             _this.games = data;
             for (var i = 0; i < _this.games.length; i++) {
-                _this.GetGameDetails(_this.games[i].gameId);
+                _this.getGameDetails(_this.games[i].gameId);
             }
         });
     };
@@ -670,7 +669,7 @@ module.exports = ".line {\r\n  margin-top: 10px;\r\n}\r\n\r\n.bg {\r\n  backgrou
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!doctype html>\r\n<html lang=\"en\">\r\n<head>\r\n  <meta charset=\"utf-8\">\r\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\">\r\n  <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css\" integrity=\"sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm\" crossorigin=\"anonymous\">\r\n  <title>blackjack</title>\r\n</head>\r\n<body>\r\n  <div class=\"bg\">\r\n    <div class=\"container\" style=\"padding-top: 15%\">\r\n      <div class=\"row\">\r\n        <div class=\"col\"></div>\r\n        <div class=\"col\">\r\n          <div class=\"line\"></div>\r\n          <input type=\"text\" class=\"form-control\" [(ngModel)]=\"user.Nickname\" placeholder=\"Nickname\" />\r\n          <div class=\"line\"></div>\r\n          <input type=\"number\" value=\"\" min=\"1\" placeholder=\"Rate\" class=\"form-control\" [(ngModel)]=\"request.userRate\" />\r\n          <div class=\"line\"></div>\r\n          <input type=\"number\" value=\"\" min=\"1\" placeholder=\"Bot quantity\" class=\"form-control\" [(ngModel)]=\"request.botQuantity\" />\r\n          <div class=\"line\"></div>\r\n          <input type=\"number\" value=\"\" min=\"1\" placeholder=\"Round quantity\" class=\"form-control\" [(ngModel)]=\"request.roundQuantity\" />\r\n          <div class=\"line\"></div>\r\n          <button class=\"btn btn-primary\" (click)=\"CreateNewGame()\" style=\"width: 100%\">Create new game</button>\r\n          <button class=\"btn btn-primary\" (click)=\"ToHistory()\" style=\"width: 100%; margin-top: 10px\">History</button>\r\n        </div>\r\n        <div class=\"col\"></div>\r\n      </div>\r\n    </div>\r\n\r\n    <div *ngIf = \"this.tokenIsExist\" class=\"modal fade\" id=\"exampleModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">\r\n      <div class=\"modal-dialog\" role=\"document\">\r\n        <div class=\"modal-content\">\r\n          <div class=\"modal-header\">\r\n            <h5 class=\"modal-title\" id=\"exampleModalLabel\">Modal title</h5>\r\n            <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n              <span aria-hidden=\"true\">&times;</span>\r\n            </button>\r\n          </div>\r\n          <div class=\"modal-body\">\r\n            ...\r\n          </div>\r\n          <div class=\"modal-footer\">\r\n            <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button>\r\n            <button type=\"button\" class=\"btn btn-primary\">Save changes</button>\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</body>\r\n</html>\r\n"
+module.exports = "<!doctype html>\r\n<html lang=\"en\">\r\n<head>\r\n  <meta charset=\"utf-8\">\r\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\">\r\n  <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css\" integrity=\"sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm\" crossorigin=\"anonymous\">\r\n  <title>blackjack</title>\r\n</head>\r\n<body>\r\n  <div class=\"bg\">\r\n    <div class=\"container\" style=\"padding-top: 15%\">\r\n      <div class=\"row\">\r\n        <div class=\"col\"></div>\r\n        <div class=\"col\">\r\n          <div class=\"line\"></div>\r\n          <input type=\"text\" class=\"form-control\" [(ngModel)]=\"user.Nickname\" placeholder=\"Nickname\" />\r\n          <div class=\"line\"></div>\r\n          <input type=\"number\" value=\"\" min=\"1\" placeholder=\"Rate\" class=\"form-control\" [(ngModel)]=\"request.userRate\" />\r\n          <div class=\"line\"></div>\r\n          <input type=\"number\" value=\"\" min=\"1\" placeholder=\"Bot quantity\" class=\"form-control\" [(ngModel)]=\"request.botQuantity\" />\r\n          <div class=\"line\"></div>\r\n          <input type=\"number\" value=\"\" min=\"1\" placeholder=\"Round quantity\" class=\"form-control\" [(ngModel)]=\"request.roundQuantity\" />\r\n          <div class=\"line\"></div>\r\n          <button class=\"btn btn-primary\" (click)=\"createNewGame()\" style=\"width: 100%\">Create new game</button>\r\n          <button class=\"btn btn-primary\" (click)=\"toHistory()\" style=\"width: 100%; margin-top: 10px\">History</button>\r\n        </div>\r\n        <div class=\"col\"></div>\r\n      </div>\r\n    </div>\r\n\r\n    <div *ngIf = \"this.tokenIsExist\" class=\"modal fade\" id=\"exampleModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">\r\n      <div class=\"modal-dialog\" role=\"document\">\r\n        <div class=\"modal-content\">\r\n          <div class=\"modal-header\">\r\n            <h5 class=\"modal-title\" id=\"exampleModalLabel\">Modal title</h5>\r\n            <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n              <span aria-hidden=\"true\">&times;</span>\r\n            </button>\r\n          </div>\r\n          <div class=\"modal-body\">\r\n            ...\r\n          </div>\r\n          <div class=\"modal-footer\">\r\n            <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button>\r\n            <button type=\"button\" class=\"btn btn-primary\">Save changes</button>\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</body>\r\n</html>\r\n"
 
 /***/ }),
 
@@ -703,39 +702,39 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var StartComponent = /** @class */ (function () {
-    function StartComponent(storage, startService, router, authService) {
-        this.storage = storage;
-        this.startService = startService;
-        this.router = router;
-        this.authService = authService;
+    function StartComponent(_storage, _startService, _router, _authService) {
+        this._storage = _storage;
+        this._startService = _startService;
+        this._router = _router;
+        this._authService = _authService;
     }
     StartComponent.prototype.ngOnInit = function () {
         this.user = new src_app_viewmodels_UserViewModels_request_user_view_model__WEBPACK_IMPORTED_MODULE_3__["RequestUserViewModel"]("");
         this.request = new src_app_viewmodels_GameViewModels_request_game_view_model__WEBPACK_IMPORTED_MODULE_2__["default"](this.user, 0, 0, 0);
         this.tokenIsExist = false;
     };
-    StartComponent.prototype.ToHistory = function () {
-        this.router.navigate(['game/history']);
+    StartComponent.prototype.toHistory = function () {
+        this._router.navigate(['history']);
     };
-    StartComponent.prototype.CreateNewGame = function () {
+    StartComponent.prototype.createNewGame = function () {
         var _this = this;
-        this.storage.set('username', this.user.Nickname);
-        this.tokenIsExist = this.CheckTokenExist();
+        this._storage.set('username', this.user.Nickname);
+        this.tokenIsExist = this.checkTokenExist();
         if (!this.tokenIsExist) {
             return;
         }
-        this.startService.CreateNewGame(this.request).subscribe(function (data) {
+        this._startService.createNewGame(this.request).subscribe(function (data) {
             _this.response = data;
-            _this.router.navigate(['game/' + data.id]);
+            _this._router.navigate(['game/' + data.id]);
             _this.gameState = src_app_shared_enums_game_state__WEBPACK_IMPORTED_MODULE_7__["GameState"].StartRound;
-            _this.storage.set('key', _this.gameState);
+            _this._storage.set('key', _this.gameState);
         });
     };
-    StartComponent.prototype.CheckTokenExist = function () {
-        var token = this.authService.GetToken();
+    StartComponent.prototype.checkTokenExist = function () {
+        var token = this._authService.getToken();
         var tokenIsMissing = token == null;
         if (tokenIsMissing) {
-            this.authService.CreateToken(this.user.Nickname);
+            this._authService.createToken(this.user.Nickname);
         }
         return tokenIsMissing;
     };
@@ -829,24 +828,24 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var AccountService = /** @class */ (function () {
-    function AccountService(http, storage) {
-        this.http = http;
-        this.storage = storage;
+    function AccountService(_http, _storage) {
+        this._http = _http;
+        this._storage = _storage;
         this.url = src_environments_environment__WEBPACK_IMPORTED_MODULE_4__["environment"].authUrl;
     }
-    AccountService.prototype.CreateToken = function (username) {
+    AccountService.prototype.createToken = function (username) {
         var _this = this;
-        this.http.get(this.url + "token/" + username).subscribe(function (data) {
+        this._http.get(this.url + "token/" + username).subscribe(function (data) {
             var token = data.accessToken;
-            _this.storage.set('token', token);
+            _this._storage.set('token', token);
         });
     };
-    AccountService.prototype.GetToken = function () {
-        var token = this.storage.get('token');
+    AccountService.prototype.getToken = function () {
+        var token = this._storage.get('token');
         return token;
     };
-    AccountService.prototype.GetCurrentUsername = function () {
-        var username = this.storage.get('username');
+    AccountService.prototype.getCurrentUsername = function () {
+        var username = this._storage.get('username');
         return username;
     };
     AccountService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
@@ -882,40 +881,40 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var GameService = /** @class */ (function () {
-    function GameService(http) {
-        this.http = http;
+    function GameService(_http) {
+        this._http = _http;
         this.url = src_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].gameUrl;
     }
-    GameService.prototype.GameById = function (id) {
-        var result = this.http.get(this.url + "gamebyid/" + id);
+    GameService.prototype.gameById = function (id) {
+        var result = this._http.get(this.url + "gamebyid/" + id);
         return result;
     };
-    GameService.prototype.DealCards = function (id) {
-        var result = this.http.post(this.url + "dealcards/" + id, id);
+    GameService.prototype.dealCards = function (id) {
+        var result = this._http.post(this.url + "dealcards/" + id, id);
         return result;
     };
-    GameService.prototype.DealCardToPlayer = function (id) {
-        var result = this.http.post(this.url + "dealcardstoplayer/" + id, id);
+    GameService.prototype.dealCardToPlayer = function (id) {
+        var result = this._http.post(this.url + "dealcardstoplayer/" + id, id);
         return result;
     };
-    GameService.prototype.ReplenishCash = function (request) {
-        var result = this.http.post(this.url + "replenishcash", request);
+    GameService.prototype.replenishCash = function (request) {
+        var result = this._http.post(this.url + "replenishcash", request);
         return result;
     };
-    GameService.prototype.DealCardsToBots = function (gameId) {
-        var result = this.http.post(this.url + "dealcardstobots/" + gameId, gameId);
+    GameService.prototype.dealCardsToBots = function (gameId) {
+        var result = this._http.post(this.url + "dealcardstobots/" + gameId, gameId);
         return result;
     };
-    GameService.prototype.DealCardsToDealer = function (id) {
-        var result = this.http.post(this.url + "dealcardstodealer/" + id, id);
+    GameService.prototype.dealCardsToDealer = function (id) {
+        var result = this._http.post(this.url + "dealcardstodealer/" + id, id);
         return result;
     };
-    GameService.prototype.CreateNewRound = function (id) {
-        var result = this.http.post(this.url + "createround/" + id, id);
+    GameService.prototype.createNewRound = function (id) {
+        var result = this._http.post(this.url + "createround/" + id, id);
         return result;
     };
-    GameService.prototype.GameOver = function (id) {
-        var result = this.http.get(this.url + "gameover/" + id);
+    GameService.prototype.gameOver = function (id) {
+        var result = this._http.get(this.url + "gameover/" + id);
         return result;
     };
     GameService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
@@ -950,20 +949,20 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var HistoryService = /** @class */ (function () {
-    function HistoryService(http) {
-        this.http = http;
+    function HistoryService(_http) {
+        this._http = _http;
         this.url = src_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].historyUrl;
     }
-    HistoryService.prototype.GetUsersForAutocomplete = function () {
-        var result = this.http.get(this.url + "getpersons");
+    HistoryService.prototype.getUsersForAutocomplete = function () {
+        var result = this._http.get(this.url + "getpersons");
         return result;
     };
-    HistoryService.prototype.GetGamesByUser = function (userId) {
-        var result = this.http.get(this.url + "gamesbyuser/" + userId);
+    HistoryService.prototype.getGamesByUser = function (userId) {
+        var result = this._http.get(this.url + "gamesbyuser/" + userId);
         return result;
     };
-    HistoryService.prototype.GetGameDetails = function (gameId) {
-        var result = this.http.get(this.url + "gamedetails/" + gameId);
+    HistoryService.prototype.getGameDetails = function (gameId) {
+        var result = this._http.get(this.url + "gamedetails/" + gameId);
         return result;
     };
     HistoryService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
@@ -998,12 +997,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var StartService = /** @class */ (function () {
-    function StartService(http) {
-        this.http = http;
+    function StartService(_http) {
+        this._http = _http;
         this.url = src_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].gameUrl;
     }
-    StartService.prototype.CreateNewGame = function (request) {
-        var result = this.http.post(this.url + "/create", request);
+    StartService.prototype.createNewGame = function (request) {
+        var result = this._http.post(this.url + "create", request);
         return result;
     };
     StartService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([

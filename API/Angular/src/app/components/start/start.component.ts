@@ -21,7 +21,7 @@ export class StartComponent implements OnInit
   private gameState: GameState;
   private tokenIsExist: boolean;
 
-  constructor(@Inject(LOCAL_STORAGE) private storage: WebStorageService, private startService: StartService, private router: Router, private authService: AccountService) { }
+  constructor(@Inject(LOCAL_STORAGE) private _storage: WebStorageService, private _startService: StartService, private _router: Router, private _authService: AccountService) { }
 
   ngOnInit(): void
   {
@@ -30,41 +30,40 @@ export class StartComponent implements OnInit
     this.tokenIsExist = false;
   }
 
-  ToHistory(): void
+  toHistory(): void
   {
-    this.router.navigate(['game/history']);
+    this._router.navigate(['history']);
   }
 
-  CreateNewGame(): void
+  createNewGame(): void
   {
-    this.storage.set('username', this.user.Nickname);
+    this._storage.set('username', this.user.Nickname);
 
-    this.tokenIsExist = this.CheckTokenExist();
+    this.tokenIsExist = this.checkTokenExist();
 
     if (!this.tokenIsExist)
     {
       return;
     }
 
-    this.startService.CreateNewGame(this.request).subscribe((data: ResponseGameViewModel) =>
+    this._startService.createNewGame(this.request).subscribe((data: ResponseGameViewModel) =>
     {
       this.response = data;
-
-      this.router.navigate(['game/' + data.id]);
+      this._router.navigate(['game/' + data.id]);
 
       this.gameState = GameState.StartRound;
-      this.storage.set('key', this.gameState);
+      this._storage.set('key', this.gameState);
     });
   }
 
-  CheckTokenExist(): boolean
+  checkTokenExist(): boolean
   {
-    let token: string = this.authService.GetToken();
+    let token: string = this._authService.getToken();
     let tokenIsMissing: boolean = token == null;
 
     if (tokenIsMissing)
     {
-      this.authService.CreateToken(this.user.Nickname);
+      this._authService.createToken(this.user.Nickname);
     }
 
     return tokenIsMissing;

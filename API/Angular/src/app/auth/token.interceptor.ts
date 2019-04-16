@@ -6,14 +6,14 @@ import { AccountService } from '../services/AccountService/account-service.servi
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor
 {
-  constructor(private auth: AccountService) { }
+  constructor(private _auth: AccountService) { }
 
-  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>>
+  public intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>>
   {
     request = request.clone({
       setHeaders:
       {
-        Authorization: `Bearer ${this.auth.GetToken()}`
+        Authorization: `Bearer ${this._auth.getToken()}`
       }
     });
 

@@ -2,29 +2,29 @@ import * as tslib_1 from "tslib";
 import { Component } from '@angular/core';
 import { HistoryService } from 'src/app/services/HistoryService/history.service';
 var HistoryComponent = /** @class */ (function () {
-    function HistoryComponent(service) {
-        this.service = service;
+    function HistoryComponent(_service) {
+        this._service = _service;
         this.response = new Array();
     }
     HistoryComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.service.GetUsersForAutocomplete().subscribe(function (data) {
+        this._service.getUsersForAutocomplete().subscribe(function (data) {
             _this.users = data;
         });
     };
-    HistoryComponent.prototype.GetGameDetails = function (gameId) {
+    HistoryComponent.prototype.getGameDetails = function (gameId) {
         var _this = this;
-        this.service.GetGameDetails(gameId).subscribe(function (data) {
+        this._service.getGameDetails(gameId).subscribe(function (data) {
             _this.response.push(tslib_1.__assign({}, data));
         });
     };
-    HistoryComponent.prototype.GetGamesByUser = function () {
+    HistoryComponent.prototype.getGamesByUser = function () {
         var _this = this;
         var user = this.users.filter(function (item) { return item.username == _this.username; }).shift();
-        this.service.GetGamesByUser(user.id).subscribe(function (data) {
+        this._service.getGamesByUser(user.id).subscribe(function (data) {
             _this.games = data;
             for (var i = 0; i < _this.games.length; i++) {
-                _this.GetGameDetails(_this.games[i].gameId);
+                _this.getGameDetails(_this.games[i].gameId);
             }
         });
     };

@@ -3,20 +3,20 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 var HistoryService = /** @class */ (function () {
-    function HistoryService(http) {
-        this.http = http;
+    function HistoryService(_http) {
+        this._http = _http;
         this.url = environment.historyUrl;
     }
-    HistoryService.prototype.GetUsersForAutocomplete = function () {
-        var result = this.http.get(this.url + "getpersons");
+    HistoryService.prototype.getUsersForAutocomplete = function () {
+        var result = this._http.get(this.url + "getpersons");
         return result;
     };
-    HistoryService.prototype.GetGamesByUser = function (userId) {
-        var result = this.http.get(this.url + "gamesbyuser/" + userId);
+    HistoryService.prototype.getGamesByUser = function (userId) {
+        var result = this._http.get(this.url + "gamesbyuser/" + userId);
         return result;
     };
-    HistoryService.prototype.GetGameDetails = function (gameId) {
-        var result = this.http.get(this.url + "gamedetails/" + gameId);
+    HistoryService.prototype.getGameDetails = function (gameId) {
+        var result = this._http.get(this.url + "gamedetails/" + gameId);
         return result;
     };
     HistoryService = tslib_1.__decorate([

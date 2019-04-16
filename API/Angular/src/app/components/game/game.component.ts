@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import ResponseGameViewModel from 'src/app/viewmodels/GameViewModels/response-game-view-model';
 import { GameService } from 'src/app/services/GameService/game.service';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ResponseUserViewModel } from 'src/app/viewmodels/UserViewModels/response-user-view-model';
 import { UserRole } from 'src/app/shared/enums/user-role';
 import { __await } from 'tslib';
@@ -33,27 +33,28 @@ export class GameComponent implements OnInit
   public gameIsOver: boolean;
   public gameProcess: string;
 
-  constructor(@Inject(LOCAL_STORAGE) private storage: WebStorageService, private service: GameService, private router: Router, private currentRoute: ActivatedRoute) { }
+  constructor(@Inject(LOCAL_STORAGE) private _storage: WebStorageService, private _service: GameService, private _currentRoute: ActivatedRoute) { }
 
-  ngOnInit(): void {
-    this.gameProcess = this.storage.get('gameProcess');
-    this.gameState = this.storage.get('key');
+  public ngOnInit(): void
+  {
+    this.gameProcess = this._storage.get('gameProcess');
+    this.gameState = this._storage.get('key');
 
     this.requestReplenishCash = new RequestReplenishCashViewModel(0, 0);
     this.bots = new Array<ResponseUserViewModel>();
 
-    this.service.GameById(this.currentRoute.snapshot.params['id']).subscribe((data: ResponseGameViewModel) => {
+    this._service.gameById(this._currentRoute.snapshot.params['id']).subscribe((data: ResponseGameViewModel) => {
       this.response = data;
 
-      this.InitializeUsers();
+      this.initializeUsers();
 
       if (this.response.isOver && this.gameState == GameState.GameIsOver) {
-        this.GameOver();
+        this.gameOver();
       }
     });
   }
 
-  InitializeUsers(): void
+  private initializeUsers(): void
   {
     this.users = this.response.users.filter(user => user.userRole != UserRole.Dealer);
 
@@ -65,72 +66,72 @@ export class GameComponent implements OnInit
     this.userGames = this.response.userGames;
   }
 
-  CreateNewRound(): void
+  public createNewRound(): void
   {
-    this.service.CreateNewRound(this.currentRoute.snapshot.params['id']).subscribe((data: ResponseGameViewModel) =>
+    this._service.createNewRound(this._currentRoute.snapshot.params['id']).subscribe((data: ResponseGameViewModel) =>
     {
-      this.DealCards();
+      this.dealCards();
     });
   }
 
-  ReplenishCash(): void
+  public replenishCash(): void
   {
     this.requestReplenishCash.userId = this.person.id;
 
-    this.service.ReplenishCash(this.requestReplenishCash).subscribe((data: number) => { this.person.cash = data; });
+    this._service.replenishCash(this.requestReplenishCash).subscribe((data: number) => { this.person.cash = data; });
   }
 
-  DealCardToPlayer(): void
+  public dealCardToPlayer(): void
   {
     this.gameProcess = "Your turn";
 
-    this.storage.set('gameProcess', this.gameProcess);
+    this._storage.set('gameProcess', this.gameProcess);
 
-    this.service.DealCardToPlayer(this.currentRoute.snapshot.params['id']).subscribe((data: ResponseGameViewModel) =>
+    this._service.dealCardToPlayer(this._currentRoute.snapshot.params['id']).subscribe((data: ResponseGameViewModel) =>
     {
       this.response = data;
 
-      this.InitializeUsers();
+      this.initializeUsers();
     });
   }
 
-  DealCardsToBots(): void
+  public dealCardsToBots(): void
   {
     this.gameState = GameState.BotsMove;
-    this.storage.set('key', this.gameState);
+    this._storage.set('key', this.gameState);
 
     this.gameProcess = "Bots draw cards";
-    this.storage.set('gameProcess', this.gameProcess);
+    this._storage.set('gameProcess', this.gameProcess);
 
-    let gameId = this.currentRoute.snapshot.params['id'];
+    let gameId = this._currentRoute.snapshot.params['id'];
 
-    this.service.DealCardsToBots(gameId).subscribe((data: ResponseGameViewModel) =>
+    this._service.dealCardsToBots(gameId).subscribe((data: ResponseGameViewModel) =>
     {
       this.response = data;
 
-      this.InitializeUsers();
+      this.initializeUsers();
 
-      setTimeout(() => { this.DealCardsToDealer(); }, 4000);
+      setTimeout(() => { this.dealCardsToDealer(); }, 4000);
     });
   }
 
-  GameOver(): void
+  public gameOver(): void
   {
     this.gameState = GameState.GameIsOver;
-    this.storage.set('key', this.gameState);
+    this._storage.set('key', this.gameState);
 
     this.gameProcess = "Game is over";
-    this.storage.set('gameProcess', this.gameProcess);
+    this._storage.set('gameProcess', this.gameProcess);
 
-    this.service.GameOver(this.currentRoute.snapshot.params['id']).subscribe((data: Array<ResponseGameOverViewModel>) =>
+    this._service.gameOver(this._currentRoute.snapshot.params['id']).subscribe((data: Array<ResponseGameOverViewModel>) =>
     {
       this.responseGameOver = data;
 
-      this.InitializeWinners();
+      this.initializeWinners();
     });
   }
 
-  InitializeWinners(): void
+  private initializeWinners(): void
   {
     let firstWinner = this.responseGameOver.sort((item1, item2) => item2.winsQuantity - item1.winsQuantity)[0];
 
@@ -140,19 +141,19 @@ export class GameComponent implements OnInit
     }
   }
 
-  async DealCardsToDealer(): Promise<void>
+  public async dealCardsToDealer(): Promise<void>
   {
     this.gameState = GameState.DealerMove;
-    this.storage.set('key', this.gameState);
+    this._storage.set('key', this.gameState);
 
     this.gameProcess = "Dealer draw cards";
-    this.storage.set('gameProcess', this.gameProcess);
+    this._storage.set('gameProcess', this.gameProcess);
 
-    this.service.DealCardsToDealer(this.currentRoute.snapshot.params['id']).subscribe((data: ResponseGameViewModel) =>
+    this._service.dealCardsToDealer(this._currentRoute.snapshot.params['id']).subscribe((data: ResponseGameViewModel) =>
     {
       this.response = data;
 
-      this.InitializeUsers();
+      this.initializeUsers();
 
       this.gameIsOver = this.response.isOver;
 
@@ -160,33 +161,33 @@ export class GameComponent implements OnInit
       {
         setTimeout(() =>
         {
-          this.GameOver();
+          this.gameOver();
         }, 3000);
       }
     });
   }
 
-  SkipCard(): void
+  public skipCard(): void
   {
     setTimeout(() =>
     {
-      this.DealCardsToBots();
+      this.dealCardsToBots();
     }, 4000);
   }
 
-  DealCards(): void
+  public dealCards(): void
   {
     this.gameProcess = "New round";
-    this.storage.set('gameProcess', this.gameProcess);
+    this._storage.set('gameProcess', this.gameProcess);
 
     this.gameState = GameState.PeopleMove;
-    this.storage.set('key', this.gameState);
+    this._storage.set('key', this.gameState);
 
-    this.service.DealCards(this.currentRoute.snapshot.params['id']).subscribe((data: ResponseGameViewModel) =>
+    this._service.dealCards(this._currentRoute.snapshot.params['id']).subscribe((data: ResponseGameViewModel) =>
     {
       this.response = data;
 
-      this.InitializeUsers();
+      this.initializeUsers();
     });
   }
 }

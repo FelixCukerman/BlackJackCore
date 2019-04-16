@@ -9,9 +9,9 @@ import { Injectable } from '@angular/core';
 })
 export class JwtInterceptor implements HttpInterceptor
 {
-  constructor(private accountService: AccountService) { }
+  constructor(private _accountService: AccountService) { }
 
-  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>>
+  public intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>>
   {
     return next.handle(request).do((event: HttpEvent<any>) =>
     {
@@ -22,9 +22,9 @@ export class JwtInterceptor implements HttpInterceptor
       {
         if (error.status === 401)
         {
-          let username: string = this.accountService.GetCurrentUsername();
+          let username: string = this._accountService.getCurrentUsername();
 
-          this.accountService.CreateToken(username);
+          this._accountService.createToken(username);
         }
       }
     });

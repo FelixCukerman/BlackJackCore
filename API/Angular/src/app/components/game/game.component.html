@@ -9,7 +9,7 @@
 <body>
   <div class="bg">
     <div class="startround" *ngIf="this.gameState == 1">
-      <button type="button" class="btn btn-primary btn-lg" style="width: 25%; height: 100px; font-size: 24pt" (click)="DealCards()">Start new round</button>
+      <button type="button" class="btn btn-primary btn-lg" style="width: 25%; height: 100px; font-size: 24pt" (click)="dealCards()">Start new round</button>
     </div>
 
     <div *ngIf="(this.gameState == 2 || this.gameState == 3 || this.gameState == 4) && this.response">
@@ -45,8 +45,8 @@
           <div class="total-cash">Total cash: {{this.person.cash}}$</div>
           <div class="action-block">
             <div *ngIf="this.gameState == 2">
-              <button type="button" class="btn btn-success btn-lg btn-block" (click)="DealCardToPlayer()">Take a card</button>
-              <button type="button" class="btn btn-danger btn-lg btn-block" (click)="SkipCard()">Skip a card</button>
+              <button type="button" class="btn btn-success btn-lg btn-block" (click)="dealCardToPlayer()">Take a card</button>
+              <button type="button" class="btn btn-danger btn-lg btn-block" (click)="skipCard()">Skip a card</button>
               <button type="button" class="btn btn-info btn-lg btn-block" data-toggle="modal" data-target="#exampleModal">Replenish a cash</button>
             </div>
             <div *ngIf="this.gameState == 3 || this.gameState == 4">
@@ -55,7 +55,7 @@
               <button type="button" class="btn btn-info btn-lg btn-block" data-toggle="modal" data-target="#exampleModal">Replenish a cash</button>
             </div>
             <div *ngIf="this.gameState == 4">
-              <button type="button" class="btn btn-info btn-lg btn-block" (click)="CreateNewRound()" style="margin-top: 3%">New Round</button>
+              <button type="button" class="btn btn-info btn-lg btn-block" (click)="createNewRound()" style="margin-top: 3%">New Round</button>
             </div>
             <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
               <div class="modal-dialog" role="document">
@@ -70,7 +70,7 @@
                     <input type="number" min="1" class="form-control" placeholder="cash" aria-label="Username" aria-describedby="basic-addon1" [(ngModel)]="requestReplenishCash.cash">
                   </div>
                   <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="ReplenishCash()">Send</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="replenishCash()">Send</button>
                   </div>
                 </div>
               </div>

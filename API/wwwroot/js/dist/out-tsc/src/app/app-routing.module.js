@@ -15,7 +15,7 @@ var routes = [
         loadChildren: function () { return StartModule; }
     },
     {
-        path: 'game',
+        path: '',
         loadChildren: function () { return HistoryModule; }
     },
     {

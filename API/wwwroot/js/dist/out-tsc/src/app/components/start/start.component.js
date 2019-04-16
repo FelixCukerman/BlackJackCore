@@ -8,41 +8,41 @@ import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
 import { GameState } from 'src/app/shared/enums/game-state';
 import { AccountService } from 'src/app/services/AccountService/account-service.service';
 var StartComponent = /** @class */ (function () {
-    function StartComponent(storage, startService, router, authService) {
-        this.storage = storage;
-        this.startService = startService;
-        this.router = router;
-        this.authService = authService;
+    function StartComponent(_storage, _startService, _router, _authService) {
+        this._storage = _storage;
+        this._startService = _startService;
+        this._router = _router;
+        this._authService = _authService;
     }
     StartComponent.prototype.ngOnInit = function () {
         this.user = new RequestUserViewModel("");
         this.request = new RequestGameViewModel(this.user, 0, 0, 0);
         this.tokenIsExist = false;
     };
-    StartComponent.prototype.ToHistory = function () {
-        this.router.navigate(['game/history']);
+    StartComponent.prototype.toHistory = function () {
+        this._router.navigate(['game/history']);
     };
-    StartComponent.prototype.CreateNewGame = function () {
+    StartComponent.prototype.createNewGame = function () {
         var _this = this;
-        this.storage.set('username', this.user.Nickname);
-        this.tokenIsExist = this.CheckTokenExist();
+        this._storage.set('username', this.user.Nickname);
+        this.tokenIsExist = this.checkTokenExist();
         if (!this.tokenIsExist) {
             return;
         }
-        this.startService.CreateNewGame(this.request).subscribe(function (data) {
+        this._startService.createNewGame(this.request).subscribe(function (data) {
             _this.response = data;
-            _this.router.navigate(['game/' + data.id]);
+            _this._router.navigate(['game/' + data.id]);
             _this.gameState = GameState.StartRound;
-            _this.storage.set('key', _this.gameState);
+            _this._storage.set('key', _this.gameState);
         });
     };
-    StartComponent.prototype.CheckTokenExist = function () {
-        var token = this.authService.GetToken();
-        if (!token) {
-            this.authService.CreateToken(this.user.Nickname);
-            return false;
+    StartComponent.prototype.checkTokenExist = function () {
+        var token = this._authService.getToken();
+        var tokenIsMissing = token == null;
+        if (tokenIsMissing) {
+            this._authService.createToken(this.user.Nickname);
         }
-        return true;
+        return tokenIsMissing;
     };
     StartComponent = tslib_1.__decorate([
         Component({

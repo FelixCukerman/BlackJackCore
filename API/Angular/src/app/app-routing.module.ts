@@ -9,14 +9,14 @@ const routes: Routes =
     {
       path: '',
       pathMatch: 'full',
-      redirectTo: 'game/start'
+      redirectTo: 'start'
     },
     {
-      path: 'game',
+      path: '',
       loadChildren: () => StartModule
     },
     {
-      path: 'game',
+      path: '',
       loadChildren: () => HistoryModule
     },
     {

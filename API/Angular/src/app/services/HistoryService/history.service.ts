@@ -10,25 +10,25 @@ export class HistoryService {
 
   private url = environment.historyUrl;
 
-  constructor(private http: HttpClient) { }
+  constructor(private _http: HttpClient) { }
 
-  public GetUsersForAutocomplete(): Observable<Object>
+  public getUsersForAutocomplete(): Observable<Object>
   {
-    let result = this.http.get(this.url + "getpersons");
+    let result = this._http.get(this.url + "getpersons");
 
     return result;
   }
 
-  public GetGamesByUser(userId: number): Observable<Object>
+  public getGamesByUser(userId: number): Observable<Object>
   {
-    let result = this.http.get(this.url + "gamesbyuser/" + userId);
+    let result = this._http.get(this.url + "gamesbyuser/" + userId);
 
     return result;
   }
 
-  public GetGameDetails(gameId: number): Observable<Object>
+  public getGameDetails(gameId: number): Observable<Object>
   {
-    let result = this.http.get(this.url + "gamedetails/" + gameId);
+    let result = this._http.get(this.url + "gamedetails/" + gameId);
 
     return result;
   }
