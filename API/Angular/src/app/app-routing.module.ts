@@ -3,8 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { StartModule } from './components/start/start.module';
 import { GameModule } from './components/game/game.module';
 import { HistoryModule } from './components/history/history.module';
-import { AuthGuard } from './auth/auth-guard.service';
-import { UserRoleGuard } from './auth/user-role-guard.service';
+import { AuthGuard } from './services/guards/auth-guard.service';
+import { UserRoleGuard } from './services/guards/user-role-guard.service';
 
 const routes: Routes =
   [

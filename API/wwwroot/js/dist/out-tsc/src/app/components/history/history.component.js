@@ -2,6 +2,7 @@ import * as tslib_1 from "tslib";
 import { Component } from '@angular/core';
 import { HistoryService } from 'src/app/services/HistoryService/history.service';
 var HistoryComponent = /** @class */ (function () {
+    //#endregion
     function HistoryComponent(_service) {
         this._service = _service;
         this.response = new Array();

@@ -6,7 +6,17 @@ import { UserRole } from 'src/app/shared/enums/user-role';
 import { RequestReplenishCashViewModel } from 'src/app/viewmodels/ReplenishCashViewModels/request-replenish-cash-view-model';
 import { GameState } from 'src/app/shared/enums/game-state';
 import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
+//#region Constants
+var gameStateKey = 'key';
+var gameProcessKey = 'gameProcess';
+var peopleTurn = "Your turn";
+var botsTurn = "Bots draw cards";
+var dealerTurn = "Dealer draw cards";
+var newRound = "New round";
+var gameOver = "Game is over";
+//#endregion
 var GameComponent = /** @class */ (function () {
+    //#endregion
     function GameComponent(_storage, _service, _currentRoute) {
         this._storage = _storage;
         this._service = _service;
@@ -44,8 +54,8 @@ var GameComponent = /** @class */ (function () {
     };
     GameComponent.prototype.dealCardToPlayer = function () {
         var _this = this;
-        this.gameProcess = "Your turn";
-        this._storage.set('gameProcess', this.gameProcess);
+        this.gameProcess = peopleTurn;
+        this._storage.set(gameProcessKey, this.gameProcess);
         this._service.dealCardToPlayer(this._currentRoute.snapshot.params['id']).subscribe(function (data) {
             _this.response = data;
             _this.initializeUsers();
@@ -54,9 +64,9 @@ var GameComponent = /** @class */ (function () {
     GameComponent.prototype.dealCardsToBots = function () {
         var _this = this;
         this.gameState = GameState.BotsMove;
-        this._storage.set('key', this.gameState);
-        this.gameProcess = "Bots draw cards";
-        this._storage.set('gameProcess', this.gameProcess);
+        this._storage.set(gameStateKey, this.gameState);
+        this.gameProcess = botsTurn;
+        this._storage.set(gameProcessKey, this.gameProcess);
         var gameId = this._currentRoute.snapshot.params['id'];
         this._service.dealCardsToBots(gameId).subscribe(function (data) {
             _this.response = data;
@@ -71,9 +81,9 @@ var GameComponent = /** @class */ (function () {
             var _this = this;
             return tslib_1.__generator(this, function (_a) {
                 this.gameState = GameState.DealerMove;
-                this._storage.set('key', this.gameState);
-                this.gameProcess = "Dealer draw cards";
-                this._storage.set('gameProcess', this.gameProcess);
+                this._storage.set(gameStateKey, this.gameState);
+                this.gameProcess = dealerTurn;
+                this._storage.set(gameProcessKey, this.gameProcess);
                 this._service.dealCardsToDealer(this._currentRoute.snapshot.params['id']).subscribe(function (data) {
                     _this.response = data;
                     _this.initializeUsers();
@@ -111,10 +121,10 @@ var GameComponent = /** @class */ (function () {
     };
     GameComponent.prototype.dealCards = function () {
         var _this = this;
-        this.gameProcess = "New round";
-        this._storage.set('gameProcess', this.gameProcess);
+        this.gameProcess = newRound;
+        this._storage.set(gameProcessKey, this.gameProcess);
         this.gameState = GameState.PeopleMove;
-        this._storage.set('key', this.gameState);
+        this._storage.set(gameStateKey, this.gameState);
         this._service.dealCards(this._currentRoute.snapshot.params['id']).subscribe(function (data) {
             _this.response = data;
             _this.initializeUsers();
@@ -123,9 +133,9 @@ var GameComponent = /** @class */ (function () {
     GameComponent.prototype.gameOver = function () {
         var _this = this;
         this.gameState = GameState.GameIsOver;
-        this._storage.set('key', this.gameState);
-        this.gameProcess = "Game is over";
-        this._storage.set('gameProcess', this.gameProcess);
+        this._storage.set(gameStateKey, this.gameState);
+        this.gameProcess = gameOver;
+        this._storage.set(gameProcessKey, this.gameProcess);
         this._service.gameOver(this._currentRoute.snapshot.params['id']).subscribe(function (data) {
             _this.responseGameOver = data;
             _this.initializeWinners();

@@ -7,8 +7,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TokenInterceptor } from './auth/token.interceptor';
 import { StorageServiceModule } from 'angular-webstorage-service';
 import { JwtInterceptor } from './auth/jwt.interceptor';
-import { AuthGuard } from './auth/auth-guard.service';
+import { AuthGuard } from './services/guards/auth-guard.service';
 import { JwtModule } from '@auth0/angular-jwt';
+import { UserRoleGuard } from './services/guards/user-role-guard.service';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { JwtModule } from '@auth0/angular-jwt';
   ],
   providers: [
     AuthGuard,
+    UserRoleGuard,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,

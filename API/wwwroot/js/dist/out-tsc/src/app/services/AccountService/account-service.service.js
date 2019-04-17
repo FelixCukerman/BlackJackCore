@@ -4,6 +4,9 @@ import { HttpClient, HttpBackend } from '@angular/common/http';
 import { WebStorageService, LOCAL_STORAGE } from 'angular-webstorage-service';
 import { environment } from 'src/environments/environment';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { jwtConstant } from 'src/app/shared/constants/jwt-constants';
+var peopleRole = 'People';
+var tokenKey = 'token';
 var AccountService = /** @class */ (function () {
     function AccountService(_http, _handler, _storage, _jwtHelper) {
         this._http = _http;
@@ -36,11 +39,11 @@ var AccountService = /** @class */ (function () {
     };
     AccountService.prototype.checkUserRole = function () {
         try {
-            var token = this._storage.get('token');
+            var token = this._storage.get(tokenKey);
             var decodedToken = this._jwtHelper.decodeToken(token);
             var jwt = JSON.stringify(decodedToken);
             var parsedToken = JSON.parse(jwt);
-            var isPeople = parsedToken["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"] == 'People';
+            var isPeople = parsedToken[jwtConstant.userRole] == peopleRole;
             return isPeople;
         }
         catch (exception) {

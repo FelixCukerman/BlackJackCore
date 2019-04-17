@@ -6,7 +6,10 @@ import { StartService } from 'src/app/services/StartService/start.service';
 import { Router } from '@angular/router';
 import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
 import { GameState } from 'src/app/shared/enums/game-state';
+var gameStateKey = 'key';
+var usernameKey = 'username';
 var StartComponent = /** @class */ (function () {
+    //#endregion
     function StartComponent(_storage, _startService, _router) {
         this._storage = _storage;
         this._startService = _startService;
@@ -24,12 +27,12 @@ var StartComponent = /** @class */ (function () {
     };
     StartComponent.prototype.createNewGame = function () {
         var _this = this;
-        this._storage.set('username', this.user.nickname);
+        this._storage.set(usernameKey, this.user.nickname);
         this._startService.createNewGame(this.request).subscribe(function (data) {
             _this.response = data;
             _this._router.navigate(['game/' + data.id]);
             _this._gameState = GameState.StartRound;
-            _this._storage.set('key', _this._gameState);
+            _this._storage.set(gameStateKey, _this._gameState);
         });
     };
     StartComponent = tslib_1.__decorate([
