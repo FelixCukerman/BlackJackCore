@@ -4,6 +4,7 @@ import { StartModule } from './components/start/start.module';
 import { GameModule } from './components/game/game.module';
 import { HistoryModule } from './components/history/history.module';
 import { AuthGuard } from './auth/auth-guard.service';
+import { UserRoleGuard } from './auth/user-role-guard.service';
 
 const routes: Routes =
   [
@@ -23,7 +24,7 @@ const routes: Routes =
     {
       path: 'game',
       loadChildren: () => GameModule,
-      canActivate: [AuthGuard]
+      canActivate: [AuthGuard, UserRoleGuard]
     }
   ];
 

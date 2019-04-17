@@ -49,5 +49,23 @@ export class AccountService {
 
     return !tokenExpired;
   }
+
+  public checkUserRole(): boolean
+  {
+    try
+    {
+      let token: string = this._storage.get('token');
+
+      let decodedToken: any = this._jwtHelper.decodeToken(token);
+
+      let isPeople: boolean = decodedToken.userRole == 'People';
+
+      return isPeople;
+    }
+    catch (exception)
+    {
+      return false;
+    }
+  }
   //#endregion
 }

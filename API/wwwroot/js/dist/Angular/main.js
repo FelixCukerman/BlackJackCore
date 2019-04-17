@@ -40,6 +40,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_game_game_module__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/game/game.module */ "./src/app/components/game/game.module.ts");
 /* harmony import */ var _components_history_history_module__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/history/history.module */ "./src/app/components/history/history.module.ts");
 /* harmony import */ var _auth_auth_guard_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./auth/auth-guard.service */ "./src/app/auth/auth-guard.service.ts");
+/* harmony import */ var _auth_user_role_guard_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./auth/user-role-guard.service */ "./src/app/auth/user-role-guard.service.ts");
+
 
 
 
@@ -64,7 +66,7 @@ var routes = [
     {
         path: 'game',
         loadChildren: function () { return _components_game_game_module__WEBPACK_IMPORTED_MODULE_4__["GameModule"]; },
-        canActivate: [_auth_auth_guard_service__WEBPACK_IMPORTED_MODULE_6__["AuthGuard"]]
+        canActivate: [_auth_auth_guard_service__WEBPACK_IMPORTED_MODULE_6__["AuthGuard"], _auth_user_role_guard_service__WEBPACK_IMPORTED_MODULE_7__["UserRoleGuard"]]
     }
 ];
 var AppRoutingModule = /** @class */ (function () {
@@ -242,10 +244,11 @@ var AuthGuard = /** @class */ (function () {
         this._router = _router;
     }
     AuthGuard.prototype.canActivate = function () {
-        if (!this._auth.checkAuthenticated()) {
+        var isAuthenticated = this._auth.checkAuthenticated();
+        if (!isAuthenticated) {
             this._router.navigate(['start']);
         }
-        return this._auth.checkAuthenticated();
+        return isAuthenticated;
     };
     AuthGuard = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])(),
@@ -349,6 +352,46 @@ var TokenInterceptor = /** @class */ (function () {
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_services_AccountService_account_service_service__WEBPACK_IMPORTED_MODULE_3__["AccountService"]])
     ], TokenInterceptor);
     return TokenInterceptor;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/auth/user-role-guard.service.ts":
+/*!*************************************************!*\
+  !*** ./src/app/auth/user-role-guard.service.ts ***!
+  \*************************************************/
+/*! exports provided: UserRoleGuard */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UserRoleGuard", function() { return UserRoleGuard; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _services_AccountService_account_service_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../services/AccountService/account-service.service */ "./src/app/services/AccountService/account-service.service.ts");
+
+
+
+
+var UserRoleGuard = /** @class */ (function () {
+    function UserRoleGuard(_auth, _router) {
+        this._auth = _auth;
+        this._router = _router;
+    }
+    UserRoleGuard.prototype.canActivate = function () {
+        if (!this._auth.checkAuthenticated()) {
+            this._router.navigate(['start']);
+        }
+        return this._auth.checkAuthenticated();
+    };
+    UserRoleGuard = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])(),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_services_AccountService_account_service_service__WEBPACK_IMPORTED_MODULE_3__["AccountService"], _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"]])
+    ], UserRoleGuard);
+    return UserRoleGuard;
 }());
 
 
@@ -884,16 +927,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
 /* harmony import */ var angular_webstorage_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! angular-webstorage-service */ "./node_modules/angular-webstorage-service/bundles/angular-webstorage-service.es5.js");
 /* harmony import */ var src_environments_environment__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/environments/environment */ "./src/environments/environment.ts");
+/* harmony import */ var _auth0_angular_jwt__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @auth0/angular-jwt */ "./node_modules/@auth0/angular-jwt/index.js");
+
 
 
 
 
 
 var AccountService = /** @class */ (function () {
-    function AccountService(_http, _handler, _storage) {
+    function AccountService(_http, _handler, _storage, _jwtHelper) {
         this._http = _http;
         this._handler = _handler;
         this._storage = _storage;
+        this._jwtHelper = _jwtHelper;
         this._url = src_environments_environment__WEBPACK_IMPORTED_MODULE_4__["environment"].authUrl;
         this._http = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"](this._handler);
     }
@@ -915,15 +961,26 @@ var AccountService = /** @class */ (function () {
     };
     AccountService.prototype.checkAuthenticated = function () {
         var token = this._storage.get('token');
-        var tokenExist = token != null;
-        return tokenExist;
+        var tokenExpired = this._jwtHelper.isTokenExpired(token);
+        return !tokenExpired;
+    };
+    AccountService.prototype.checkUserRole = function () {
+        try {
+            var token = this._storage.get('token');
+            var decodedToken = this._jwtHelper.decodeToken(token);
+            var isPeople = decodedToken.userRole == 'People';
+            return isPeople;
+        }
+        catch (exception) {
+            return false;
+        }
     };
     AccountService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
             providedIn: 'root'
         }),
         tslib__WEBPACK_IMPORTED_MODULE_0__["__param"](2, Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Inject"])(angular_webstorage_service__WEBPACK_IMPORTED_MODULE_3__["LOCAL_STORAGE"])),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"], _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpBackend"], angular_webstorage_service__WEBPACK_IMPORTED_MODULE_3__["WebStorageService"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"], _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpBackend"], angular_webstorage_service__WEBPACK_IMPORTED_MODULE_3__["WebStorageService"], _auth0_angular_jwt__WEBPACK_IMPORTED_MODULE_5__["JwtHelperService"]])
     ], AccountService);
     return AccountService;
 }());

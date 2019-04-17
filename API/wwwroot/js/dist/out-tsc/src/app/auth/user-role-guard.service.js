@@ -2,23 +2,23 @@ import * as tslib_1 from "tslib";
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { AccountService } from '../services/AccountService/account-service.service';
-var AuthGuard = /** @class */ (function () {
-    function AuthGuard(_auth, _router) {
+var UserRoleGuard = /** @class */ (function () {
+    function UserRoleGuard(_auth, _router) {
         this._auth = _auth;
         this._router = _router;
     }
-    AuthGuard.prototype.canActivate = function () {
-        var isAuthenticated = this._auth.checkAuthenticated();
-        if (!isAuthenticated) {
+    UserRoleGuard.prototype.canActivate = function () {
+        var isPeople = this._auth.checkUserRole();
+        if (!isPeople) {
             this._router.navigate(['start']);
         }
-        return isAuthenticated;
+        return isPeople;
     };
-    AuthGuard = tslib_1.__decorate([
+    UserRoleGuard = tslib_1.__decorate([
         Injectable(),
         tslib_1.__metadata("design:paramtypes", [AccountService, Router])
-    ], AuthGuard);
-    return AuthGuard;
+    ], UserRoleGuard);
+    return UserRoleGuard;
 }());
-export { AuthGuard };
-//# sourceMappingURL=auth-guard.service.js.map
+export { UserRoleGuard };
+//# sourceMappingURL=user-role-guard.service.js.map

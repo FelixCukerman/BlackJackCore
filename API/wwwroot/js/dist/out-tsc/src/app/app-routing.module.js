@@ -5,6 +5,7 @@ import { StartModule } from './components/start/start.module';
 import { GameModule } from './components/game/game.module';
 import { HistoryModule } from './components/history/history.module';
 import { AuthGuard } from './auth/auth-guard.service';
+import { UserRoleGuard } from './auth/user-role-guard.service';
 var routes = [
     {
         path: '',
@@ -22,7 +23,7 @@ var routes = [
     {
         path: 'game',
         loadChildren: function () { return GameModule; },
-        canActivate: [AuthGuard]
+        canActivate: [AuthGuard, UserRoleGuard]
     }
 ];
 var AppRoutingModule = /** @class */ (function () {

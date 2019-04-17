@@ -8,5 +8,7 @@
         public const string RepositoryTypeSection = "RepositoryType";
         public const string AuthenticationType = "Token";
         public const int DataRetentionTime = 30;
+        public const string ClaimTypeUsername = "username";
+        public const string ClaimTypeUserRole = "userRole";
     }
 }
