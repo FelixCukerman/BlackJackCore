@@ -6,13 +6,11 @@ import { StartService } from 'src/app/services/StartService/start.service';
 import { Router } from '@angular/router';
 import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
 import { GameState } from 'src/app/shared/enums/game-state';
-import { AccountService } from 'src/app/services/AccountService/account-service.service';
 var StartComponent = /** @class */ (function () {
-    function StartComponent(_storage, _startService, _router, accService) {
+    function StartComponent(_storage, _startService, _router) {
         this._storage = _storage;
         this._startService = _startService;
         this._router = _router;
-        this.accService = accService;
     }
     //#region ngCallbacks
     StartComponent.prototype.ngOnInit = function () {
@@ -41,7 +39,7 @@ var StartComponent = /** @class */ (function () {
             styleUrls: ['./start.component.css']
         }),
         tslib_1.__param(0, Inject(LOCAL_STORAGE)),
-        tslib_1.__metadata("design:paramtypes", [WebStorageService, StartService, Router, AccountService])
+        tslib_1.__metadata("design:paramtypes", [WebStorageService, StartService, Router])
     ], StartComponent);
     return StartComponent;
 }());

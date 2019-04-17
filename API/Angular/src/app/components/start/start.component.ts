@@ -7,6 +7,9 @@ import ResponseGameViewModel from 'src/app/viewmodels/GameViewModels/response-ga
 import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
 import { GameState } from 'src/app/shared/enums/game-state';
 
+const gameStateKey: string = 'key';
+const usernameKey: string = 'username';
+
 @Component({
   selector: 'app-start',
   templateUrl: './start.component.html',
@@ -14,11 +17,13 @@ import { GameState } from 'src/app/shared/enums/game-state';
 })
 export class StartComponent implements OnInit
 {
+  //#region Fields
   public response: ResponseGameViewModel;
   public request: RequestGameViewModel;
   public user: RequestUserViewModel;
 
   private _gameState: GameState;
+  //#endregion
 
   constructor(@Inject(LOCAL_STORAGE) private _storage: WebStorageService, private _startService: StartService, private _router: Router) { }
 
@@ -38,7 +43,7 @@ export class StartComponent implements OnInit
 
   public createNewGame(): void
   {
-    this._storage.set('username', this.user.nickname);
+    this._storage.set(usernameKey, this.user.nickname);
 
     this._startService.createNewGame(this.request).subscribe((data: ResponseGameViewModel) =>
     {
@@ -46,7 +51,7 @@ export class StartComponent implements OnInit
       this._router.navigate(['game/' + data.id]);
 
       this._gameState = GameState.StartRound;
-      this._storage.set('key', this._gameState);
+      this._storage.set(gameStateKey, this._gameState);
     });
   }
   //#endregion

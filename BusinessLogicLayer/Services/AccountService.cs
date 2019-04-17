@@ -38,8 +38,8 @@ namespace BusinessLogicLayer.Services
 
             var claims = new List<Claim>
             {
-                new Claim(ConfigureConstant.ClaimTypeUsername, person.UserName),
-                new Claim(ConfigureConstant.ClaimTypeUserRole, person.UserRole.ToString())
+                new Claim(ClaimsIdentity.DefaultNameClaimType, person.UserName),
+                new Claim(ClaimsIdentity.DefaultRoleClaimType, person.UserRole.ToString())
             };
 
             ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, ConfigureConstant.AuthenticationType,

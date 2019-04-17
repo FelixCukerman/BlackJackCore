@@ -446,7 +446,17 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+//#region Constants
+var gameStateKey = 'key';
+var gameProcessKey = 'gameProcess';
+var peopleTurn = "Your turn";
+var botsTurn = "Bots draw cards";
+var dealerTurn = "Dealer draw cards";
+var newRound = "New round";
+var gameOver = "Game is over";
+//#endregion
 var GameComponent = /** @class */ (function () {
+    //#endregion
     function GameComponent(_storage, _service, _currentRoute) {
         this._storage = _storage;
         this._service = _service;
@@ -484,8 +494,8 @@ var GameComponent = /** @class */ (function () {
     };
     GameComponent.prototype.dealCardToPlayer = function () {
         var _this = this;
-        this.gameProcess = "Your turn";
-        this._storage.set('gameProcess', this.gameProcess);
+        this.gameProcess = peopleTurn;
+        this._storage.set(gameProcessKey, this.gameProcess);
         this._service.dealCardToPlayer(this._currentRoute.snapshot.params['id']).subscribe(function (data) {
             _this.response = data;
             _this.initializeUsers();
@@ -494,9 +504,9 @@ var GameComponent = /** @class */ (function () {
     GameComponent.prototype.dealCardsToBots = function () {
         var _this = this;
         this.gameState = src_app_shared_enums_game_state__WEBPACK_IMPORTED_MODULE_6__["GameState"].BotsMove;
-        this._storage.set('key', this.gameState);
-        this.gameProcess = "Bots draw cards";
-        this._storage.set('gameProcess', this.gameProcess);
+        this._storage.set(gameStateKey, this.gameState);
+        this.gameProcess = botsTurn;
+        this._storage.set(gameProcessKey, this.gameProcess);
         var gameId = this._currentRoute.snapshot.params['id'];
         this._service.dealCardsToBots(gameId).subscribe(function (data) {
             _this.response = data;
@@ -511,9 +521,9 @@ var GameComponent = /** @class */ (function () {
             var _this = this;
             return tslib__WEBPACK_IMPORTED_MODULE_0__["__generator"](this, function (_a) {
                 this.gameState = src_app_shared_enums_game_state__WEBPACK_IMPORTED_MODULE_6__["GameState"].DealerMove;
-                this._storage.set('key', this.gameState);
-                this.gameProcess = "Dealer draw cards";
-                this._storage.set('gameProcess', this.gameProcess);
+                this._storage.set(gameStateKey, this.gameState);
+                this.gameProcess = dealerTurn;
+                this._storage.set(gameProcessKey, this.gameProcess);
                 this._service.dealCardsToDealer(this._currentRoute.snapshot.params['id']).subscribe(function (data) {
                     _this.response = data;
                     _this.initializeUsers();
@@ -551,10 +561,10 @@ var GameComponent = /** @class */ (function () {
     };
     GameComponent.prototype.dealCards = function () {
         var _this = this;
-        this.gameProcess = "New round";
-        this._storage.set('gameProcess', this.gameProcess);
+        this.gameProcess = newRound;
+        this._storage.set(gameProcessKey, this.gameProcess);
         this.gameState = src_app_shared_enums_game_state__WEBPACK_IMPORTED_MODULE_6__["GameState"].PeopleMove;
-        this._storage.set('key', this.gameState);
+        this._storage.set(gameStateKey, this.gameState);
         this._service.dealCards(this._currentRoute.snapshot.params['id']).subscribe(function (data) {
             _this.response = data;
             _this.initializeUsers();
@@ -563,9 +573,9 @@ var GameComponent = /** @class */ (function () {
     GameComponent.prototype.gameOver = function () {
         var _this = this;
         this.gameState = src_app_shared_enums_game_state__WEBPACK_IMPORTED_MODULE_6__["GameState"].GameIsOver;
-        this._storage.set('key', this.gameState);
-        this.gameProcess = "Game is over";
-        this._storage.set('gameProcess', this.gameProcess);
+        this._storage.set(gameStateKey, this.gameState);
+        this.gameProcess = gameOver;
+        this._storage.set(gameProcessKey, this.gameProcess);
         this._service.gameOver(this._currentRoute.snapshot.params['id']).subscribe(function (data) {
             _this.responseGameOver = data;
             _this.initializeWinners();
@@ -677,6 +687,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var HistoryComponent = /** @class */ (function () {
+    //#endregion
     function HistoryComponent(_service) {
         this._service = _service;
         this.response = new Array();
@@ -817,7 +828,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+var gameStateKey = 'key';
+var usernameKey = 'username';
 var StartComponent = /** @class */ (function () {
+    //#endregion
     function StartComponent(_storage, _startService, _router) {
         this._storage = _storage;
         this._startService = _startService;
@@ -835,12 +849,12 @@ var StartComponent = /** @class */ (function () {
     };
     StartComponent.prototype.createNewGame = function () {
         var _this = this;
-        this._storage.set('username', this.user.nickname);
+        this._storage.set(usernameKey, this.user.nickname);
         this._startService.createNewGame(this.request).subscribe(function (data) {
             _this.response = data;
             _this._router.navigate(['game/' + data.id]);
             _this._gameState = src_app_shared_enums_game_state__WEBPACK_IMPORTED_MODULE_7__["GameState"].StartRound;
-            _this._storage.set('key', _this._gameState);
+            _this._storage.set(gameStateKey, _this._gameState);
         });
     };
     StartComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
@@ -928,12 +942,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var angular_webstorage_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! angular-webstorage-service */ "./node_modules/angular-webstorage-service/bundles/angular-webstorage-service.es5.js");
 /* harmony import */ var src_environments_environment__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/environments/environment */ "./src/environments/environment.ts");
 /* harmony import */ var _auth0_angular_jwt__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @auth0/angular-jwt */ "./node_modules/@auth0/angular-jwt/index.js");
+/* harmony import */ var src_app_shared_constants_jwt_constants__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! src/app/shared/constants/jwt-constants */ "./src/app/shared/constants/jwt-constants.ts");
 
 
 
 
 
 
+
+var peopleRole = 'People';
+var tokenKey = 'token';
 var AccountService = /** @class */ (function () {
     function AccountService(_http, _handler, _storage, _jwtHelper) {
         this._http = _http;
@@ -966,9 +984,11 @@ var AccountService = /** @class */ (function () {
     };
     AccountService.prototype.checkUserRole = function () {
         try {
-            var token = this._storage.get('token');
+            var token = this._storage.get(tokenKey);
             var decodedToken = this._jwtHelper.decodeToken(token);
-            var isPeople = decodedToken.userRole == 'People';
+            var jwt = JSON.stringify(decodedToken);
+            var parsedToken = JSON.parse(jwt);
+            var isPeople = parsedToken[src_app_shared_constants_jwt_constants__WEBPACK_IMPORTED_MODULE_6__["jwtConstant"].userRole] == peopleRole;
             return isPeople;
         }
         catch (exception) {
@@ -1145,6 +1165,24 @@ var StartService = /** @class */ (function () {
     return StartService;
 }());
 
+
+
+/***/ }),
+
+/***/ "./src/app/shared/constants/jwt-constants.ts":
+/*!***************************************************!*\
+  !*** ./src/app/shared/constants/jwt-constants.ts ***!
+  \***************************************************/
+/*! exports provided: jwtConstant */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "jwtConstant", function() { return jwtConstant; });
+var jwtConstant = {
+    userRole: "/api/history/",
+    username: "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"
+};
 
 
 /***/ }),

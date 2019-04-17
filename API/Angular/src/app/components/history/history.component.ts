@@ -11,10 +11,12 @@ import ResponseGameDetailsViewModel from 'src/app/viewmodels/HistoryViewModels/r
 })
 export class HistoryComponent implements OnInit
 {
+  //#region Fields
   public username: string;
   public response: Array<ResponseGameDetailsViewModel>;
   public games: Array<ResponseGamesByUserViewModel>;
   public users: Array<ResponseUserForAutocompleteView>;
+  //#endregion
 
   constructor(private _service: HistoryService)
   {

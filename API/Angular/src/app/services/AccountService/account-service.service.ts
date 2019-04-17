@@ -4,6 +4,11 @@ import { WebStorageService, LOCAL_STORAGE } from 'angular-webstorage-service';
 import { GetTokenViewModel } from 'src/app/viewmodels/AccountViewModels/get-token-view-model';
 import { environment } from 'src/environments/environment';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { DecodedTokenViewModel } from 'src/app/viewmodels/AccountViewModels/decoded-token-view-model';
+import { jwtConstant } from 'src/app/shared/constants/jwt-constants';
+
+const peopleRole: string = 'People';
+const tokenKey: string = 'token';
 
 @Injectable({
   providedIn: 'root'
@@ -54,11 +59,12 @@ export class AccountService {
   {
     try
     {
-      let token: string = this._storage.get('token');
-
+      let token: string = this._storage.get(tokenKey);
       let decodedToken: any = this._jwtHelper.decodeToken(token);
+      let jwt: string = JSON.stringify(decodedToken);
+      let parsedToken: DecodedTokenViewModel = JSON.parse(jwt);
 
-      let isPeople: boolean = decodedToken.userRole == 'People';
+      let isPeople: boolean = parsedToken[jwtConstant.userRole] == peopleRole;
 
       return isPeople;
     }

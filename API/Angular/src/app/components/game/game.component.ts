@@ -12,13 +12,25 @@ import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
 import { ResponseUserGameViewModel } from 'src/app/viewmodels/UserGameViewModels/response-user-game-view-models';
 import { ResponseGameOverViewModel } from 'src/app/viewmodels/GameOverViewModels/response-game-over-view-model';
 
+//#region Constants
+const gameStateKey: string = 'key';
+const gameProcessKey: string = 'gameProcess';
+const peopleTurn: string = "Your turn";
+const botsTurn: string = "Bots draw cards";
+const dealerTurn: string = "Dealer draw cards";
+const newRound: string = "New round";
+const gameOver: string = "Game is over";
+//#endregion
+
 @Component({
   selector: 'app-game',
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.css']
 })
+
 export class GameComponent implements OnInit
 {
+  //#region Fields
   public response: ResponseGameViewModel;
   public requestReplenishCash: RequestReplenishCashViewModel;
   public users: Array<ResponseUserViewModel>;
@@ -32,6 +44,7 @@ export class GameComponent implements OnInit
   public gameState: GameState;
   public gameIsOver: boolean;
   public gameProcess: string;
+  //#endregion
 
   constructor(@Inject(LOCAL_STORAGE) private _storage: WebStorageService, private _service: GameService, private _currentRoute: ActivatedRoute) { }
 
@@ -79,9 +92,9 @@ export class GameComponent implements OnInit
 
   public dealCardToPlayer(): void
   {
-    this.gameProcess = "Your turn";
+    this.gameProcess = peopleTurn;
 
-    this._storage.set('gameProcess', this.gameProcess);
+    this._storage.set(gameProcessKey, this.gameProcess);
 
     this._service.dealCardToPlayer(this._currentRoute.snapshot.params['id']).subscribe((data: ResponseGameViewModel) =>
     {
@@ -94,10 +107,10 @@ export class GameComponent implements OnInit
   public dealCardsToBots(): void
   {
     this.gameState = GameState.BotsMove;
-    this._storage.set('key', this.gameState);
+    this._storage.set(gameStateKey, this.gameState);
 
-    this.gameProcess = "Bots draw cards";
-    this._storage.set('gameProcess', this.gameProcess);
+    this.gameProcess = botsTurn;
+    this._storage.set(gameProcessKey, this.gameProcess);
 
     let gameId: number = this._currentRoute.snapshot.params['id'];
 
@@ -117,10 +130,10 @@ export class GameComponent implements OnInit
   public async dealCardsToDealer(): Promise<void>
   {
     this.gameState = GameState.DealerMove;
-    this._storage.set('key', this.gameState);
+    this._storage.set(gameStateKey, this.gameState);
 
-    this.gameProcess = "Dealer draw cards";
-    this._storage.set('gameProcess', this.gameProcess);
+    this.gameProcess = dealerTurn;
+    this._storage.set(gameProcessKey, this.gameProcess);
 
     this._service.dealCardsToDealer(this._currentRoute.snapshot.params['id']).subscribe((data: ResponseGameViewModel) =>
     {
@@ -172,11 +185,11 @@ export class GameComponent implements OnInit
   }
 
   private dealCards(): void {
-    this.gameProcess = "New round";
-    this._storage.set('gameProcess', this.gameProcess);
+    this.gameProcess = newRound;
+    this._storage.set(gameProcessKey, this.gameProcess);
 
     this.gameState = GameState.PeopleMove;
-    this._storage.set('key', this.gameState);
+    this._storage.set(gameStateKey, this.gameState);
 
     this._service.dealCards(this._currentRoute.snapshot.params['id']).subscribe((data: ResponseGameViewModel) =>
     {
@@ -189,10 +202,10 @@ export class GameComponent implements OnInit
   public gameOver(): void
   {
     this.gameState = GameState.GameIsOver;
-    this._storage.set('key', this.gameState);
+    this._storage.set(gameStateKey, this.gameState);
 
-    this.gameProcess = "Game is over";
-    this._storage.set('gameProcess', this.gameProcess);
+    this.gameProcess = gameOver;
+    this._storage.set(gameProcessKey, this.gameProcess);
 
     this._service.gameOver(this._currentRoute.snapshot.params['id']).subscribe((data: Array<ResponseGameOverViewModel>) =>
     {
