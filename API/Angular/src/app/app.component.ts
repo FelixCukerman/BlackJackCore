@@ -1,5 +1,4 @@
-import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Component, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -8,6 +7,6 @@ import { HttpClient } from '@angular/common/http';
 })
 export class AppComponent
 {
-  title = 'Angular';
+  title = 'BlackJack';
   public values: string[];
 }
