@@ -1,11 +1,13 @@
 import * as tslib_1 from "tslib";
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpBackend } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 var HistoryService = /** @class */ (function () {
-    function HistoryService(_http) {
+    function HistoryService(_http, _handler) {
         this._http = _http;
+        this._handler = _handler;
         this._url = environment.historyUrl;
+        this._http = new HttpClient(this._handler);
     }
     HistoryService.prototype.getUsersForAutocomplete = function () {
         var result = this._http.get(this._url + "getpersons");
@@ -23,7 +25,7 @@ var HistoryService = /** @class */ (function () {
         Injectable({
             providedIn: 'root'
         }),
-        tslib_1.__metadata("design:paramtypes", [HttpClient])
+        tslib_1.__metadata("design:paramtypes", [HttpClient, HttpBackend])
     ], HistoryService);
     return HistoryService;
 }());

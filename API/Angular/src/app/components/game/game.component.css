@@ -1,11 +1,3 @@
-.bg {
-  background-image: url(~/images/background/mainbackground.jpg);
-  min-height: 937px;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
 .startround {
   min-height: 937px;
   width: 100%;

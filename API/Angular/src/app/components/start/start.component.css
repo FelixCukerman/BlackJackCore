@@ -1,11 +1,3 @@
 .line {
   margin-top: 10px;
 }
-
-.bg {
-  background-image: url(~/images/background/mainbackground.jpg);
-  min-height: 938px;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-}

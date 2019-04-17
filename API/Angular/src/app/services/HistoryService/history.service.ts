@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpBackend } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
@@ -10,7 +10,10 @@ export class HistoryService {
 
   private _url = environment.historyUrl;
 
-  constructor(private _http: HttpClient) { }
+  constructor(private _http: HttpClient, private _handler: HttpBackend)
+  {
+    this._http = new HttpClient(this._handler);
+  }
 
   public getUsersForAutocomplete(): Observable<Object>
   {

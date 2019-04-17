@@ -13,7 +13,7 @@ export class AccountService {
 
   constructor(private _http: HttpClient, private _handler: HttpBackend, @Inject(LOCAL_STORAGE) private _storage: WebStorageService)
   {
-    this._http = new HttpClient(_handler);
+    this._http = new HttpClient(this._handler);
   }
 
   //#region Public Methods

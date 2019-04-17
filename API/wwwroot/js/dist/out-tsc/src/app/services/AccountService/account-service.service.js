@@ -9,7 +9,7 @@ var AccountService = /** @class */ (function () {
         this._handler = _handler;
         this._storage = _storage;
         this._url = environment.authUrl;
-        this._http = new HttpClient(_handler);
+        this._http = new HttpClient(this._handler);
     }
     //#region Public Methods
     AccountService.prototype.createToken = function (username) {
