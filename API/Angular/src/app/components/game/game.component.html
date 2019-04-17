@@ -1,108 +1,97 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  <title>Hello, world!</title>
-</head>
-<body>
-  <div class="bg">
-    <div class="startround" *ngIf="this.gameState == 1">
-      <button type="button" class="btn btn-primary btn-lg" style="width: 25%; height: 100px; font-size: 24pt" (click)="dealCards()">Start new round</button>
-    </div>
+<div class="bg">
+  <div class="startround" *ngIf="this.gameState == 1">
+    <button type="button" class="btn btn-primary btn-lg" style="width: 25%; height: 100px; font-size: 24pt" (click)="dealCards()">Start new round</button>
+  </div>
 
-    <div *ngIf="(this.gameState == 2 || this.gameState == 3 || this.gameState == 4) && this.response">
-      <div class="dealerarea">
-        <div class="cards">
-          <div class="card" *ngFor="let usercard of dealer.cards"><img src="images/cards/{{usercard.suit}}-{{usercard.cardName}}.png"></div>
+  <div *ngIf="(this.gameState == 2 || this.gameState == 3 || this.gameState == 4) && this.response">
+    <div class="dealerarea">
+      <div class="cards">
+        <div class="card" *ngFor="let usercard of dealer.cards"><img src="images/cards/{{usercard.suit}}-{{usercard.cardName}}.png"></div>
+      </div>
+    </div>
+    <div class="dealernickname">Dealer</div>
+    <div class="gamearea">
+      <div class="playerpoints">
+        <div class="nicknames">
+          <div *ngFor="let userRound of userRounds">{{userRound.nickname}}</div>
+        </div>
+        <div class="points">
+          <div *ngFor="let userRound of userRounds">{{userRound.points}}</div>
+        </div>
+        <div class="separator"></div>
+      </div>
+      <div class="gameprocess-block">
+        <div class="roundstate">Round#{{this.response.rounds.length}}</div>
+        <div class="gameprocess">
+          <div class="gameprocess-animation">
+            {{this.gameProcess}}
+            <div class="spinner-grow" style="width: 4rem; height: 4rem; margin-left: 3%; margin-top: 2%" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="dealernickname">Dealer</div>
-      <div class="gamearea">
-        <div class="playerpoints">
-          <div class="nicknames">
-            <div *ngFor="let userRound of userRounds">{{userRound.nickname}}</div>
+      <div class="separator" style="width: 2%; background-color: rgba(0, 0, 0, 0.38)"></div>
+      <div class="peopleplayer-block">
+        <div class="total-cash">Total cash: {{this.person.cash}}$</div>
+        <div class="action-block">
+          <div *ngIf="this.gameState == 2">
+            <button type="button" class="btn btn-success btn-lg btn-block" (click)="dealCardToPlayer()">Take a card</button>
+            <button type="button" class="btn btn-danger btn-lg btn-block" (click)="skipCard()">Skip a card</button>
+            <button type="button" class="btn btn-info btn-lg btn-block" data-toggle="modal" data-target="#exampleModal">Replenish a cash</button>
           </div>
-          <div class="points">
-            <div *ngFor="let userRound of userRounds">{{userRound.points}}</div>
+          <div *ngIf="this.gameState == 3 || this.gameState == 4">
+            <button type="button" class="btn btn-success btn-lg btn-block disabled" aria-disabled="true">Take a card</button>
+            <button type="button" class="btn btn-danger btn-lg btn-block disabled" aria-disabled="true">Skip a card</button>
+            <button type="button" class="btn btn-info btn-lg btn-block" data-toggle="modal" data-target="#exampleModal">Replenish a cash</button>
           </div>
-          <div class="separator"></div>
-        </div>
-        <div class="gameprocess-block">
-          <div class="roundstate">Round#{{this.response.rounds.length}}</div>
-          <div class="gameprocess">
-            <div class="gameprocess-animation">
-              {{this.gameProcess}}
-              <div class="spinner-grow" style="width: 4rem; height: 4rem; margin-left: 3%; margin-top: 2%" role="status">
-                <span class="sr-only">Loading...</span>
-              </div>
-            </div>
+          <div *ngIf="this.gameState == 4">
+            <button type="button" class="btn btn-info btn-lg btn-block" (click)="createNewRound()" style="margin-top: 3%">New Round</button>
           </div>
-        </div>
-        <div class="separator" style="width: 2%; background-color: rgba(0, 0, 0, 0.38)"></div>
-        <div class="peopleplayer-block">
-          <div class="total-cash">Total cash: {{this.person.cash}}$</div>
-          <div class="action-block">
-            <div *ngIf="this.gameState == 2">
-              <button type="button" class="btn btn-success btn-lg btn-block" (click)="dealCardToPlayer()">Take a card</button>
-              <button type="button" class="btn btn-danger btn-lg btn-block" (click)="skipCard()">Skip a card</button>
-              <button type="button" class="btn btn-info btn-lg btn-block" data-toggle="modal" data-target="#exampleModal">Replenish a cash</button>
-            </div>
-            <div *ngIf="this.gameState == 3 || this.gameState == 4">
-              <button type="button" class="btn btn-success btn-lg btn-block disabled" aria-disabled="true">Take a card</button>
-              <button type="button" class="btn btn-danger btn-lg btn-block disabled" aria-disabled="true">Skip a card</button>
-              <button type="button" class="btn btn-info btn-lg btn-block" data-toggle="modal" data-target="#exampleModal">Replenish a cash</button>
-            </div>
-            <div *ngIf="this.gameState == 4">
-              <button type="button" class="btn btn-info btn-lg btn-block" (click)="createNewRound()" style="margin-top: 3%">New Round</button>
-            </div>
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Replenish a cash</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-body">
-                    <input type="number" min="1" class="form-control" placeholder="cash" aria-label="Username" aria-describedby="basic-addon1" [(ngModel)]="requestReplenishCash.cash">
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="replenishCash()">Send</button>
-                  </div>
+          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Replenish a cash</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <input type="number" min="1" class="form-control" placeholder="cash" aria-label="Username" aria-describedby="basic-addon1" [(ngModel)]="requestReplenishCash.cash">
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="replenishCash()">Send</button>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="playerarea">
-        <div class="cards" *ngFor="let user of users">
-          <div class="card" *ngFor="let usercard of user.cards"><img src="images/cards/{{usercard.suit}}-{{usercard.cardName}}.png"></div>
-        </div>
-      </div>
-      <div class="playerinfo" *ngFor="let user of users">{{user.nickname}}</div>
     </div>
-    <div *ngIf="this.gameState == 5">
-      <div class="row" style="color:aliceblue; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 22pt; text-align:center; width: 100%">
-        <div class="col-sm" *ngFor="let user of this.responseGameOver" style="border-right: #ddd dashed 1px;border-left: #ddd dashed 1px;">
-          <div>{{user.username}}</div>
-          <div>{{user.winsQuantity}} wins</div>
-        </div>
+    <div class="playerarea">
+      <div class="cards" *ngFor="let user of users">
+        <div class="card" *ngFor="let usercard of user.cards"><img src="images/cards/{{usercard.suit}}-{{usercard.cardName}}.png"></div>
       </div>
-      <div class="dotted-line-top"></div>
-      <div style="font-size: 24pt; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align:center; color:aliceblue; margin-top: 20px;">Winners: </div>
-      <div class="winners-area">
-        <div *ngIf="this.winners">
-          <div class="winner" *ngFor="let user of winners">{{user.username}}</div>
-        </div>
-        <div *ngIf="!this.winners">
-          <div class="winner">All players lose</div>
-        </div>
+    </div>
+    <div class="playerinfo" *ngFor="let user of users">{{user.nickname}}</div>
+  </div>
+  <div *ngIf="this.gameState == 5">
+    <div class="row" style="color:aliceblue; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 22pt; text-align:center; width: 100%">
+      <div class="col-sm" *ngFor="let user of this.responseGameOver" style="border-right: #ddd dashed 1px;border-left: #ddd dashed 1px;">
+        <div>{{user.username}}</div>
+        <div>{{user.winsQuantity}} wins</div>
+      </div>
+    </div>
+    <div class="dotted-line-top"></div>
+    <div style="font-size: 24pt; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align:center; color:aliceblue; margin-top: 20px;">Winners: </div>
+    <div class="winners-area">
+      <div *ngIf="this.winners">
+        <div class="winner" *ngFor="let user of winners">{{user.username}}</div>
+      </div>
+      <div *ngIf="!this.winners">
+        <div class="winner">All players lose</div>
       </div>
     </div>
   </div>
-</body>
-</html>
+</div>

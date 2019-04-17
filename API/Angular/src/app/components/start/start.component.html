@@ -1,52 +1,41 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  <title>blackjack</title>
-</head>
-<body>
-  <div class="bg">
-    <div class="container" style="padding-top: 15%">
-      <div class="row">
-        <div class="col"></div>
-        <div class="col">
-          <div class="line"></div>
-          <input type="text" class="form-control" [(ngModel)]="user.nickname" placeholder="Nickname" />
-          <div class="line"></div>
-          <input type="number" value="" min="1" placeholder="Rate" class="form-control" [(ngModel)]="request.userRate" />
-          <div class="line"></div>
-          <input type="number" value="" min="1" placeholder="Bot quantity" class="form-control" [(ngModel)]="request.botQuantity" />
-          <div class="line"></div>
-          <input type="number" value="" min="1" placeholder="Round quantity" class="form-control" [(ngModel)]="request.roundQuantity" />
-          <div class="line"></div>
-          <button class="btn btn-primary" (click)="createNewGame()" style="width: 100%">Create new game</button>
-          <button class="btn btn-primary" (click)="toHistory()" style="width: 100%; margin-top: 10px">History</button>
-        </div>
-        <div class="col"></div>
+<div class="bg">
+  <div class="container" style="padding-top: 15%">
+    <div class="row">
+      <div class="col"></div>
+      <div class="col">
+        <div class="line"></div>
+        <input type="text" class="form-control" [(ngModel)]="user.nickname" placeholder="Nickname" />
+        <div class="line"></div>
+        <input type="number" value="" min="1" placeholder="Rate" class="form-control" [(ngModel)]="request.userRate" />
+        <div class="line"></div>
+        <input type="number" value="" min="1" placeholder="Bot quantity" class="form-control" [(ngModel)]="request.botQuantity" />
+        <div class="line"></div>
+        <input type="number" value="" min="1" placeholder="Round quantity" class="form-control" [(ngModel)]="request.roundQuantity" />
+        <div class="line"></div>
+        <button class="btn btn-primary" (click)="createNewGame()" style="width: 100%">Create new game</button>
+        <button class="btn btn-primary" (click)="toHistory()" style="width: 100%; margin-top: 10px">History</button>
       </div>
+      <div class="col"></div>
     </div>
+  </div>
 
-    <div *ngIf = "this.tokenIsExist" class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            ...
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
-          </div>
+  <div *ngIf="this.tokenIsExist" class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          ...
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
         </div>
       </div>
     </div>
   </div>
-</body>
-</html>
+</div>

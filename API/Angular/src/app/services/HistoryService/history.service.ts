@@ -15,6 +15,7 @@ export class HistoryService {
     this._http = new HttpClient(this._handler);
   }
 
+  //#region Public Methods
   public getUsersForAutocomplete(): Observable<Object>
   {
     let result: Observable<Object> = this._http.get(this._url + "getpersons");
@@ -35,4 +36,5 @@ export class HistoryService {
 
     return result;
   }
+  //#endregion
 }
