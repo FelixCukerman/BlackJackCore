@@ -9,6 +9,7 @@ var HistoryService = /** @class */ (function () {
         this._url = environment.historyUrl;
         this._http = new HttpClient(this._handler);
     }
+    //#region Public Methods
     HistoryService.prototype.getUsersForAutocomplete = function () {
         var result = this._http.get(this._url + "getpersons");
         return result;

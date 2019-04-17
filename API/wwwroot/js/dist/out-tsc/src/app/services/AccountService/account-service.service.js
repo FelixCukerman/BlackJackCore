@@ -3,11 +3,13 @@ import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpBackend } from '@angular/common/http';
 import { WebStorageService, LOCAL_STORAGE } from 'angular-webstorage-service';
 import { environment } from 'src/environments/environment';
+import { JwtHelperService } from '@auth0/angular-jwt';
 var AccountService = /** @class */ (function () {
-    function AccountService(_http, _handler, _storage) {
+    function AccountService(_http, _handler, _storage, _jwtHelper) {
         this._http = _http;
         this._handler = _handler;
         this._storage = _storage;
+        this._jwtHelper = _jwtHelper;
         this._url = environment.authUrl;
         this._http = new HttpClient(this._handler);
     }
@@ -29,15 +31,15 @@ var AccountService = /** @class */ (function () {
     };
     AccountService.prototype.checkAuthenticated = function () {
         var token = this._storage.get('token');
-        var tokenExist = token != null;
-        return tokenExist;
+        var tokenExpired = this._jwtHelper.isTokenExpired(token);
+        return !tokenExpired;
     };
     AccountService = tslib_1.__decorate([
         Injectable({
             providedIn: 'root'
         }),
         tslib_1.__param(2, Inject(LOCAL_STORAGE)),
-        tslib_1.__metadata("design:paramtypes", [HttpClient, HttpBackend, WebStorageService])
+        tslib_1.__metadata("design:paramtypes", [HttpClient, HttpBackend, WebStorageService, JwtHelperService])
     ], AccountService);
     return AccountService;
 }());
