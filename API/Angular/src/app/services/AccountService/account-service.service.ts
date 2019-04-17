@@ -3,6 +3,7 @@ import { HttpClient, HttpBackend } from '@angular/common/http';
 import { WebStorageService, LOCAL_STORAGE } from 'angular-webstorage-service';
 import { GetTokenViewModel } from 'src/app/viewmodels/AccountViewModels/get-token-view-model';
 import { environment } from 'src/environments/environment';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class AccountService {
 
   private _url = environment.authUrl;
 
-  constructor(private _http: HttpClient, private _handler: HttpBackend, @Inject(LOCAL_STORAGE) private _storage: WebStorageService)
+  constructor(private _http: HttpClient, private _handler: HttpBackend, @Inject(LOCAL_STORAGE) private _storage: WebStorageService, private _jwtHelper: JwtHelperService)
   {
     this._http = new HttpClient(this._handler);
   }
@@ -44,9 +45,9 @@ export class AccountService {
   {
     let token: string = this._storage.get('token');
 
-    let tokenExist: boolean = token != null;
+    let tokenExpired: boolean = this._jwtHelper.isTokenExpired(token);
 
-    return tokenExist;
+    return !tokenExpired;
   }
   //#endregion
 }
