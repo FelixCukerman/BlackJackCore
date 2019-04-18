@@ -48,11 +48,10 @@ export class GameComponent implements OnInit
 
   constructor(@Inject(LOCAL_STORAGE) private _storage: WebStorageService, private _service: GameService, private _currentRoute: ActivatedRoute) { }
 
-  //#region ngCallbacks
   public ngOnInit(): void
   {
-    this.gameProcess = this._storage.get('gameProcess');
-    this.gameState = this._storage.get('key');
+    this.gameProcess = this._storage.get(gameProcessKey);
+    this.gameState = this._storage.get(gameStateKey);
 
     this.requestReplenishCash = new RequestReplenishCashViewModel(0, 0);
     this.bots = new Array<ResponseUserViewModel>();
@@ -69,7 +68,6 @@ export class GameComponent implements OnInit
       }
     });
   }
-  //#endregion
 
   //#region Public Methods
   public createNewRound(): void
@@ -199,7 +197,7 @@ export class GameComponent implements OnInit
     });
   }
 
-  public gameOver(): void
+  private gameOver(): void
   {
     this.gameState = GameState.GameIsOver;
     this._storage.set(gameStateKey, this.gameState);

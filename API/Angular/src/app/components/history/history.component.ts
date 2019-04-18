@@ -23,7 +23,6 @@ export class HistoryComponent implements OnInit
     this.response = new Array<ResponseGameDetailsViewModel>();
   }
 
-  //#region ngCallbacks
   public ngOnInit(): void
   {
     this._service.getUsersForAutocomplete().subscribe((data: Array<ResponseUserForAutocompleteView>) =>
@@ -31,7 +30,6 @@ export class HistoryComponent implements OnInit
       this.users = data;
     });
   }
-  //#endregion
 
   //#region Public Methods
   public getGameDetails(gameId: number): void

@@ -7,8 +7,11 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { DecodedTokenViewModel } from 'src/app/viewmodels/AccountViewModels/decoded-token-view-model';
 import { jwtConstant } from 'src/app/shared/constants/jwt-constants';
 
+//#region Constants
 const peopleRole: string = 'People';
 const tokenKey: string = 'token';
+const usernameKey: string = 'username';
+//#endregion
 
 @Injectable({
   providedIn: 'root'
@@ -28,27 +31,27 @@ export class AccountService {
     this._http.get(this._url + "token/" + username).subscribe((data: GetTokenViewModel) =>
     {
       let token: string = data.accessToken;
-      this._storage.set('token', token);
+      this._storage.set(tokenKey, token);
     });
   }
 
   public getToken(): string
   {
-    let token: string = this._storage.get('token');
+    let token: string = this._storage.get(tokenKey);
 
     return token;
   }
 
   public getCurrentUsername(): string
   {
-    let username: string = this._storage.get('username');
+    let username: string = this._storage.get(usernameKey);
 
     return username;
   }
 
   public checkAuthenticated(): boolean
   {
-    let token: string = this._storage.get('token');
+    let token: string = this._storage.get(tokenKey);
 
     let tokenExpired: boolean = this._jwtHelper.isTokenExpired(token);
 

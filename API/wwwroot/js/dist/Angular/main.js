@@ -39,8 +39,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_start_start_module__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/start/start.module */ "./src/app/components/start/start.module.ts");
 /* harmony import */ var _components_game_game_module__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/game/game.module */ "./src/app/components/game/game.module.ts");
 /* harmony import */ var _components_history_history_module__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/history/history.module */ "./src/app/components/history/history.module.ts");
-/* harmony import */ var _services_guards_auth_guard_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./services/guards/auth-guard.service */ "./src/app/services/guards/auth-guard.service.ts");
-/* harmony import */ var _services_guards_user_role_guard_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./services/guards/user-role-guard.service */ "./src/app/services/guards/user-role-guard.service.ts");
+/* harmony import */ var _services_guardsService_auth_guard_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./services/guardsService/auth-guard.service */ "./src/app/services/guardsService/auth-guard.service.ts");
+/* harmony import */ var _services_guardsService_user_role_guard_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./services/guardsService/user-role-guard.service */ "./src/app/services/guardsService/user-role-guard.service.ts");
 
 
 
@@ -66,7 +66,7 @@ var routes = [
     {
         path: 'game',
         loadChildren: function () { return _components_game_game_module__WEBPACK_IMPORTED_MODULE_4__["GameModule"]; },
-        canActivate: [_services_guards_auth_guard_service__WEBPACK_IMPORTED_MODULE_6__["AuthGuard"], _services_guards_user_role_guard_service__WEBPACK_IMPORTED_MODULE_7__["UserRoleGuard"]]
+        canActivate: [_services_guardsService_auth_guard_service__WEBPACK_IMPORTED_MODULE_6__["AuthGuard"], _services_guardsService_user_role_guard_service__WEBPACK_IMPORTED_MODULE_7__["UserRoleGuard"]]
     }
 ];
 var AppRoutingModule = /** @class */ (function () {
@@ -159,9 +159,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _auth_token_interceptor__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./auth/token.interceptor */ "./src/app/auth/token.interceptor.ts");
 /* harmony import */ var angular_webstorage_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! angular-webstorage-service */ "./node_modules/angular-webstorage-service/bundles/angular-webstorage-service.es5.js");
 /* harmony import */ var _auth_jwt_interceptor__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./auth/jwt.interceptor */ "./src/app/auth/jwt.interceptor.ts");
-/* harmony import */ var _services_guards_auth_guard_service__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./services/guards/auth-guard.service */ "./src/app/services/guards/auth-guard.service.ts");
+/* harmony import */ var _services_guardsService_auth_guard_service__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./services/guardsService/auth-guard.service */ "./src/app/services/guardsService/auth-guard.service.ts");
 /* harmony import */ var _auth0_angular_jwt__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @auth0/angular-jwt */ "./node_modules/@auth0/angular-jwt/index.js");
-/* harmony import */ var _services_guards_user_role_guard_service__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./services/guards/user-role-guard.service */ "./src/app/services/guards/user-role-guard.service.ts");
+/* harmony import */ var _services_guardsService_user_role_guard_service__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./services/guardsService/user-role-guard.service */ "./src/app/services/guardsService/user-role-guard.service.ts");
 
 
 
@@ -198,8 +198,8 @@ var AppModule = /** @class */ (function () {
                 _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_6__["NgbModule"].forRoot()
             ],
             providers: [
-                _services_guards_auth_guard_service__WEBPACK_IMPORTED_MODULE_10__["AuthGuard"],
-                _services_guards_user_role_guard_service__WEBPACK_IMPORTED_MODULE_12__["UserRoleGuard"],
+                _services_guardsService_auth_guard_service__WEBPACK_IMPORTED_MODULE_10__["AuthGuard"],
+                _services_guardsService_user_role_guard_service__WEBPACK_IMPORTED_MODULE_12__["UserRoleGuard"],
                 {
                     provide: _angular_common_http__WEBPACK_IMPORTED_MODULE_5__["HTTP_INTERCEPTORS"],
                     useClass: _auth_token_interceptor__WEBPACK_IMPORTED_MODULE_7__["TokenInterceptor"],
@@ -384,11 +384,10 @@ var GameComponent = /** @class */ (function () {
         this._service = _service;
         this._currentRoute = _currentRoute;
     }
-    //#region ngCallbacks
     GameComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.gameProcess = this._storage.get('gameProcess');
-        this.gameState = this._storage.get('key');
+        this.gameProcess = this._storage.get(gameProcessKey);
+        this.gameState = this._storage.get(gameStateKey);
         this.requestReplenishCash = new src_app_viewmodels_ReplenishCashViewModels_request_replenish_cash_view_model__WEBPACK_IMPORTED_MODULE_5__["RequestReplenishCashViewModel"](0, 0);
         this.bots = new Array();
         this._service.gameById(this._currentRoute.snapshot.params['id']).subscribe(function (data) {
@@ -399,7 +398,6 @@ var GameComponent = /** @class */ (function () {
             }
         });
     };
-    //#endregion
     //#region Public Methods
     GameComponent.prototype.createNewRound = function () {
         var _this = this;
@@ -614,14 +612,12 @@ var HistoryComponent = /** @class */ (function () {
         this._service = _service;
         this.response = new Array();
     }
-    //#region ngCallbacks
     HistoryComponent.prototype.ngOnInit = function () {
         var _this = this;
         this._service.getUsersForAutocomplete().subscribe(function (data) {
             _this.users = data;
         });
     };
-    //#endregion
     //#region Public Methods
     HistoryComponent.prototype.getGameDetails = function (gameId) {
         var _this = this;
@@ -750,8 +746,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+//#region Constants
 var gameStateKey = 'key';
 var usernameKey = 'username';
+var historyPage = 'history';
+//#endregion
 var StartComponent = /** @class */ (function () {
     //#endregion
     function StartComponent(_storage, _startService, _router) {
@@ -759,15 +758,13 @@ var StartComponent = /** @class */ (function () {
         this._startService = _startService;
         this._router = _router;
     }
-    //#region ngCallbacks
     StartComponent.prototype.ngOnInit = function () {
         this.user = new src_app_viewmodels_UserViewModels_request_user_view_model__WEBPACK_IMPORTED_MODULE_3__["RequestUserViewModel"]("");
         this.request = new src_app_viewmodels_GameViewModels_request_game_view_model__WEBPACK_IMPORTED_MODULE_2__["default"](this.user, 0, 0, 0);
     };
-    //#endregion
     //#region Public Methods
     StartComponent.prototype.toHistory = function () {
-        this._router.navigate(['history']);
+        this._router.navigate([historyPage]);
     };
     StartComponent.prototype.createNewGame = function () {
         var _this = this;
@@ -872,8 +869,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+//#region Constants
 var peopleRole = 'People';
 var tokenKey = 'token';
+var usernameKey = 'username';
+//#endregion
 var AccountService = /** @class */ (function () {
     function AccountService(_http, _handler, _storage, _jwtHelper) {
         this._http = _http;
@@ -888,19 +888,19 @@ var AccountService = /** @class */ (function () {
         var _this = this;
         this._http.get(this._url + "token/" + username).subscribe(function (data) {
             var token = data.accessToken;
-            _this._storage.set('token', token);
+            _this._storage.set(tokenKey, token);
         });
     };
     AccountService.prototype.getToken = function () {
-        var token = this._storage.get('token');
+        var token = this._storage.get(tokenKey);
         return token;
     };
     AccountService.prototype.getCurrentUsername = function () {
-        var username = this._storage.get('username');
+        var username = this._storage.get(usernameKey);
         return username;
     };
     AccountService.prototype.checkAuthenticated = function () {
-        var token = this._storage.get('token');
+        var token = this._storage.get(tokenKey);
         var tokenExpired = this._jwtHelper.isTokenExpired(token);
         return !tokenExpired;
     };
@@ -1091,10 +1091,10 @@ var StartService = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/app/services/guards/auth-guard.service.ts":
-/*!*******************************************************!*\
-  !*** ./src/app/services/guards/auth-guard.service.ts ***!
-  \*******************************************************/
+/***/ "./src/app/services/guardsService/auth-guard.service.ts":
+/*!**************************************************************!*\
+  !*** ./src/app/services/guardsService/auth-guard.service.ts ***!
+  \**************************************************************/
 /*! exports provided: AuthGuard */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1109,6 +1109,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+var startPage = 'start';
 var AuthGuard = /** @class */ (function () {
     function AuthGuard(_auth, _router) {
         this._auth = _auth;
@@ -1117,7 +1118,7 @@ var AuthGuard = /** @class */ (function () {
     AuthGuard.prototype.canActivate = function () {
         var isAuthenticated = this._auth.checkAuthenticated();
         if (!isAuthenticated) {
-            this._router.navigate(['start']);
+            this._router.navigate([startPage]);
         }
         return isAuthenticated;
     };
@@ -1132,10 +1133,10 @@ var AuthGuard = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/app/services/guards/user-role-guard.service.ts":
-/*!************************************************************!*\
-  !*** ./src/app/services/guards/user-role-guard.service.ts ***!
-  \************************************************************/
+/***/ "./src/app/services/guardsService/user-role-guard.service.ts":
+/*!*******************************************************************!*\
+  !*** ./src/app/services/guardsService/user-role-guard.service.ts ***!
+  \*******************************************************************/
 /*! exports provided: UserRoleGuard */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1150,6 +1151,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+var startPage = 'start';
 var UserRoleGuard = /** @class */ (function () {
     function UserRoleGuard(_auth, _router) {
         this._auth = _auth;
@@ -1158,7 +1160,7 @@ var UserRoleGuard = /** @class */ (function () {
     UserRoleGuard.prototype.canActivate = function () {
         var isPeople = this._auth.checkUserRole();
         if (!isPeople) {
-            this._router.navigate(['start']);
+            this._router.navigate([startPage]);
         }
         return isPeople;
     };

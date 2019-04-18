@@ -52,10 +52,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <TypeScriptCompile Include="Angular\src\app\services\guards\auth-guard.service.ts" />
+    <TypeScriptCompile Include="Angular\src\app\services\guardsService\auth-guard.service.ts" />
     <TypeScriptCompile Include="Angular\src\app\auth\jwt.interceptor.ts" />
     <TypeScriptCompile Include="Angular\src\app\auth\token.interceptor.ts" />
-    <TypeScriptCompile Include="Angular\src\app\services\guards\user-role-guard.service.ts" />
+    <TypeScriptCompile Include="Angular\src\app\services\guardsService\user-role-guard.service.ts" />
     <TypeScriptCompile Include="Angular\src\app\components\history\history.module.ts" />
     <TypeScriptCompile Include="Angular\src\app\shared\constants\jwt-constants.ts" />
     <TypeScriptCompile Include="Angular\src\app\shared\enums\game-state.ts" />
