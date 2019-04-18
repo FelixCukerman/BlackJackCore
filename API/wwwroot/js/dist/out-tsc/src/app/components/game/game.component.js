@@ -22,11 +22,10 @@ var GameComponent = /** @class */ (function () {
         this._service = _service;
         this._currentRoute = _currentRoute;
     }
-    //#region ngCallbacks
     GameComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.gameProcess = this._storage.get('gameProcess');
-        this.gameState = this._storage.get('key');
+        this.gameProcess = this._storage.get(gameProcessKey);
+        this.gameState = this._storage.get(gameStateKey);
         this.requestReplenishCash = new RequestReplenishCashViewModel(0, 0);
         this.bots = new Array();
         this._service.gameById(this._currentRoute.snapshot.params['id']).subscribe(function (data) {
@@ -37,7 +36,6 @@ var GameComponent = /** @class */ (function () {
             }
         });
     };
-    //#endregion
     //#region Public Methods
     GameComponent.prototype.createNewRound = function () {
         var _this = this;

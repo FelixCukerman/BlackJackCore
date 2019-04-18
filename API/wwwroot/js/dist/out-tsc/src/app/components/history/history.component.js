@@ -7,14 +7,12 @@ var HistoryComponent = /** @class */ (function () {
         this._service = _service;
         this.response = new Array();
     }
-    //#region ngCallbacks
     HistoryComponent.prototype.ngOnInit = function () {
         var _this = this;
         this._service.getUsersForAutocomplete().subscribe(function (data) {
             _this.users = data;
         });
     };
-    //#endregion
     //#region Public Methods
     HistoryComponent.prototype.getGameDetails = function (gameId) {
         var _this = this;

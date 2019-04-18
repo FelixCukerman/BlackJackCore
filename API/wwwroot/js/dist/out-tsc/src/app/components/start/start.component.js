@@ -6,8 +6,11 @@ import { StartService } from 'src/app/services/StartService/start.service';
 import { Router } from '@angular/router';
 import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
 import { GameState } from 'src/app/shared/enums/game-state';
+//#region Constants
 var gameStateKey = 'key';
 var usernameKey = 'username';
+var historyPage = 'history';
+//#endregion
 var StartComponent = /** @class */ (function () {
     //#endregion
     function StartComponent(_storage, _startService, _router) {
@@ -15,15 +18,13 @@ var StartComponent = /** @class */ (function () {
         this._startService = _startService;
         this._router = _router;
     }
-    //#region ngCallbacks
     StartComponent.prototype.ngOnInit = function () {
         this.user = new RequestUserViewModel("");
         this.request = new RequestGameViewModel(this.user, 0, 0, 0);
     };
-    //#endregion
     //#region Public Methods
     StartComponent.prototype.toHistory = function () {
-        this._router.navigate(['history']);
+        this._router.navigate([historyPage]);
     };
     StartComponent.prototype.createNewGame = function () {
         var _this = this;

@@ -5,8 +5,11 @@ import { WebStorageService, LOCAL_STORAGE } from 'angular-webstorage-service';
 import { environment } from 'src/environments/environment';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { jwtConstant } from 'src/app/shared/constants/jwt-constants';
+//#region Constants
 var peopleRole = 'People';
 var tokenKey = 'token';
+var usernameKey = 'username';
+//#endregion
 var AccountService = /** @class */ (function () {
     function AccountService(_http, _handler, _storage, _jwtHelper) {
         this._http = _http;
@@ -21,19 +24,19 @@ var AccountService = /** @class */ (function () {
         var _this = this;
         this._http.get(this._url + "token/" + username).subscribe(function (data) {
             var token = data.accessToken;
-            _this._storage.set('token', token);
+            _this._storage.set(tokenKey, token);
         });
     };
     AccountService.prototype.getToken = function () {
-        var token = this._storage.get('token');
+        var token = this._storage.get(tokenKey);
         return token;
     };
     AccountService.prototype.getCurrentUsername = function () {
-        var username = this._storage.get('username');
+        var username = this._storage.get(usernameKey);
         return username;
     };
     AccountService.prototype.checkAuthenticated = function () {
-        var token = this._storage.get('token');
+        var token = this._storage.get(tokenKey);
         var tokenExpired = this._jwtHelper.isTokenExpired(token);
         return !tokenExpired;
     };
