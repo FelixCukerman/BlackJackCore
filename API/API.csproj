@@ -32,6 +32,7 @@
     <None Remove="Angular\src\app\viewmodels\historyViewModels\response-user-round-details-view-model.ts" />
     <None Remove="Angular\src\app\viewmodels\replenishCashViewModels\request-replenish-cash-view-model.ts" />
     <None Remove="Angular\src\app\viewmodels\userGameViewModels\response-user-game-view-models.ts" />
+    <None Remove="Angular\src\app\viewmodels\userViewModels\response-user-for-autocomplete-view-item.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -72,6 +73,7 @@
     <TypeScriptCompile Include="Angular\src\app\viewmodels\historyViewModels\response-user-round-details-view-model.ts" />
     <TypeScriptCompile Include="Angular\src\app\viewmodels\replenishCashViewModels\request-replenish-cash-view-model.ts" />
     <TypeScriptCompile Include="Angular\src\app\viewmodels\userGameViewModels\response-user-game-view-models.ts" />
+    <TypeScriptCompile Include="Angular\src\app\viewmodels\userViewModels\response-user-for-autocomplete-view-item.ts" />
   </ItemGroup>
 
 </Project>

@@ -21,7 +21,14 @@ namespace API.Controllers
             _service = service;
             _logger = logger;
         }
-        
+
+        [HttpGet("getpersons")]
+        public async Task<IActionResult> GetUsersForAutocomplete()
+        {
+            var result = await _service.GetUsersForAutocomplete();
+            return new ObjectResult(result);
+        }
+
         [Authorize]
         [HttpGet("gamebyid/{gameId}")]
         public async Task<IActionResult> GameById(int gameId)

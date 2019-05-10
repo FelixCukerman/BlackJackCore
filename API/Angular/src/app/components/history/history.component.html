@@ -1,10 +1,10 @@
 <div class="bg" style="padding-top: 30px">
   <div style="display:flex; justify-content:center; align-items: center">
-    <input type="text" id="userIdFirstWay" style="align-self: center" list="users" class="user-autocomplete" [(ngModel)]="username" />
+    <input type="text" id="userIdFirstWay" style="align-self: center" list="users" class="user-autocomplete" [(ngModel)]="username" placeholder="Username"/>
     <datalist id="users">
       <option *ngFor="let item of this.users" [value]="item.username"></option>
     </datalist>
 
-    <button (click)="getGamesByUser()" style="width:3%; height: 60px; background-image: url(images/icons/search.png); background-repeat: no-repeat"></button>
+    <img (click)="getGamesByUser()" style="width:38px; height: 38px; background-repeat: no-repeat; background-color: white" src="images/icons/search.png"/>
   </div>
 </div>

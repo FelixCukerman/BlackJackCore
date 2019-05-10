@@ -6,5 +6,6 @@ namespace BusinessLogicLayer.Interfaces
     public interface IAccountService
     {
         Task<GetTokenViewModel> GetToken(string username);
+        Task CreateUser(string username);
     }
 }

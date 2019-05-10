@@ -4,7 +4,10 @@
       <div class="col"></div>
       <div class="col">
         <div class="line"></div>
-        <input type="text" class="form-control" [(ngModel)]="user.nickname" placeholder="Nickname" />
+        <input type="text" id="userIdFirstWay" style="align-self: center" list="users" class="user-autocomplete" [(ngModel)]="this.user.nickname" />
+        <datalist id="users">
+          <option *ngFor="let item of this.users" [value]="item.username"></option>
+        </datalist>
         <div class="line"></div>
         <input type="number" value="" min="1" placeholder="Rate" class="form-control" [(ngModel)]="request.userRate" />
         <div class="line"></div>

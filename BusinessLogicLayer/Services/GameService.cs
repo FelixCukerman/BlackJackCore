@@ -929,6 +929,24 @@ namespace BusinessLogicLayer.Services
 
             return response;
         }
+
+        public async Task<List<ResponseUserForAutocompleteViewItem>> GetUsersForAutocomplete()
+        {
+            IEnumerable<User> users = await _userRepository.GetAllPersons();
+
+            var result = new List<ResponseUserForAutocompleteViewItem>();
+
+            foreach (User user in users)
+            {
+                var itemToResult = new ResponseUserForAutocompleteViewItem();
+                itemToResult.Id = user.Id;
+                itemToResult.Username = user.UserName;
+
+                result.Add(itemToResult);
+            }
+
+            return result;
+        }
         #endregion
     }
 }

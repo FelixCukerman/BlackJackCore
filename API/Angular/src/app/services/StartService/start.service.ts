@@ -19,4 +19,11 @@ export class StartService
 
     return result;
   }
+
+  public getUsersForAutocomplete(): Observable<Object>
+  {
+    let result: Observable<Object> = this._http.get(this._url + "getpersons");
+
+    return result;
+  }
 }

@@ -27,6 +27,9 @@ var AccountService = /** @class */ (function () {
             _this._storage.set(tokenKey, token);
         });
     };
+    AccountService.prototype.createUser = function (username) {
+        this._http.post(this._url + "createuser/" + username, username).subscribe();
+    };
     AccountService.prototype.getToken = function () {
         var token = this._storage.get(tokenKey);
         return token;

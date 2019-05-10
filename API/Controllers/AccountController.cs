@@ -23,5 +23,12 @@ namespace API.Controllers
             var result = await _service.GetToken(username);
             return result;
         }
+
+        [HttpPost]
+        [Route("createuser/{username}")]
+        public async Task CreateUser(string username)
+        {
+            await _service.CreateUser(username);
+        }
     }
 }

@@ -5,3 +5,11 @@
   background-repeat: no-repeat;
   background-size: cover;
 }
+
+.user-autocomplete {
+  width: 350px;
+  height: 38px;
+  text-align: center;
+  font-size: 20pt;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}

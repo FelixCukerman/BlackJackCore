@@ -11,6 +11,7 @@ using ViewModelsLayer.ViewModels.AccountViewModel;
 using BusinessLogicLayer.Helpers;
 using BusinessLogicLayer.Constants;
 using DataAccessLayer.Interfaces;
+using EntitiesLayer.Enums;
 
 namespace BusinessLogicLayer.Services
 {
@@ -18,11 +19,9 @@ namespace BusinessLogicLayer.Services
     {
         private IUserRepository _userRepository;
         private IAuthHelper _authHelper;
-        private SignInManager<User> _signInManager { get; set; }
 
-        public AccountService(SignInManager<User> signInManager, IUserRepository userRepository, IAuthHelper authHelper)
+        public AccountService(IUserRepository userRepository, IAuthHelper authHelper)
         {
-            _signInManager = signInManager;
             _authHelper = authHelper;
             _userRepository = userRepository;
         }
@@ -79,6 +78,15 @@ namespace BusinessLogicLayer.Services
             };
 
             return response;
+        }
+
+        public async Task CreateUser(string username)
+        {
+            var user = new User();
+            user.UserName = username;
+            user.UserRole = UserRoleType.People;
+
+            await _userRepository.Create(user);
         }
     }
 }

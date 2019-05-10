@@ -3,6 +3,7 @@ using ViewModelsLayer.ViewModels.GameViewModels;
 using System.Collections.Generic;
 using ViewModelsLayer.ViewModels.ReplenishCashViewModel;
 using ViewModelsLayer.ViewModels.GameOverViewModel;
+using ViewModelsLayer.ViewModels.UserViewModels;
 
 namespace BusinessLogicLayer.Interfaces
 {
@@ -17,5 +18,6 @@ namespace BusinessLogicLayer.Interfaces
         Task<ResponseGameViewModel> DealCardToPlayer(int gameId);
         Task<ResponseGameViewModel> DealCardToDealer(int gameId);
         Task<ResponseGameViewModel> DealCardsToAllBots(int gameId);
+        Task<List<ResponseUserForAutocompleteViewItem>> GetUsersForAutocomplete();
     }
 }

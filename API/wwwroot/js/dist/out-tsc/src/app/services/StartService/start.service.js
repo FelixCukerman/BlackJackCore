@@ -11,6 +11,10 @@ var StartService = /** @class */ (function () {
         var result = this._http.post(this._url + "create", request);
         return result;
     };
+    StartService.prototype.getUsersForAutocomplete = function () {
+        var result = this._http.get(this._url + "getpersons");
+        return result;
+    };
     StartService = tslib_1.__decorate([
         Injectable({
             providedIn: 'root'

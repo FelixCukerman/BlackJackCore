@@ -35,6 +35,11 @@ export class AccountService {
     });
   }
 
+  public createUser(username: string): void
+  {
+    this._http.post(this._url + "createuser/" + username, username).subscribe();
+  }
+
   public getToken(): string
   {
     let token: string = this._storage.get(tokenKey);

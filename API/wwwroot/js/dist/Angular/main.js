@@ -575,7 +575,7 @@ var GameModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".user-autocomplete {\r\n  width: 300px;\r\n  height: 60px;\r\n  text-align: center;\r\n  font-size: 20pt;\r\n  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\r\n}\r\n\r\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9oaXN0b3J5L2hpc3RvcnkuY29tcG9uZW50LmNzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNFLFlBQVk7RUFDWixZQUFZO0VBQ1osa0JBQWtCO0VBQ2xCLGVBQWU7RUFDZiwyREFBMkQ7QUFDN0QiLCJmaWxlIjoic3JjL2FwcC9jb21wb25lbnRzL2hpc3RvcnkvaGlzdG9yeS5jb21wb25lbnQuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLnVzZXItYXV0b2NvbXBsZXRlIHtcclxuICB3aWR0aDogMzAwcHg7XHJcbiAgaGVpZ2h0OiA2MHB4O1xyXG4gIHRleHQtYWxpZ246IGNlbnRlcjtcclxuICBmb250LXNpemU6IDIwcHQ7XHJcbiAgZm9udC1mYW1pbHk6J1NlZ29lIFVJJywgVGFob21hLCBHZW5ldmEsIFZlcmRhbmEsIHNhbnMtc2VyaWY7XHJcbn1cclxuIl19 */"
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2NvbXBvbmVudHMvaGlzdG9yeS9oaXN0b3J5LmNvbXBvbmVudC5jc3MifQ== */"
 
 /***/ }),
 
@@ -586,7 +586,7 @@ module.exports = ".user-autocomplete {\r\n  width: 300px;\r\n  height: 60px;\r\n
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"bg\" style=\"padding-top: 30px\">\r\n  <div style=\"display:flex; justify-content:center; align-items: center\">\r\n    <input type=\"text\" id=\"userIdFirstWay\" style=\"align-self: center\" list=\"users\" class=\"user-autocomplete\" [(ngModel)]=\"username\" />\r\n    <datalist id=\"users\">\r\n      <option *ngFor=\"let item of this.users\" [value]=\"item.username\"></option>\r\n    </datalist>\r\n\r\n    <button (click)=\"getGamesByUser()\" style=\"width:3%; height: 60px; background-image: url(images/icons/search.png); background-repeat: no-repeat\"></button>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<div class=\"bg\" style=\"padding-top: 30px\">\r\n  <div style=\"display:flex; justify-content:center; align-items: center\">\r\n    <input type=\"text\" id=\"userIdFirstWay\" style=\"align-self: center\" list=\"users\" class=\"user-autocomplete\" [(ngModel)]=\"username\" placeholder=\"Username\"/>\r\n    <datalist id=\"users\">\r\n      <option *ngFor=\"let item of this.users\" [value]=\"item.username\"></option>\r\n    </datalist>\r\n\r\n    <img (click)=\"getGamesByUser()\" style=\"width:38px; height: 38px; background-repeat: no-repeat; background-color: white\" src=\"images/icons/search.png\"/>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -716,7 +716,7 @@ module.exports = ".line {\r\n  margin-top: 10px;\r\n}\r\n\r\n/*# sourceMappingUR
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"bg\">\r\n  <div class=\"container\" style=\"padding-top: 15%\">\r\n    <div class=\"row\">\r\n      <div class=\"col\"></div>\r\n      <div class=\"col\">\r\n        <div class=\"line\"></div>\r\n        <input type=\"text\" class=\"form-control\" [(ngModel)]=\"user.nickname\" placeholder=\"Nickname\" />\r\n        <div class=\"line\"></div>\r\n        <input type=\"number\" value=\"\" min=\"1\" placeholder=\"Rate\" class=\"form-control\" [(ngModel)]=\"request.userRate\" />\r\n        <div class=\"line\"></div>\r\n        <input type=\"number\" value=\"\" min=\"1\" placeholder=\"Bot quantity\" class=\"form-control\" [(ngModel)]=\"request.botQuantity\" />\r\n        <div class=\"line\"></div>\r\n        <input type=\"number\" value=\"\" min=\"1\" placeholder=\"Round quantity\" class=\"form-control\" [(ngModel)]=\"request.roundQuantity\" />\r\n        <div class=\"line\"></div>\r\n        <button class=\"btn btn-primary\" (click)=\"createNewGame()\" style=\"width: 100%\">Create new game</button>\r\n        <button class=\"btn btn-primary\" (click)=\"toHistory()\" style=\"width: 100%; margin-top: 10px\">History</button>\r\n      </div>\r\n      <div class=\"col\"></div>\r\n    </div>\r\n  </div>\r\n\r\n  <div *ngIf=\"this.tokenIsExist\" class=\"modal fade\" id=\"exampleModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">\r\n    <div class=\"modal-dialog\" role=\"document\">\r\n      <div class=\"modal-content\">\r\n        <div class=\"modal-header\">\r\n          <h5 class=\"modal-title\" id=\"exampleModalLabel\">Modal title</h5>\r\n          <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n            <span aria-hidden=\"true\">&times;</span>\r\n          </button>\r\n        </div>\r\n        <div class=\"modal-body\">\r\n          ...\r\n        </div>\r\n        <div class=\"modal-footer\">\r\n          <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button>\r\n          <button type=\"button\" class=\"btn btn-primary\">Save changes</button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<div class=\"bg\">\r\n  <div class=\"container\" style=\"padding-top: 15%\">\r\n    <div class=\"row\">\r\n      <div class=\"col\"></div>\r\n      <div class=\"col\">\r\n        <div class=\"line\"></div>\r\n        <input type=\"text\" id=\"userIdFirstWay\" style=\"align-self: center\" list=\"users\" class=\"user-autocomplete\" [(ngModel)]=\"this.user.nickname\" />\r\n        <datalist id=\"users\">\r\n          <option *ngFor=\"let item of this.users\" [value]=\"item.username\"></option>\r\n        </datalist>\r\n        <div class=\"line\"></div>\r\n        <input type=\"number\" value=\"\" min=\"1\" placeholder=\"Rate\" class=\"form-control\" [(ngModel)]=\"request.userRate\" />\r\n        <div class=\"line\"></div>\r\n        <input type=\"number\" value=\"\" min=\"1\" placeholder=\"Bot quantity\" class=\"form-control\" [(ngModel)]=\"request.botQuantity\" />\r\n        <div class=\"line\"></div>\r\n        <input type=\"number\" value=\"\" min=\"1\" placeholder=\"Round quantity\" class=\"form-control\" [(ngModel)]=\"request.roundQuantity\" />\r\n        <div class=\"line\"></div>\r\n        <button class=\"btn btn-primary\" (click)=\"createNewGame()\" style=\"width: 100%\">Create new game</button>\r\n        <button class=\"btn btn-primary\" (click)=\"toHistory()\" style=\"width: 100%; margin-top: 10px\">History</button>\r\n      </div>\r\n      <div class=\"col\"></div>\r\n    </div>\r\n  </div>\r\n\r\n  <div *ngIf=\"this.tokenIsExist\" class=\"modal fade\" id=\"exampleModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">\r\n    <div class=\"modal-dialog\" role=\"document\">\r\n      <div class=\"modal-content\">\r\n        <div class=\"modal-header\">\r\n          <h5 class=\"modal-title\" id=\"exampleModalLabel\">Modal title</h5>\r\n          <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n            <span aria-hidden=\"true\">&times;</span>\r\n          </button>\r\n        </div>\r\n        <div class=\"modal-body\">\r\n          ...\r\n        </div>\r\n        <div class=\"modal-footer\">\r\n          <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button>\r\n          <button type=\"button\" class=\"btn btn-primary\">Save changes</button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -738,6 +738,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 /* harmony import */ var angular_webstorage_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! angular-webstorage-service */ "./node_modules/angular-webstorage-service/bundles/angular-webstorage-service.es5.js");
 /* harmony import */ var src_app_shared_enums_game_state__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! src/app/shared/enums/game-state */ "./src/app/shared/enums/game-state.ts");
+/* harmony import */ var src_app_services_AccountService_account_service_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! src/app/services/AccountService/account-service.service */ "./src/app/services/AccountService/account-service.service.ts");
+
 
 
 
@@ -753,21 +755,29 @@ var historyPage = 'history';
 //#endregion
 var StartComponent = /** @class */ (function () {
     //#endregion
-    function StartComponent(_storage, _startService, _router) {
+    function StartComponent(_storage, _startService, _router, _accountService) {
         this._storage = _storage;
         this._startService = _startService;
         this._router = _router;
+        this._accountService = _accountService;
     }
     StartComponent.prototype.ngOnInit = function () {
+        this.getUsersForAutocomplete();
         this.user = new src_app_viewmodels_UserViewModels_request_user_view_model__WEBPACK_IMPORTED_MODULE_3__["RequestUserViewModel"]("");
         this.request = new src_app_viewmodels_GameViewModels_request_game_view_model__WEBPACK_IMPORTED_MODULE_2__["default"](this.user, 0, 0, 0);
     };
     //#region Public Methods
     StartComponent.prototype.toHistory = function () {
+        console.log(this.user);
         this._router.navigate([historyPage]);
     };
     StartComponent.prototype.createNewGame = function () {
         var _this = this;
+        var existingUser = this.getExistingUser();
+        if (!existingUser) {
+            this._accountService.createUser(this.user.nickname);
+            return;
+        }
         this._storage.set(usernameKey, this.user.nickname);
         this._startService.createNewGame(this.request).subscribe(function (data) {
             _this.response = data;
@@ -776,6 +786,17 @@ var StartComponent = /** @class */ (function () {
             _this._storage.set(gameStateKey, _this._gameState);
         });
     };
+    StartComponent.prototype.getUsersForAutocomplete = function () {
+        var _this = this;
+        this._startService.getUsersForAutocomplete().subscribe(function (data) {
+            _this.users = data;
+        });
+    };
+    StartComponent.prototype.getExistingUser = function () {
+        var _this = this;
+        var existingUser = this.users.filter(function (item) { return item.username == _this.user.nickname; }).shift();
+        return existingUser;
+    };
     StartComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
             selector: 'app-start',
@@ -783,7 +804,7 @@ var StartComponent = /** @class */ (function () {
             styles: [__webpack_require__(/*! ./start.component.css */ "./src/app/components/start/start.component.css")]
         }),
         tslib__WEBPACK_IMPORTED_MODULE_0__["__param"](0, Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Inject"])(angular_webstorage_service__WEBPACK_IMPORTED_MODULE_6__["LOCAL_STORAGE"])),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [angular_webstorage_service__WEBPACK_IMPORTED_MODULE_6__["WebStorageService"], src_app_services_StartService_start_service__WEBPACK_IMPORTED_MODULE_4__["StartService"], _angular_router__WEBPACK_IMPORTED_MODULE_5__["Router"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [angular_webstorage_service__WEBPACK_IMPORTED_MODULE_6__["WebStorageService"], src_app_services_StartService_start_service__WEBPACK_IMPORTED_MODULE_4__["StartService"], _angular_router__WEBPACK_IMPORTED_MODULE_5__["Router"], src_app_services_AccountService_account_service_service__WEBPACK_IMPORTED_MODULE_8__["AccountService"]])
     ], StartComponent);
     return StartComponent;
 }());
@@ -890,6 +911,9 @@ var AccountService = /** @class */ (function () {
             var token = data.accessToken;
             _this._storage.set(tokenKey, token);
         });
+    };
+    AccountService.prototype.createUser = function (username) {
+        this._http.post(this._url + "createuser/" + username, username).subscribe();
     };
     AccountService.prototype.getToken = function () {
         var token = this._storage.get(tokenKey);
@@ -1076,6 +1100,10 @@ var StartService = /** @class */ (function () {
     }
     StartService.prototype.createNewGame = function (request) {
         var result = this._http.post(this._url + "create", request);
+        return result;
+    };
+    StartService.prototype.getUsersForAutocomplete = function () {
+        var result = this._http.get(this._url + "getpersons");
         return result;
     };
     StartService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
